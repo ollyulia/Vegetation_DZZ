@@ -1,0 +1,2464 @@
+{
+   "stations_info" : {
+      "DVRCPOD" : {
+         "code" : "1",
+         "tz" : "10"
+      },
+      "NCOMZ" : {
+         "tz" : "3",
+         "code" : "18"
+      },
+      "USGS" : {
+         "code" : "23",
+         "tz" : "3"
+      },
+      "SMIS" : {
+         "tz" : "3",
+         "code" : "7"
+      },
+      "PLANETA" : {
+         "tz" : "3",
+         "code" : "3"
+      },
+      "ALO" : {
+         "code" : "36",
+         "tz" : "0"
+      },
+      "ZSRCPOD" : {
+         "tz" : "6",
+         "code" : "2"
+      },
+      "SFU" : {
+         "tz" : "0",
+         "code" : "5"
+      },
+      "ESA" : {
+         "code" : "35",
+         "tz" : "0"
+      },
+      "ASTER_LPDAAC" : {
+         "tz" : "0",
+         "code" : "38"
+      },
+      "RESTEC" : {
+         "code" : "21",
+         "tz" : "0"
+      },
+      "GOOGLE" : {
+         "tz" : "0",
+         "code" : "48"
+      },
+      "SAMARA" : {
+         "tz" : "0",
+         "code" : "22"
+      },
+      "PUSHKINO" : {
+         "tz" : "0",
+         "code" : "4"
+      },
+      "SVALBARD" : {
+         "code" : "24",
+         "tz" : "0"
+      }
+   },
+   "products_info" : {
+      "lc2_ang_sen_azimuth" : {
+         "hidden_scale" : "0",
+         "name_ru" : "ANGLE_SENSOR_AZIMUTH (LC2)",
+         "desc_ru" : "ANGLE_SENSOR_AZIMUTH_BAND_4 (collection 2)",
+         "code" : "636",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "desc_en" : "ANGLE_SENSOR_AZIMUTH_BAND_4 (collection 2)",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_en" : "ANGLE_SENSOR_AZIMUTH (LC2)"
+      },
+      "lc2_ang_sen_zenith" : {
+         "desc_en" : "ANGLE_SENSOR_ZENITH_BAND_4 (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "ANGLE_SENSOR_ZENITH (LC2)",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_ru" : "ANGLE_SENSOR_ZENITH (LC2)",
+         "hidden_scale" : "0",
+         "desc_ru" : "ANGLE_SENSOR_ZENITH_BAND_4 (collection 2)",
+         "code" : "637"
+      },
+      "lc2_ang_sol_azimuth" : {
+         "code" : "638",
+         "desc_ru" : "ANGLE_SOLAR_AZIMUTH_BAND_4 (collection 2)",
+         "name_ru" : "ANGLE_SOLAR_AZIMUTH (LC2)",
+         "hidden_scale" : "0",
+         "name_en" : "ANGLE_SOLAR_AZIMUTH (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "desc_en" : "ANGLE_SOLAR_AZIMUTH_BAND_4 (collection 2)",
+         "product_group" : "special1"
+      },
+      "lc2_ang_sol_zenith" : {
+         "comp_interval" : "0",
+         "desc_en" : "ANGLE_SOLAR_ZENITH_BAND_4 (collection 2)",
+         "product_group" : "special1",
+         "name_en" : "ANGLE_SOLAR_ZENITH (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_ru" : "ANGLE_SOLAR_ZENITH (LC2)",
+         "hidden_scale" : "0",
+         "code" : "639",
+         "desc_ru" : "ANGLE_SOLAR_ZENITH_BAND_4 (collection 2)"
+      },
+      "s2_aot" : {
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "AOT",
+         "hidden_scale" : "0",
+         "name_ru" : "AOT",
+         "code" : "287"
+      },
+      "s2_cs" : {
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_en" : "CS",
+         "hidden_scale" : "0",
+         "name_ru" : "CS",
+         "code" : "977"
+      },
+      "s2_cs_cdf" : {
+         "code" : "978",
+         "hidden_scale" : "0",
+         "name_ru" : "CS_CDF",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_en" : "CS_CDF",
+         "product_group" : "special1",
+         "comp_interval" : "0"
+      },
+      "lc2_sr_cloud_qa" : {
+         "name_en" : "Cloud quality, bitmap (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "desc_en" : "Cloud Quality Assessment, bitmap (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "code" : "810",
+         "desc_ru" : "Cloud Quality Assessment, bitmap (collection 2)",
+         "name_ru" : "Cloud quality, bitmap (LC2)",
+         "hidden_scale" : "1"
+      },
+      "dw_mode" : {
+         "hidden_scale" : "1",
+         "name_ru" : "Dynamic World Mode",
+         "code" : "979",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "Dynamic World Mode"
+      },
+      "lc2_mtl" : {
+         "name_en" : "MTL (LC2)",
+         "is_metadata" : "1",
+         "product_type" : "meta",
+         "desc_en" : "Metadata MTL (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "meta",
+         "code" : "640",
+         "desc_ru" : "Метаданные MTL (collection 2)",
+         "name_ru" : "MTL (LC2)",
+         "hidden_scale" : "0"
+      },
+      "ndvi" : {
+         "hidden_scale" : "0",
+         "name_ru" : "NDVI",
+         "code" : "14",
+         "product_group" : "index",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "name_en" : "NDVI"
+      },
+      "source_sr_kmss_nir_v2" : {
+         "code" : "465",
+         "hidden_scale" : "0",
+         "name_ru" : "NIR (атмосферная коррекция)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "NIR (atmospheric correction)",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "source_sr_kmss_nir" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "NIR (atmospheric correction) v1",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "273",
+         "hidden_scale" : "0",
+         "name_ru" : "NIR (атмосферная коррекция) v1"
+      },
+      "source_sr_kmss_nir_v3" : {
+         "code" : "669",
+         "hidden_scale" : "0",
+         "name_ru" : "NIR (атмосферная коррекция) v3",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "applications" : "agro",
+         "name_en" : "NIR (atmospheric correction) v3",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "source_sr_kmss_nir_v4" : {
+         "name_ru" : "NIR (атмосферная коррекция) v4",
+         "hidden_scale" : "0",
+         "code" : "722",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "NIR (atmospheric correction) v4",
+         "is_metadata" : "0",
+         "applications" : "agro",
+         "product_type" : "source"
+      },
+      "source_sr_kmss_nir_v5" : {
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "NIR (atmospheric correction) v5",
+         "product_type" : "source",
+         "applications" : "agro",
+         "is_metadata" : "0",
+         "name_ru" : "NIR (атмосферная коррекция) v5",
+         "hidden_scale" : "0",
+         "code" : "757"
+      },
+      "lc2_qa_px" : {
+         "code" : "806",
+         "desc_ru" : "Pixel quality attributes generated from the CFMASK algorithm, bitmap (collection 2)",
+         "name_ru" : "Pixel quality (CFMASK), bitmap (LC2)",
+         "hidden_scale" : "1",
+         "name_en" : "Pixel quality (CFMASK), bitmap (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "desc_en" : "Pixel quality attributes generated from the CFMASK algorithm, bitmap (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1"
+      },
+      "lc2_qa_l1_px" : {
+         "hidden_scale" : "1",
+         "name_ru" : "QUALITY_L1_PIXEL (LC2)",
+         "code" : "634",
+         "desc_ru" : "QUALITY_L1_PIXEL (collection 2)",
+         "product_group" : "special1",
+         "desc_en" : "QUALITY_L1_PIXEL (collection 2)",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "QUALITY_L1_PIXEL (LC2)"
+      },
+      "lc2_qa_l1_rs" : {
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "QUALITY_L1_RADIOMETRIC_SATURATION (LC2)",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "desc_en" : "QUALITY_L1_RADIOMETRIC_SATURATION (collection 2)",
+         "code" : "635",
+         "desc_ru" : "QUALITY_L1_RADIOMETRIC_SATURATION (collection 2)",
+         "hidden_scale" : "1",
+         "name_ru" : "QUALITY_L1_RADIOMETRIC_SATURATION (LC2)"
+      },
+      "source_sr_kmss_red_v2" : {
+         "name_en" : "RED (atmospheric correction)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "code" : "466",
+         "name_ru" : "RED (атмосферная коррекция)",
+         "hidden_scale" : "0"
+      },
+      "source_sr_kmss_red" : {
+         "code" : "267",
+         "hidden_scale" : "0",
+         "name_ru" : "RED (атмосферная коррекция) v1",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "RED (atmospheric correction) v1",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "source_sr_kmss_red_v3" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "applications" : "agro",
+         "name_en" : "RED (atmospheric correction) v3",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "670",
+         "hidden_scale" : "0",
+         "name_ru" : "RED (атмосферная коррекция) v3"
+      },
+      "source_sr_kmss_red_v4" : {
+         "name_ru" : "RED (атмосферная коррекция) v4",
+         "hidden_scale" : "0",
+         "code" : "723",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "RED (atmospheric correction) v4",
+         "product_type" : "source",
+         "applications" : "agro",
+         "is_metadata" : "0"
+      },
+      "source_sr_kmss_red_v5" : {
+         "code" : "756",
+         "name_ru" : "RED (атмосферная коррекция) v5",
+         "hidden_scale" : "0",
+         "name_en" : "RED (atmospheric correction) v5",
+         "applications" : "agro",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "lc2_qa_radsat" : {
+         "desc_en" : "Radiometric saturation QA, bitmap (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Radiometric saturation quality, bitmap (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_ru" : "Radiometric saturation quality, bitmap (LC2)",
+         "hidden_scale" : "1",
+         "code" : "807",
+         "desc_ru" : "Radiometric saturation QA, bitmap (collection 2)"
+      },
+      "color_sst" : {
+         "desc_ru" : "SST (Температура поверхности моря)",
+         "code" : "79",
+         "name_ru" : "SST",
+         "hidden_scale" : "0",
+         "name_en" : "SST",
+         "product_type" : "product",
+         "applications" : "water",
+         "is_metadata" : "0",
+         "desc_en" : "SST (Sea Surface Temperature)",
+         "comp_interval" : "0",
+         "product_group" : "synthesis"
+      },
+      "s2_wvp" : {
+         "code" : "288",
+         "name_ru" : "WVP",
+         "hidden_scale" : "0",
+         "name_en" : "WVP",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "special1"
+      },
+      "lc2_sr_qa_aerosol" : {
+         "product_group" : "special1",
+         "desc_en" : "Aerosol attributes, bitmap (collection 2)",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "Aerosol, bitmap (LC2)",
+         "hidden_scale" : "1",
+         "name_ru" : "Аэрозоль, bitmap (LC2)",
+         "code" : "813",
+         "desc_ru" : "Aerosol attributes, bitmap (collection 2)"
+      },
+      "lc2_st_urad" : {
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "Upwelled radiance",
+         "product_group" : "special1",
+         "desc_en" : "Upwelled Radiance (collection 2)",
+         "comp_interval" : "0",
+         "code" : "805",
+         "desc_ru" : "Upwelled Radiance (collection 2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Восходящее излучение"
+      },
+      "KMSS_NIR_GEOCORR" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Допривязанный NIR",
+         "code" : "652",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "name_en" : "Geocorrected NIR"
+      },
+      "KMSS_NIR_GEOCORR_V4" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Допривязанный NIR версия 4",
+         "code" : "717",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "Geocorrected NIR v4"
+      },
+      "KMSS_NIR_GEOCORR_V5" : {
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "name_en" : "Geocorrected NIR v5",
+         "hidden_scale" : "0",
+         "name_ru" : "Допривязанный NIR версия 5",
+         "code" : "754"
+      },
+      "KMSS_RED_GEOCORR" : {
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Geocorrected RED",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_ru" : "Допривязанный RED",
+         "hidden_scale" : "0",
+         "code" : "653"
+      },
+      "KMSS_RED_GEOCORR_V4" : {
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "product_type" : "product",
+         "name_en" : "Geocorrected RED v4",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "718",
+         "hidden_scale" : "0",
+         "name_ru" : "Допривязанный RED версия 4"
+      },
+      "KMSS_RED_GEOCORR_V5" : {
+         "code" : "755",
+         "hidden_scale" : "0",
+         "name_ru" : "Допривязанный RED версия 5",
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "name_en" : "Geocorrected RED v5",
+         "product_group" : "special1",
+         "comp_interval" : "0"
+      },
+      "comp_green_1dc_hitse_split" : {
+         "comp_interval" : "1",
+         "desc_en" : "Interpolated daily GREEN channel composite by MODIS (HITSE) for KMSS",
+         "product_group" : "channel",
+         "name_en" : "Daily GREEN by MODIS (hitse) 1 degree",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "product_type" : "composite",
+         "name_ru" : "Ежедневный GREEN по MODIS (hitse) 1 градус",
+         "hidden_scale" : "0",
+         "code" : "860",
+         "desc_ru" : "Ежедневный композит канала GREEN по данным MODIS интерполированный (HITSE) для КМСС"
+      },
+      "comp_nir_1dc_hitse_split" : {
+         "desc_en" : "Interpolated daily NIR channel composite by MODIS (HITSE) for KMSS",
+         "comp_interval" : "1",
+         "product_group" : "channel",
+         "name_en" : "Daily NIR by MODIS (hitse) 1 degree",
+         "product_type" : "composite",
+         "applications" : "forest,agro",
+         "is_metadata" : "0",
+         "name_ru" : "Ежедневный NIR по MODIS (hitse) 1 градус",
+         "hidden_scale" : "0",
+         "desc_ru" : "Ежедневный композит канала NIR по данным MODIS интерполированный (HITSE) для КМСС",
+         "code" : "841"
+      },
+      "comp_red_1dc_hitse_split" : {
+         "desc_en" : "Interpolated daily RED channel composite by MODIS (HITSE) for KMSS",
+         "comp_interval" : "1",
+         "product_group" : "channel",
+         "name_en" : "Daily RED by MODIS (hitse) 1 degree",
+         "product_type" : "composite",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "name_ru" : "Ежедневный RED по MODIS (hitse) 1 градус",
+         "hidden_scale" : "0",
+         "desc_ru" : "Ежедневный композит канала RED по данным MODIS интерполированный (HITSE) для КМСС",
+         "code" : "842"
+      },
+      "temp_kmss_data_v2" : {
+         "name_ru" : "Информация о допривязке и коррекции",
+         "hidden_scale" : "0",
+         "code" : "467",
+         "comp_interval" : "0",
+         "product_group" : "bands",
+         "name_en" : "Geocorrection information",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "product_type" : "product"
+      },
+      "temp_kmss_data" : {
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "applications" : "forest,agro",
+         "is_metadata" : "0",
+         "name_en" : "Geocorrection information v1",
+         "hidden_scale" : "0",
+         "name_ru" : "Информация о допривязке и коррекции v1",
+         "code" : "268"
+      },
+      "source" : {
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Source",
+         "product_group" : "bands",
+         "comp_interval" : "0",
+         "code" : "60",
+         "hidden_scale" : "0",
+         "name_ru" : "Исходный"
+      },
+      "source_sr" : {
+         "product_group" : "bands",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "applications" : "forest,water,snow_ice,agro,atmosphere",
+         "is_metadata" : "0",
+         "name_en" : "Source (atmospheric correction)",
+         "hidden_scale" : "0",
+         "name_ru" : "Исходный (атмосферная коррекция)",
+         "code" : "212"
+      },
+      "source_sr_usgs" : {
+         "product_type" : "source",
+         "applications" : "forest,water,snow_ice,agro,atmosphere",
+         "is_metadata" : "0",
+         "name_en" : "Source (atmospheric correction)",
+         "product_group" : "bands",
+         "desc_en" : "Source 7 bands (atmospheric correction)",
+         "comp_interval" : "0",
+         "desc_ru" : "Исходный 7-ми канальный (атмосферная коррекция)",
+         "code" : "214",
+         "hidden_scale" : "0",
+         "name_ru" : "Исходный (атмосферная коррекция)"
+      },
+      "source_sr_kmss" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Исходный (атмосферная коррекция)",
+         "code" : "265",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Source (atmospheric correction)"
+      },
+      "source_pan" : {
+         "name_ru" : "Исходный (панхроматический)",
+         "hidden_scale" : "0",
+         "code" : "61",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Source (panchromatic)",
+         "is_metadata" : "0",
+         "product_type" : "source"
+      },
+      "source_tir" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Исходный (тепловой)",
+         "code" : "88",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Source (thermal)"
+      },
+      "source_hyperion_night" : {
+         "code" : "71",
+         "name_ru" : "Исходный ночной",
+         "hidden_scale" : "0",
+         "name_en" : "Source night",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "bands"
+      },
+      "channel1" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 1",
+         "code" : "1",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 1"
+      },
+      "channel1_l2a" : {
+         "name_ru" : "Канал 1 (L2)",
+         "hidden_scale" : "0",
+         "code" : "291",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Channel 1 (L2)",
+         "product_type" : "source",
+         "is_metadata" : "0"
+      },
+      "lc2_b1" : {
+         "name_ru" : "Канал 1 (LC2)",
+         "hidden_scale" : "0",
+         "desc_ru" : "Канал b1 (collection 2)",
+         "code" : "619",
+         "comp_interval" : "0",
+         "desc_en" : "Band b1 (collection 2)",
+         "product_group" : "channel",
+         "name_en" : "Band 1 (LC2)",
+         "product_type" : "source",
+         "is_metadata" : "0"
+      },
+      "lc2_sr_b1" : {
+         "code" : "792",
+         "desc_ru" : "Band b1 surface reflectance (collection 2)",
+         "name_ru" : "Канал 1 (SR)",
+         "hidden_scale" : "0",
+         "name_en" : "Band 1 (SR)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "desc_en" : "Band b1 surface reflectance (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "channel10" : {
+         "code" : "85",
+         "name_ru" : "Канал 10",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 10",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "lc2_b10" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 10 (LC2)",
+         "product_group" : "channel",
+         "desc_en" : "Band b10 (collection 2)",
+         "comp_interval" : "0",
+         "desc_ru" : "Канал b10 (collection 2)",
+         "code" : "630",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 10 (LC2)"
+      },
+      "lc2_st_b10" : {
+         "name_en" : "Band 10 (ST)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "desc_en" : "Band b10 surface temperature (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "desc_ru" : "Band b10 surface temperature (collection 2)",
+         "code" : "812",
+         "name_ru" : "Канал 10 (ST)",
+         "hidden_scale" : "0"
+      },
+      "channel11" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 11",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 11",
+         "code" : "66"
+      },
+      "channel11_l2a" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 11 (L2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 11 (L2)",
+         "code" : "285"
+      },
+      "channel11_l2a_lerc" : {
+         "name_en" : "Channel 11 (L2)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "code" : "1090",
+         "name_ru" : "Канал 11 (L2)",
+         "hidden_scale" : "0"
+      },
+      "lc2_b11" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 11 (LC2)",
+         "code" : "631",
+         "desc_ru" : "Канал b11 (collection 2)",
+         "product_group" : "channel",
+         "desc_en" : "Band b11 (collection 2)",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Band 11 (LC2)"
+      },
+      "channel11_lerc" : {
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Channel 11 (LERC)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "1061",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 11 (LERC)"
+      },
+      "channel12" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 12",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 12",
+         "code" : "19"
+      },
+      "channel12_l2a" : {
+         "code" : "286",
+         "name_ru" : "Канал 12 (L2)",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 12 (L2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "channel2" : {
+         "code" : "2",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 2",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 2",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "channel2_l2a" : {
+         "code" : "277",
+         "name_ru" : "Канал 2 (L2)",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 2 (L2)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "channel2_l2a_lerc" : {
+         "code" : "1087",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 2 (L2)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 2 (L2)",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "lc2_b2" : {
+         "name_ru" : "Канал 2 (LC2)",
+         "hidden_scale" : "0",
+         "code" : "620",
+         "desc_ru" : "Канал b2 (collection 2)",
+         "desc_en" : "Band b2 (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Band 2 (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "source"
+      },
+      "channel2_lerc" : {
+         "code" : "1058",
+         "name_ru" : "Канал 2 (LERC)",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 2 (LERC)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "lc2_sr_b2" : {
+         "product_group" : "channel",
+         "desc_en" : "Band b2 surface reflectance (collection 2)",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Band 2 (SR)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 2 (SR)",
+         "code" : "793",
+         "desc_ru" : "Band b2 surface reflectance (collection 2)"
+      },
+      "channel3" : {
+         "name_ru" : "Канал 3",
+         "hidden_scale" : "0",
+         "code" : "6",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Channel 3",
+         "product_type" : "source",
+         "is_metadata" : "0"
+      },
+      "channel3_l2a" : {
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Channel 3 (L2)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "278",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 3 (L2)"
+      },
+      "lc2_b3" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 3 (LC2)",
+         "desc_ru" : "Канал b3 (collection 2)",
+         "code" : "621",
+         "product_group" : "channel",
+         "desc_en" : "Band b3 (collection 2)",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 3 (LC2)"
+      },
+      "lc2_sr_b3" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 3 (SR)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "desc_en" : "Band b3 surface reflectance (collection 2)",
+         "desc_ru" : "Band b3 surface reflectance (collection 2)",
+         "code" : "794",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 3 (SR)"
+      },
+      "channel4" : {
+         "code" : "11",
+         "name_ru" : "Канал 4",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 4",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "channel4_l2a" : {
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Channel 4 (L2)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "279",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 4 (L2)"
+      },
+      "channel4_l2a_lerc" : {
+         "code" : "1088",
+         "name_ru" : "Канал 4 (L2)",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 4 (L2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "lc2_b4" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 4 (LC2)",
+         "product_group" : "channel",
+         "desc_en" : "Band b4 (collection 2)",
+         "comp_interval" : "0",
+         "desc_ru" : "Канал b4 (collection 2)",
+         "code" : "622",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 4 (LC2)"
+      },
+      "channel4_lerc" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 4 (LERC)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "1059",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 4 (LERC)"
+      },
+      "lc2_sr_b4" : {
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Band 4 (SR)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "desc_en" : "Band b4 surface reflectance (collection 2)",
+         "code" : "795",
+         "desc_ru" : "Band b4 surface reflectance (collection 2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 4 (SR)"
+      },
+      "channel5" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 5",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "7",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 5"
+      },
+      "channel5_l2a" : {
+         "name_en" : "Channel 5 (L2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "code" : "280",
+         "name_ru" : "Канал 5 (L2)",
+         "hidden_scale" : "0"
+      },
+      "lc2_b5" : {
+         "product_group" : "channel",
+         "desc_en" : "Band b5 (collection 2)",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 5 (LC2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 5 (LC2)",
+         "desc_ru" : "Канал b5 (collection 2)",
+         "code" : "623"
+      },
+      "lc2_sr_b5" : {
+         "desc_ru" : "Band b5 surface reflectance (collection 2)",
+         "code" : "796",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 5 (SR)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 5 (SR)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "desc_en" : "Band b5 surface reflectance (collection 2)"
+      },
+      "channel6" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 6",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 6",
+         "code" : "54"
+      },
+      "channel6_l2a" : {
+         "code" : "281",
+         "name_ru" : "Канал 6 (L2)",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 6 (L2)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "lc2_b6" : {
+         "code" : "624",
+         "desc_ru" : "Канал b6 (collection 2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 6 (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Band 6 (LC2)",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "desc_en" : "Band b6 (collection 2)"
+      },
+      "lc2_sr_b6" : {
+         "name_en" : "Band 6 (SR)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "desc_en" : "Band b6 surface reflectance (collection 2)",
+         "product_group" : "special1",
+         "code" : "811",
+         "desc_ru" : "Band b6 surface reflectance (collection 2)",
+         "name_ru" : "Канал 6 (SR)",
+         "hidden_scale" : "0"
+      },
+      "lc2_st_b6" : {
+         "name_en" : "Band 6 (ST)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "desc_en" : "Band b6 surface temperature (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "code" : "808",
+         "desc_ru" : "Band b6 surface temperature (collection 2)",
+         "name_ru" : "Канал 6 (ST)",
+         "hidden_scale" : "0"
+      },
+      "lc2_b6_vc1" : {
+         "product_group" : "channel",
+         "desc_en" : "Band b6_vc1 (collection 2)",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 6 vc1 (LC2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 6 vc1 (LC2)",
+         "desc_ru" : "Канал b6_vc1 (collection 2)",
+         "code" : "625"
+      },
+      "lc2_b6_vc2" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 6 vc2 (LC2)",
+         "desc_ru" : "Канал b6_vc2 (collection 2)",
+         "code" : "626",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "desc_en" : "Band b6_vc2 (collection 2)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Band 6 vc2 (LC2)"
+      },
+      "channel7" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 7",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 7",
+         "code" : "8"
+      },
+      "channel7_l2a" : {
+         "name_en" : "Channel 7 (L2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "code" : "282",
+         "name_ru" : "Канал 7 (L2)",
+         "hidden_scale" : "0"
+      },
+      "lc2_b7" : {
+         "desc_en" : "Band b7 (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Band 7 (LC2)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_ru" : "Канал 7 (LC2)",
+         "hidden_scale" : "0",
+         "desc_ru" : "Канал b7 (collection 2)",
+         "code" : "627"
+      },
+      "lc2_sr_b7" : {
+         "name_en" : "Band 7 (SR)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "desc_en" : "Band b5 surface reflectance (collection 2)",
+         "product_group" : "channel",
+         "desc_ru" : "Band b5 surface reflectance (collection 2)",
+         "code" : "797",
+         "name_ru" : "Канал 7 (SR)",
+         "hidden_scale" : "0"
+      },
+      "channel8" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 8",
+         "code" : "82",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 8"
+      },
+      "channel8_l2a" : {
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Channel 8 (L2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_ru" : "Канал 8 (L2)",
+         "hidden_scale" : "0",
+         "code" : "283"
+      },
+      "channel8_l2a_lerc" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 8 (L2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 8 (L2)",
+         "code" : "1089"
+      },
+      "lc2_b8" : {
+         "comp_interval" : "0",
+         "desc_en" : "Band b8 (collection 2)",
+         "product_group" : "channel",
+         "name_en" : "Band 8 (LC2)",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_ru" : "Канал 8 (LC2)",
+         "hidden_scale" : "0",
+         "desc_ru" : "Канал b8 (collection 2)",
+         "code" : "628"
+      },
+      "channel8_lerc" : {
+         "name_en" : "Channel 8 (LERC)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "code" : "1060",
+         "name_ru" : "Канал 8 (LERC)",
+         "hidden_scale" : "0"
+      },
+      "channel8A" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 8А",
+         "code" : "83",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Channel 8A"
+      },
+      "channel8A_l2a" : {
+         "code" : "284",
+         "name_ru" : "Канал 8А (L2)",
+         "hidden_scale" : "0",
+         "name_en" : "Channel 8A (L2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "channel9" : {
+         "code" : "84",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 9",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Channel 9",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "channel9_l2a" : {
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "name_en" : "Channel 9 (L2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_ru" : "Канал 9 (L2)",
+         "hidden_scale" : "0",
+         "code" : "290"
+      },
+      "lc2_b9" : {
+         "code" : "629",
+         "desc_ru" : "Канал b9 (collection 2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Канал 9 (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Band 9 (LC2)",
+         "product_group" : "channel",
+         "desc_en" : "Band b9 (collection 2)",
+         "comp_interval" : "0"
+      },
+      "s2_scl" : {
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Classification (SCL, Sentinel-2)",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "code" : "289",
+         "hidden_scale" : "1",
+         "name_ru" : "Классификация (SCL, Sentinel-2)"
+      },
+      "satellite_coords" : {
+         "name_en" : "Satellite coords",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "product_type" : "meta",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "code" : "834",
+         "desc_ru" : "Содержит данные о положении спутника, текстовый файл",
+         "name_ru" : "Координаты спутника",
+         "hidden_scale" : "0"
+      },
+      "KMSS_CORR_NIR" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция NIR",
+         "code" : "646",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "product_type" : "product",
+         "name_en" : "Correction NIR"
+      },
+      "KMSS_dX_NIR" : {
+         "name_en" : "Correction NIR",
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "code" : "648",
+         "name_ru" : "Коррекция NIR",
+         "hidden_scale" : "0"
+      },
+      "KMSS_dY_NIR" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "Correction NIR",
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция NIR",
+         "code" : "651"
+      },
+      "KMSS_NIR_ATMCORR_WEIGHT" : {
+         "name_en" : "Correction NIR",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "comp_interval" : "0",
+         "product_group" : "channel",
+         "code" : "654",
+         "name_ru" : "Коррекция NIR",
+         "hidden_scale" : "0"
+      },
+      "KMSS_NIR_ATMCORR_QUALITY" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "Correction NIR",
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция NIR",
+         "code" : "656"
+      },
+      "KMSS_SIGM_NIR" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "name_en" : "Correction NIR",
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция NIR",
+         "code" : "659"
+      },
+      "KMSS_CORR_NIR_V4" : {
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "name_en" : "Correction NIR",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "725",
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция NIR"
+      },
+      "KMSS_CORR_RED" : {
+         "code" : "647",
+         "name_ru" : "Коррекция RED",
+         "hidden_scale" : "0",
+         "name_en" : "Correction RED",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "KMSS_dX_RED" : {
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "name_en" : "Correction RED",
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция RED",
+         "code" : "649"
+      },
+      "KMSS_dY_RED" : {
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "name_en" : "Correction RED",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "650",
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция RED"
+      },
+      "KMSS_RED_ATMCORR_WEIGHT" : {
+         "code" : "655",
+         "name_ru" : "Коррекция RED",
+         "hidden_scale" : "0",
+         "name_en" : "Correction RED",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "KMSS_RED_ATMCORR_QUALITY" : {
+         "code" : "657",
+         "name_ru" : "Коррекция RED",
+         "hidden_scale" : "0",
+         "name_en" : "Correction RED",
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "channel"
+      },
+      "KMSS_SIGM_RED" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция RED",
+         "code" : "658",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "name_en" : "Correction RED"
+      },
+      "KMSS_CORR_RED_V4" : {
+         "hidden_scale" : "0",
+         "name_ru" : "Коррекция RED",
+         "code" : "726",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "name_en" : "Correction RED"
+      },
+      "KMSS_CORR_NIR_V5" : {
+         "product_type" : "product",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "name_en" : "Correlation NIR",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "code" : "751",
+         "hidden_scale" : "0",
+         "name_ru" : "Корреляция NIR"
+      },
+      "KMSS_CORR_RED_V5" : {
+         "name_ru" : "Корреляция RED",
+         "hidden_scale" : "0",
+         "code" : "752",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Correlation RED",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "product_type" : "product"
+      },
+      "lc2_st_emis" : {
+         "code" : "801",
+         "desc_ru" : "Emissivity of Band 10 estimated from ASTER GED (collection 2)",
+         "name_ru" : "Коэф. излучения b10 по ASTER GED (LC2)",
+         "hidden_scale" : "0",
+         "name_en" : "Emissivity b10 from ASTER GED (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "desc_en" : "Emissivity of Band 10 estimated from ASTER GED (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1"
+      },
+      "fmask_2" : {
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "atmosphere",
+         "name_en" : "Cloud mask (FMASK 2)",
+         "product_group" : "special1",
+         "desc_en" : "Cloud mask by advanced FMASK",
+         "comp_interval" : "0",
+         "desc_ru" : "Маска облачности по усовершенствованному FMASK",
+         "code" : "168",
+         "hidden_scale" : "1",
+         "name_ru" : "Маска облачности (FMASK 2)"
+      },
+      "fmask" : {
+         "desc_ru" : "Маска облачности (FMASK)",
+         "code" : "73",
+         "hidden_scale" : "1",
+         "name_ru" : "Маска облачности (FMASK)",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "atmosphere",
+         "name_en" : "Cloud mask (FMASK)",
+         "product_group" : "special1",
+         "desc_en" : "Cloud mask (FMASK)",
+         "comp_interval" : "0"
+      },
+      "cloud_frag" : {
+         "name_ru" : "Маска облачности L1 (Sentinel-2)",
+         "hidden_scale" : "1",
+         "code" : "217",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Cloud mask L1  (Sentinel-2)",
+         "is_metadata" : "0",
+         "product_type" : "product"
+      },
+      "cloud_mask_kmss_nir_v2" : {
+         "code" : "468",
+         "name_ru" : "Маска облачности КМСС NIR",
+         "hidden_scale" : "1",
+         "name_en" : "Cloud mask KMSS NIR",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "comp_interval" : "0",
+         "product_group" : "special1"
+      },
+      "cloud_mask_kmss_nir_v3" : {
+         "name_ru" : "Маска облачности КМСС NIR",
+         "hidden_scale" : "1",
+         "code" : "671",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Cloud mask KMSS NIR",
+         "product_type" : "source",
+         "is_metadata" : "0"
+      },
+      "cloud_mask_kmss_nir_v4" : {
+         "name_en" : "Cloud mask KMSS NIR V4",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "desc_ru" : "С использованием нейросети",
+         "code" : "727",
+         "name_ru" : "Маска облачности КМСС NIR V4",
+         "hidden_scale" : "1"
+      },
+      "cloud_mask_kmss_nir_v5" : {
+         "desc_ru" : "С использованием нейросети",
+         "code" : "758",
+         "hidden_scale" : "1",
+         "name_ru" : "Маска облачности КМСС NIR V5",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "name_en" : "Cloud mask KMSS NIR V5",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "cloud_mask_kmss_nir" : {
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Cloud mask KMSS NIR v1",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_ru" : "Маска облачности КМСС NIR v1",
+         "hidden_scale" : "1",
+         "code" : "307"
+      },
+      "cloud_mask_kmss_red_v2" : {
+         "name_en" : "Cloud mask KMSS RED",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "code" : "469",
+         "name_ru" : "Маска облачности КМСС RED",
+         "hidden_scale" : "1"
+      },
+      "cloud_mask_kmss_red_v3" : {
+         "code" : "672",
+         "name_ru" : "Маска облачности КМСС RED",
+         "hidden_scale" : "1",
+         "name_en" : "Cloud mask KMSS RED",
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "product_group" : "special1"
+      },
+      "cloud_mask_kmss_red_v4" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "name_en" : "Cloud mask KMSS RED V4",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "desc_ru" : "С использованием нейросети",
+         "code" : "728",
+         "hidden_scale" : "1",
+         "name_ru" : "Маска облачности КМСС RED V4"
+      },
+      "cloud_mask_kmss_red_v5" : {
+         "applications" : "forest,agro",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Cloud mask KMSS RED V5",
+         "product_group" : "channel",
+         "comp_interval" : "0",
+         "code" : "759",
+         "desc_ru" : "С использованием нейросети",
+         "hidden_scale" : "1",
+         "name_ru" : "Маска облачности КМСС RED V5"
+      },
+      "cloud_mask_kmss_red" : {
+         "product_type" : "source",
+         "is_metadata" : "0",
+         "name_en" : "Cloud mask KMSS RED v1",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "code" : "308",
+         "hidden_scale" : "1",
+         "name_ru" : "Маска облачности КМСС RED v1"
+      },
+      "meta" : {
+         "code" : "62",
+         "hidden_scale" : "0",
+         "name_ru" : "Метаданные",
+         "is_metadata" : "1",
+         "product_type" : "meta",
+         "name_en" : "Metadata",
+         "product_group" : "meta",
+         "comp_interval" : "0"
+      },
+      "meta_l2a" : {
+         "product_type" : "meta",
+         "is_metadata" : "1",
+         "name_en" : "Metadata (L2)",
+         "product_group" : "meta",
+         "comp_interval" : "0",
+         "code" : "294",
+         "hidden_scale" : "0",
+         "name_ru" : "Метаданные (L2)"
+      },
+      "lc2_sr_ang" : {
+         "name_en" : "Metadata ANGLES (LC2)",
+         "product_type" : "meta",
+         "is_metadata" : "1",
+         "comp_interval" : "0",
+         "desc_en" : "Metadata ANGLE (collection 2)",
+         "product_group" : "meta",
+         "desc_ru" : "Метаданные ANGLE (collection 2)",
+         "code" : "788",
+         "name_ru" : "Метаданные ANGLES (LC2)",
+         "hidden_scale" : "0"
+      },
+      "lc2_sr_mtl" : {
+         "comp_interval" : "0",
+         "desc_en" : "Metadata MTL SR (collection 2)",
+         "product_group" : "meta",
+         "name_en" : "Metadata MTL SR (LC2)",
+         "is_metadata" : "1",
+         "product_type" : "meta",
+         "name_ru" : "Метаданные MTL SR (LC2)",
+         "hidden_scale" : "0",
+         "code" : "791",
+         "desc_ru" : "Метаданные MTL SR (collection 2)"
+      },
+      "lc2_sr_stac" : {
+         "product_group" : "meta",
+         "comp_interval" : "0",
+         "desc_en" : "Metadata with contour SR (collection 2)",
+         "product_type" : "meta",
+         "is_metadata" : "1",
+         "name_en" : "Metadata STAC SR (LC2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Метаданные STAC SR (LC2)",
+         "desc_ru" : "Метаданные с контуром SR (collection 2)",
+         "code" : "789"
+      },
+      "lc2_st_stac" : {
+         "product_group" : "meta",
+         "comp_interval" : "0",
+         "desc_en" : "Metadata with contour ST (collection 2)",
+         "is_metadata" : "1",
+         "product_type" : "meta",
+         "name_en" : "Metadata STAC ST (LC2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Метаданные STAC ST (LC2)",
+         "code" : "790",
+         "desc_ru" : "Метаданные с контуром ST (collection 2)"
+      },
+      "meta_sr" : {
+         "code" : "196",
+         "hidden_scale" : "0",
+         "name_ru" : "Метаданные атмосферно скорректированного Landsat",
+         "is_metadata" : "1",
+         "product_type" : "meta",
+         "name_en" : "Metadata by atmospheric correction Landsat",
+         "product_group" : "meta",
+         "comp_interval" : "0"
+      },
+      "qi_data_tar_frag" : {
+         "name_ru" : "Метаданные качества по фрагменту",
+         "hidden_scale" : "0",
+         "code" : "128",
+         "comp_interval" : "0",
+         "product_group" : "meta",
+         "name_en" : "Fragment metadata of quality",
+         "is_metadata" : "1",
+         "product_type" : "meta"
+      },
+      "metafrag" : {
+         "comp_interval" : "0",
+         "product_group" : "meta",
+         "name_en" : "Fragment metadata",
+         "product_type" : "meta",
+         "is_metadata" : "1",
+         "name_ru" : "Метаданные по фрагменту",
+         "hidden_scale" : "0",
+         "code" : "81"
+      },
+      "metafrag_l2a" : {
+         "comp_interval" : "0",
+         "product_group" : "meta",
+         "name_en" : "Fragment metadata (L2)",
+         "is_metadata" : "1",
+         "product_type" : "meta",
+         "name_ru" : "Метаданные по фрагменту (L2)",
+         "hidden_scale" : "0",
+         "code" : "292"
+      },
+      "KMSS_CNN_PROB" : {
+         "code" : "720",
+         "name_ru" : "Нейросетевая вероятность",
+         "hidden_scale" : "0",
+         "name_en" : "Neurone probability",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "product_group" : "special1"
+      },
+      "KMSS_CNN_PROB_V5" : {
+         "code" : "750",
+         "name_ru" : "Нейросетевая вероятность v5",
+         "hidden_scale" : "0",
+         "name_en" : "Neurone probability v5",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "product_group" : "special1"
+      },
+      "KMSS_CNN_MASK" : {
+         "name_ru" : "Нейросетевая маска",
+         "hidden_scale" : "0",
+         "code" : "719",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Neurone mask",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product"
+      },
+      "KMSS_CNN_MASK_V5" : {
+         "code" : "749",
+         "hidden_scale" : "0",
+         "name_ru" : "Нейросетевая маска v5",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "product_type" : "product",
+         "name_en" : "Neurone mask v5",
+         "product_group" : "special1",
+         "comp_interval" : "0"
+      },
+      "KMSS_CNN_MASK_NIR_V6" : {
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Neurone mask v6 (NIR)",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "name_ru" : "Нейросетевая маска версия 6 (NIR)",
+         "hidden_scale" : "0",
+         "code" : "816"
+      },
+      "KMSS_CNN_MASK_RED_V6" : {
+         "name_en" : "Neurone mask v6 (RED)",
+         "applications" : "forest,water,snow_ice,agro,atmosphere,relief_model",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "code" : "817",
+         "name_ru" : "Нейросетевая маска версия 6 (RED)",
+         "hidden_scale" : "0"
+      },
+      "lc2_st_qa" : {
+         "product_group" : "special1",
+         "desc_en" : "Uncertainty of the Surface Temperature band (collection 2)",
+         "comp_interval" : "0",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "name_en" : "Uncertainty of the temperature (LC2)",
+         "hidden_scale" : "0",
+         "name_ru" : "Неопределенность температуры (LC2)",
+         "code" : "803",
+         "desc_ru" : "Uncertainty of the Surface Temperature band (collection 2)"
+      },
+      "lc2_st_drad" : {
+         "desc_ru" : "Downwelled Radiance (collection 2)",
+         "code" : "800",
+         "hidden_scale" : "0",
+         "name_ru" : "Нисходящее излучение (LC2)",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_en" : "Downwelled radiance (LC2)",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "desc_en" : "Downwelled Radiance (collection 2)"
+      },
+      "pan" : {
+         "code" : "72",
+         "hidden_scale" : "0",
+         "name_ru" : "Панхроматический",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_en" : "Panchromatic",
+         "product_group" : "channel",
+         "comp_interval" : "0"
+      },
+      "color_fusion_spot" : {
+         "name_ru" : "Паншарпенинг",
+         "hidden_scale" : "0",
+         "code" : "77",
+         "comp_interval" : "0",
+         "product_group" : "synthesis",
+         "name_en" : "Pansharpened",
+         "product_type" : "product",
+         "applications" : "forest,agro",
+         "is_metadata" : "0"
+      },
+      "rgb" : {
+         "name_ru" : "Поверхность",
+         "hidden_scale" : "0",
+         "code" : "15",
+         "comp_interval" : "0",
+         "product_group" : "synthesis",
+         "name_en" : "Surface",
+         "is_metadata" : "0",
+         "applications" : "forest,agro",
+         "product_type" : "product"
+      },
+      "lc2_sr_atmos_opacity" : {
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_en" : "Atmospheric opacity (LC2)",
+         "product_group" : "special1",
+         "comp_interval" : "0",
+         "desc_en" : "Atmospheric opacity generated by LEDAPS (collection 2)",
+         "desc_ru" : "Atmospheric opacity generated by LEDAPS (collection 2)",
+         "code" : "809",
+         "hidden_scale" : "0",
+         "name_ru" : "Прозрачность атмосферы (LC2)"
+      },
+      "lc2_st_atran" : {
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_en" : "Atmospheric transmittance (LC2)",
+         "product_group" : "special1",
+         "desc_en" : "Atmospheric Transmittance (collection 2)",
+         "comp_interval" : "0",
+         "desc_ru" : "Atmospheric Transmittance (collection 2)",
+         "code" : "798",
+         "hidden_scale" : "0",
+         "name_ru" : "Пропускание атмосферы (LC2)"
+      },
+      "lc2_st_cdist" : {
+         "name_ru" : "Расстояние до облаков (LC2)",
+         "hidden_scale" : "0",
+         "code" : "799",
+         "desc_ru" : "Pixel distance to cloud (collection 2)",
+         "desc_en" : "Pixel distance to cloud (collection 2)",
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "Distance to cloud (LC2)",
+         "is_metadata" : "0",
+         "product_type" : "product"
+      },
+      "lc2_st_emsd" : {
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "name_en" : "Emissivity standard deviation (LC2)",
+         "product_group" : "special1",
+         "desc_en" : "Emissivity standard deviation (collection 2)",
+         "comp_interval" : "0",
+         "desc_ru" : "Emissivity standard deviation (collection 2)",
+         "code" : "802",
+         "hidden_scale" : "0",
+         "name_ru" : "Стандартное отклонение коэф. излучения (LC2)"
+      },
+      "lc2_st_trad" : {
+         "name_en" : "Thermal band radiance (LC2)",
+         "product_type" : "product",
+         "is_metadata" : "0",
+         "comp_interval" : "0",
+         "desc_en" : "Thermal band converted to radiance (collection 2)",
+         "product_group" : "special1",
+         "desc_ru" : "Thermal band converted to radiance (collection 2)",
+         "code" : "804",
+         "name_ru" : "Тепловой канал, излучение (LC2)",
+         "hidden_scale" : "0"
+      },
+      "color" : {
+         "code" : "67",
+         "hidden_scale" : "0",
+         "name_ru" : "Цветное",
+         "product_type" : "product",
+         "applications" : "forest,agro",
+         "is_metadata" : "0",
+         "name_en" : "Color",
+         "product_group" : "synthesis",
+         "comp_interval" : "0"
+      },
+      "color_spot" : {
+         "product_type" : "product",
+         "applications" : "forest,agro",
+         "is_metadata" : "0",
+         "name_en" : "Color",
+         "product_group" : "synthesis",
+         "comp_interval" : "0",
+         "code" : "74",
+         "hidden_scale" : "0",
+         "name_ru" : "Цветное"
+      },
+      "color_spot_cor_345" : {
+         "code" : "76",
+         "name_ru" : "Цветное 345",
+         "hidden_scale" : "0",
+         "name_en" : " Color 345",
+         "applications" : "forest,agro",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "product_group" : "synthesis"
+      },
+      "color_sst_masked" : {
+         "code" : "78",
+         "name_ru" : "Цветное SST mask",
+         "hidden_scale" : "1",
+         "name_en" : "Цветное SST mask",
+         "is_metadata" : "0",
+         "applications" : "water",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "product_group" : "synthesis"
+      },
+      "color_spot_cor" : {
+         "code" : "75",
+         "name_ru" : "Цветное скорректированное",
+         "hidden_scale" : "0",
+         "name_en" : "Color corrected",
+         "applications" : "forest,water,snow_ice,agro,atmosphere",
+         "is_metadata" : "0",
+         "product_type" : "product",
+         "comp_interval" : "0",
+         "product_group" : "synthesis"
+      },
+      "photo" : {
+         "comp_interval" : "0",
+         "product_group" : "special1",
+         "name_en" : "photo image",
+         "is_metadata" : "0",
+         "product_type" : "source",
+         "name_ru" : "фотография",
+         "hidden_scale" : "0",
+         "code" : "456"
+      }
+   },
+   "devices_info" : {
+      "ORBVIEW-3" : {
+         "code" : "28"
+      },
+      "MSS1" : {
+         "name_ru" : "МСС",
+         "code" : "21",
+         "name_en" : "MSS1"
+      },
+      "KMSS2 102" : {
+         "name_en" : "KMSS2-102",
+         "code" : "89",
+         "name_ru" : "КМСС2-102"
+      },
+      "MODIS" : {
+         "code" : "20"
+      },
+      "HRV" : {
+         "code" : "13"
+      },
+      "QUICKBIRD" : {
+         "code" : "33"
+      },
+      "AVNIR-2" : {
+         "code" : "5"
+      },
+      "GSA-3" : {
+         "code" : "65"
+      },
+      "GSA-1" : {
+         "code" : "52"
+      },
+      "WORLDVIEW" : {
+         "code" : "40"
+      },
+      "KMSS 50" : {
+         "name_ru" : "КМСС-50",
+         "code" : "19",
+         "name_en" : "KMSS-50"
+      },
+      "KMSS 101" : {
+         "code" : "17",
+         "name_ru" : "КМСС-101",
+         "name_en" : "KMSS-101"
+      },
+      "GEOTONP" : {
+         "name_en" : "GEOTONP",
+         "name_ru" : "Геотон-П",
+         "code" : "10"
+      },
+      "ETM_PLUS_SR" : {
+         "description" : "Прибор для атмосферно скорректированных данных",
+         "code" : "71",
+         "name_ru" : "ETM+ атм кор",
+         "name_en" : "ETM+ surface ref"
+      },
+      "ETM_PLUS_BOA" : {
+         "code" : "103",
+         "name_ru" : "ETM+ (BOA)",
+         "name_en" : "ETM+ (BOA)"
+      },
+      "OLI_TIRS" : {
+         "code" : "27",
+         "name_ru" : "OLI-TIRS",
+         "name_en" : "OLI-TIRS"
+      },
+      "OLI_SR" : {
+         "description" : "Прибор для атмосферно скорректированных данных",
+         "code" : "70",
+         "name_ru" : "OLI атм кор",
+         "name_en" : "OLI surface ref"
+      },
+      "DEIMOS" : {
+         "code" : "7"
+      },
+      "SHMSA-VR" : {
+         "name_en" : "SHMSA-VR",
+         "name_ru" : "КШМСА-ВР",
+         "code" : "37"
+      },
+      "HYPERION" : {
+         "code" : "15"
+      },
+      "KMSS2 101" : {
+         "name_en" : "KMSS2-101",
+         "name_ru" : "КМСС2-101",
+         "code" : "88"
+      },
+      "HRVIR" : {
+         "code" : "14"
+      },
+      "URAGAN" : {
+         "name_ru" : "Ураган",
+         "code" : "94",
+         "name_en" : "Uragan",
+         "description" : "Съёмочные системы КЭ \"Ураган\" и \"Сценарий\""
+      },
+      "TM_BOA" : {
+         "name_en" : "TM (BOA)",
+         "name_ru" : "TM (BOA)",
+         "code" : "102"
+      },
+      "OLI" : {
+         "code" : "26"
+      },
+      "SHMSA-SR" : {
+         "name_ru" : "КШМСА-СР",
+         "code" : "36",
+         "name_en" : "SHMSA-SR"
+      },
+      "GSA-2" : {
+         "code" : "53"
+      },
+      "KMSS 102" : {
+         "name_en" : "KMSS-102",
+         "name_ru" : "КМСС-102",
+         "code" : "18"
+      },
+      "OLI_TIRS_BOA" : {
+         "name_ru" : "OLI-TIRS (BOA)",
+         "code" : "101",
+         "name_en" : "OLI-TIRS (BOA)"
+      },
+      "PLANETSCOPE" : {
+         "code" : "95",
+         "name_ru" : "PLANETSCOPE",
+         "name_en" : "PLANETSCOPE"
+      },
+      "ETM_PLUS" : {
+         "code" : "8",
+         "name_ru" : "ETM+",
+         "name_en" : "ETM+"
+      },
+      "TIRS" : {
+         "name_ru" : "TIRS",
+         "code" : "92",
+         "name_en" : "TIRS"
+      },
+      "PSS1" : {
+         "name_ru" : "ПСС",
+         "code" : "32",
+         "name_en" : "PSS1"
+      },
+      "JSS 56" : {
+         "code" : "16"
+      },
+      "TM" : {
+         "code" : "38"
+      },
+      "ASTER_VNIR" : null,
+      "ASTER_TIR" : null,
+      "ASTER" : {
+         "code" : "51"
+      },
+      "MSI" : {
+         "code" : "49"
+      },
+      "HICO" : {
+         "code" : "12"
+      },
+      "MSI_BOA" : {
+         "name_en" : "MSI (atm.cor.)",
+         "name_ru" : "MSI (атм.кор.)",
+         "code" : "93"
+      },
+      "PRISM" : {
+         "code" : "30"
+      }
+   },
+   "satellites_info" : {
+      "LANDSAT 9" : {
+         "mrsat_device" : "OLI_TIRS",
+         "sat_type" : "undef",
+         "code" : "90"
+      },
+      "EO-1" : {
+         "mrsat_device" : "HYPERION",
+         "sat_type" : "undef",
+         "code" : "45"
+      },
+      "DOVE" : {
+         "desc_ru" : "Planetscope DOVE",
+         "code" : "89",
+         "name_ru" : "DOVE",
+         "name_en" : "DOVE",
+         "sat_type" : "undef",
+         "desc_en" : "Planetscope DOVE"
+      },
+      "CANOPUS-V4" : {
+         "code" : "70",
+         "name_ru" : "Канопус-В №4",
+         "name_en" : "CANOPUS-V #4",
+         "sat_type" : "undef"
+      },
+      "SENTINEL-2A" : {
+         "sat_type" : "undef",
+         "code" : "52"
+      },
+      "SPOT 4" : {
+         "code" : "26",
+         "sat_type" : "undef",
+         "mrsat_device" : "HRVIR"
+      },
+      "ALOS" : {
+         "sat_type" : "undef",
+         "mrsat_device" : "PRISM",
+         "code" : "34"
+      },
+      "BKA" : {
+         "sat_type" : "undef",
+         "mrsat_device" : "PSS1",
+         "code" : "42",
+         "name_ru" : "БКА"
+      },
+      "HICO" : {
+         "mrsat_device" : "HICO",
+         "sat_type" : "undef",
+         "code" : "40"
+      },
+      "LANDSAT 8" : {
+         "code" : "23",
+         "mrsat_device" : "OLI_TIRS",
+         "sat_type" : "undef"
+      },
+      "CANOPUS-V6" : {
+         "sat_type" : "undef",
+         "name_en" : "CANOPUS-V #6",
+         "name_ru" : "Канопус-В №6",
+         "code" : "81"
+      },
+      "METEOR-M2-2" : {
+         "mrsat_device" : "MSU-MR",
+         "sat_type" : "undef",
+         "name_en" : "METEOR-M 2-2",
+         "name_ru" : "Метеор-М 2-2",
+         "code" : "83"
+      },
+      "RESURS-P3" : {
+         "sat_type" : "undef",
+         "name_ru" : "Ресурс-П №3",
+         "code" : "58"
+      },
+      "CANOPUS-V" : {
+         "sat_type" : "undef",
+         "mrsat_device" : "PSS1",
+         "code" : "32",
+         "name_ru" : "Канопус-В"
+      },
+      "WORLDVIEW" : {
+         "mrsat_device" : "WORLDVIEW",
+         "sat_type" : "undef",
+         "code" : "37"
+      },
+      "TERRA" : {
+         "code" : "11",
+         "sat_type" : "undef",
+         "mrsat_device" : "MODIS"
+      },
+      "RAPIDEYE" : {
+         "code" : "35",
+         "mrsat_device" : "JSS 56",
+         "sat_type" : "undef"
+      },
+      "ORBVIEW-3" : {
+         "sat_type" : "undef",
+         "mrsat_device" : "ORBVIEW-3",
+         "code" : "33"
+      },
+      "ISS" : {
+         "sat_type" : "undef",
+         "name_en" : "ISS",
+         "code" : "88",
+         "name_ru" : "МКС"
+      },
+      "METEOR-M2" : {
+         "code" : "46",
+         "name_ru" : "Метеор-М 2",
+         "name_en" : "METEOR-M 2",
+         "sat_type" : "undef",
+         "mrsat_device" : "MSU-MR"
+      },
+      "QUICKBIRD" : {
+         "code" : "38",
+         "sat_type" : "undef",
+         "mrsat_device" : "QUICKBIRD"
+      },
+      "RESURS-P2" : {
+         "mrsat_device" : "OEA",
+         "sat_type" : "undef",
+         "name_ru" : "Ресурс-П №2",
+         "code" : "50"
+      },
+      "LANDSAT 4" : {
+         "mrsat_device" : "TM",
+         "sat_type" : "undef",
+         "code" : "20"
+      },
+      "METEOR-M2-4" : {
+         "code" : "98",
+         "name_ru" : "METEOR-M2-4",
+         "sat_type" : "undef",
+         "name_en" : "METEOR-M2-4",
+         "mrsat_device" : "MSU-MR"
+      },
+      "LANDSAT 7" : {
+         "mrsat_device" : "ETM_PLUS",
+         "sat_type" : "undef",
+         "code" : "22"
+      },
+      "SENTINEL-2C" : {
+         "sat_type" : "hr",
+         "name_en" : "SENTINEL-2C",
+         "mrsat_device" : "MSI",
+         "code" : "103",
+         "name_ru" : "SENTINEL-2C"
+      },
+      "CANOPUS-V-IK" : {
+         "sat_type" : "undef",
+         "name_en" : "CANOPUS-V-IK",
+         "code" : "65",
+         "name_ru" : "Канопус-В-ИК"
+      },
+      "METEOR-M1" : {
+         "mrsat_device" : "MSU-MR",
+         "name_en" : "METEOR-M 1",
+         "sat_type" : "undef",
+         "name_ru" : "Метеор-М 1",
+         "code" : "13"
+      },
+      "LANDSAT 5" : {
+         "code" : "21",
+         "mrsat_device" : "TM",
+         "sat_type" : "undef"
+      },
+      "RESURS-P1" : {
+         "name_ru" : "Ресурс-П №1",
+         "code" : "49",
+         "mrsat_device" : "OEA",
+         "sat_type" : "undef"
+      },
+      "CANOPUS-V3" : {
+         "name_ru" : "Канопус-В №3",
+         "code" : "69",
+         "name_en" : "CANOPUS-V #3",
+         "sat_type" : "undef"
+      },
+      "CANOPUS-V5" : {
+         "name_ru" : "Канопус-В №5",
+         "code" : "80",
+         "sat_type" : "undef",
+         "name_en" : "CANOPUS-V #5"
+      },
+      "DEIMOS" : {
+         "code" : "41",
+         "mrsat_device" : "DEIMOS",
+         "sat_type" : "undef"
+      },
+      "SENTINEL-2B" : {
+         "name_ru" : "SENTINEL-2B",
+         "code" : "63",
+         "name_en" : "SENTINEL-2B",
+         "sat_type" : "undef"
+      },
+      "SPOT 2" : {
+         "code" : "27",
+         "sat_type" : "undef",
+         "mrsat_device" : "HRV"
+      }
+   },
+   "servers_info" : {
+      "fktweb" : {
+         "url" : null,
+         "is_local" : 0,
+         "accessibility" : 1
+      },
+      "planeta_united" : {
+         "accessibility" : 1,
+         "is_local" : 0,
+         "url" : "moscow.planeta.smislab.ru"
+      },
+      "zsrcpod_united" : {
+         "is_local" : 0,
+         "accessibility" : 1,
+         "url" : "zsrcpod.planeta.smislab.ru"
+      },
+      "OFFLINE" : {
+         "url" : null,
+         "is_local" : 0,
+         "accessibility" : 1
+      },
+      "nffc_hrsatdb" : {
+         "url" : "hrsatdb.nffc.aviales.ru",
+         "is_local" : 1,
+         "accessibility" : 1
+      },
+      "dvrcpod_united" : {
+         "accessibility" : 1,
+         "is_local" : 0,
+         "url" : "dvrcpod.planeta.smislab.ru"
+      },
+      "pushkino_firemaps" : {
+         "url" : null,
+         "accessibility" : 1,
+         "is_local" : 0
+      }
+   },
+   "device_satellites" : {
+      "GSA-1" : [
+         "RESURS-P1"
+      ],
+      "KMSS 50" : [
+         "METEOR-M1",
+         "METEOR-M2"
+      ],
+      "WORLDVIEW" : [
+         "WORLDVIEW"
+      ],
+      "KMSS 101" : [
+         "METEOR-M1",
+         "METEOR-M2",
+         "METEOR-M2-2"
+      ],
+      "GEOTONP" : [
+         "RESURS-P1",
+         "RESURS-P2",
+         "RESURS-P3"
+      ],
+      "ORBVIEW-3" : [
+         "ORBVIEW-3"
+      ],
+      "KMSS2 102" : [
+         "METEOR-M2",
+         "METEOR-M2-2",
+         "METEOR-M2-4"
+      ],
+      "MSS1" : [
+         "BKA",
+         "CANOPUS-V",
+         "CANOPUS-V-IK",
+         "CANOPUS-V3",
+         "CANOPUS-V4",
+         "CANOPUS-V5",
+         "CANOPUS-V6"
+      ],
+      "MODIS" : [
+         "TERRA"
+      ],
+      "HRV" : [
+         "SPOT 2"
+      ],
+      "QUICKBIRD" : [
+         "QUICKBIRD"
+      ],
+      "AVNIR-2" : [
+         "ALOS"
+      ],
+      "GSA-3" : [
+         "RESURS-P3"
+      ],
+      "KMSS2 101" : [
+         "METEOR-M2-2",
+         "METEOR-M2-4"
+      ],
+      "HRVIR" : [
+         "SPOT 4"
+      ],
+      "URAGAN" : [
+         "ISS"
+      ],
+      "TM_BOA" : [
+         "LANDSAT 4",
+         "LANDSAT 5"
+      ],
+      "OLI" : [
+         "LANDSAT 8"
+      ],
+      "SHMSA-SR" : [
+         "RESURS-P1",
+         "RESURS-P2",
+         "RESURS-P3"
+      ],
+      "ETM_PLUS_SR" : [
+         "LANDSAT 7"
+      ],
+      "ETM_PLUS_BOA" : [
+         "LANDSAT 7"
+      ],
+      "OLI_TIRS" : [
+         "LANDSAT 8",
+         "LANDSAT 9"
+      ],
+      "OLI_SR" : [
+         "LANDSAT 8"
+      ],
+      "DEIMOS" : [
+         "DEIMOS"
+      ],
+      "SHMSA-VR" : [
+         "RESURS-P1",
+         "RESURS-P2",
+         "RESURS-P3"
+      ],
+      "HYPERION" : [
+         "EO-1"
+      ],
+      "TIRS" : [
+         "LANDSAT 8"
+      ],
+      "PSS1" : [
+         "BKA",
+         "CANOPUS-V",
+         "CANOPUS-V-IK",
+         "CANOPUS-V3",
+         "CANOPUS-V4",
+         "CANOPUS-V5",
+         "CANOPUS-V6"
+      ],
+      "JSS 56" : [
+         "RAPIDEYE"
+      ],
+      "GSA-2" : [
+         "RESURS-P2"
+      ],
+      "KMSS 102" : [
+         "METEOR-M1",
+         "METEOR-M2",
+         "METEOR-M2-2"
+      ],
+      "OLI_TIRS_BOA" : [
+         "LANDSAT 8",
+         "LANDSAT 9"
+      ],
+      "PLANETSCOPE" : [
+         "DOVE"
+      ],
+      "ETM_PLUS" : [
+         "LANDSAT 7"
+      ],
+      "ASTER_TIR" : [
+         "TERRA"
+      ],
+      "MSI" : [
+         "SENTINEL-2A",
+         "SENTINEL-2B",
+         "SENTINEL-2C"
+      ],
+      "ASTER" : [
+         "TERRA"
+      ],
+      "HICO" : [
+         "HICO"
+      ],
+      "MSI_BOA" : [
+         "SENTINEL-2A",
+         "SENTINEL-2B",
+         "SENTINEL-2C"
+      ],
+      "PRISM" : [
+         "ALOS"
+      ],
+      "TM" : [
+         "LANDSAT 4",
+         "LANDSAT 5"
+      ],
+      "ASTER_VNIR" : [
+         "TERRA"
+      ]
+   },
+   "_user_" : "mau_api",
+   "_project_" : "fap"
+}

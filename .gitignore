@@ -1,0 +1,3 @@
+src/__pycache__
+.venv/
+src/config_secret.py
