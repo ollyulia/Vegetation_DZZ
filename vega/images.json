@@ -1,0 +1,567 @@
+{
+   "INFO" : {
+      "project" : "fap",
+      "db_pkg_mode" : "hrsat",
+      "user" : "mau_api",
+      "servers" : {
+         "nffc_hrsatdb" : {
+            "service_host" : "iki-blades",
+            "url" : "hrsatdb.nffc.aviales.ru",
+            "accessibility" : 1,
+            "center" : "IKI",
+            "is_local" : 1
+         }
+      },
+      "query" : {
+         "predicted_count" : 0,
+         "total_count" : 385,
+         "first" : 1,
+         "previous" : null,
+         "count" : 5,
+         "last" : 5,
+         "next" : 6
+      },
+      "stations" : {
+         "USGS" : {
+            "tz" : "3"
+         },
+         "ESA" : {
+            "tz" : "0"
+         },
+         "PLANETA" : {
+            "tz" : "3"
+         }
+      }
+   },
+   "DATA" : [
+      {
+         "common" : {
+            "dt" : "2025-03-07 09:51:51",
+            "daynight" : "unknown",
+            "device" : "MSI",
+            "station" : "ESA",
+            "satellite" : "SENTINEL-2C"
+         },
+         "products" : {
+            "channel1" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900010"
+            },
+            "v_nir_ch" : {
+               "product" : "channel8",
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900820"
+            },
+            "channel6" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900540"
+            },
+            "channel7" : {
+               "id" : "2503070951511033504900080",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_red_vegetation" : {
+               "id" : "2503070951511033504906451",
+               "server" : "nffc_hrsatdb"
+            },
+            "dw_mode" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504909790"
+            },
+            "channel10" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900850"
+            },
+            "v_ice" : {
+               "id" : "2503070951511033504900361",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_ndvi" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900131"
+            },
+            "v_color" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900071"
+            },
+            "channel3" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900060"
+            },
+            "channel2" : {
+               "id" : "2503070951511033504900020",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel5" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900070"
+            },
+            "channel12" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900190"
+            },
+            "v_swir1_ch" : {
+               "product" : "channel11",
+               "id" : "2503070951511033504900660",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel9" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900840"
+            },
+            "v_vegetation" : {
+               "id" : "2503070951511033504900451",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel8" : {
+               "id" : "2503070951511033504900820",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_smoke" : {
+               "id" : "2503070951511033504900221",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_red_ch" : {
+               "product" : "channel4",
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900110"
+            },
+            "channel4" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900110"
+            },
+            "channel11" : {
+               "id" : "2503070951511033504900660",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_green_ch" : {
+               "product" : "channel3",
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900060"
+            },
+            "channel8A" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033504900830"
+            }
+         }
+      },
+      {
+         "products" : {
+            "v_red_ch" : {
+               "id" : "2503070951511033509302790",
+               "server" : "nffc_hrsatdb",
+               "product" : "channel4_l2a"
+            },
+            "v_green_ch" : {
+               "id" : "2503070951511033509302780",
+               "server" : "nffc_hrsatdb",
+               "product" : "channel3_l2a"
+            },
+            "s2_scl" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033509302890"
+            },
+            "v_vegetation" : {
+               "id" : "2503070951511033509300451",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_swir1_ch" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033509302850",
+               "product" : "channel11_l2a"
+            },
+            "channel3_l2a" : {
+               "id" : "2503070951511033509302780",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_smoke" : {
+               "id" : "2503070951511033509300221",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel2_l2a" : {
+               "id" : "2503070951511033509302770",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_color" : {
+               "id" : "2503070951511033509300071",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_ice" : {
+               "id" : "2503070951511033509300361",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_ndvi" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033509300131"
+            },
+            "v_red_vegetation" : {
+               "id" : "2503070951511033509306451",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel11_l2a" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033509302850"
+            },
+            "channel8_l2a" : {
+               "id" : "2503070951511033509302830",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel4_l2a" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033509302790"
+            },
+            "v_nir_ch" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033509302830",
+               "product" : "channel8_l2a"
+            },
+            "channel12_l2a" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951511033509302860"
+            }
+         },
+         "common" : {
+            "dt" : "2025-03-07 09:51:51",
+            "device" : "MSI_BOA",
+            "station" : "ESA",
+            "satellite" : "SENTINEL-2C",
+            "daynight" : "unknown"
+         }
+      },
+      {
+         "common" : {
+            "dt" : "2025-03-07 09:51:22",
+            "daynight" : "unknown",
+            "station" : "ESA",
+            "satellite" : "SENTINEL-2C",
+            "device" : "MSI"
+         },
+         "products" : {
+            "v_nir_ch" : {
+               "id" : "2503070951221033504900820",
+               "server" : "nffc_hrsatdb",
+               "product" : "channel8"
+            },
+            "channel1" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900010"
+            },
+            "dw_mode" : {
+               "id" : "2503070951221033504909790",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel10" : {
+               "id" : "2503070951221033504900850",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_color" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900071"
+            },
+            "v_ice" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900361"
+            },
+            "v_ndvi" : {
+               "id" : "2503070951221033504900131",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_smoke" : {
+               "id" : "2503070951221033504900221",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_vegetation" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900451"
+            },
+            "channel5" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900070"
+            },
+            "channel12" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900190"
+            },
+            "channel11" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900660"
+            },
+            "v_green_ch" : {
+               "product" : "channel3",
+               "id" : "2503070951221033504900060",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_red_ch" : {
+               "product" : "channel4",
+               "id" : "2503070951221033504900110",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel3" : {
+               "id" : "2503070951221033504900060",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_red_vegetation" : {
+               "id" : "2503070951221033504906451",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel7" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900080"
+            },
+            "channel6" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900540"
+            },
+            "channel8" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900820"
+            },
+            "v_swir1_ch" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900660",
+               "product" : "channel11"
+            },
+            "channel9" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900840"
+            },
+            "channel2" : {
+               "id" : "2503070951221033504900020",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel8A" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900830"
+            },
+            "channel4" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033504900110"
+            }
+         }
+      },
+      {
+         "products" : {
+            "channel12_l2a" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509302860"
+            },
+            "v_nir_ch" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509302830",
+               "product" : "channel8_l2a"
+            },
+            "channel4_l2a" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509302790"
+            },
+            "channel11_l2a" : {
+               "id" : "2503070951221033509302850",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel8_l2a" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509302830"
+            },
+            "v_color" : {
+               "id" : "2503070951221033509300071",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_ice" : {
+               "id" : "2503070951221033509300361",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_ndvi" : {
+               "id" : "2503070951221033509300131",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_red_vegetation" : {
+               "id" : "2503070951221033509306451",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel2_l2a" : {
+               "id" : "2503070951221033509302770",
+               "server" : "nffc_hrsatdb"
+            },
+            "channel3_l2a" : {
+               "id" : "2503070951221033509302780",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_smoke" : {
+               "id" : "2503070951221033509300221",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_vegetation" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509300451"
+            },
+            "s2_scl" : {
+               "id" : "2503070951221033509302890",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_swir1_ch" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509302850",
+               "product" : "channel11_l2a"
+            },
+            "v_green_ch" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509302780",
+               "product" : "channel3_l2a"
+            },
+            "v_red_ch" : {
+               "product" : "channel4_l2a",
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070951221033509302790"
+            }
+         },
+         "common" : {
+            "dt" : "2025-03-07 09:51:22",
+            "daynight" : "unknown",
+            "satellite" : "SENTINEL-2C",
+            "station" : "ESA",
+            "device" : "MSI_BOA"
+         }
+      },
+      {
+         "common" : {
+            "dt" : "2025-03-07 09:39:42",
+            "daynight" : "unknown",
+            "station" : "USGS",
+            "satellite" : "LANDSAT 9",
+            "device" : "OLI_TIRS"
+         },
+         "products" : {
+            "v_nir_ch" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276230",
+               "product" : "lc2_b5"
+            },
+            "v_color" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023270071"
+            },
+            "v_ndvi" : {
+               "id" : "2503070939429023270131",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_ice" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023270361"
+            },
+            "lc2_b7" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276270"
+            },
+            "lc2_ang_sen_zenith" : {
+               "id" : "2503070939429023276370",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_pan" : {
+               "product" : "lc2_b8",
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276280"
+            },
+            "lc2_b5" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276230"
+            },
+            "v_vegetation" : {
+               "id" : "2503070939429023270451",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_qa_l1_rs" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276350"
+            },
+            "lc2_b11" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276310"
+            },
+            "v_smoke" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023270221"
+            },
+            "v_color_fusion" : {
+               "id" : "2503070939429023270401",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_ang_sen_azimuth" : {
+               "id" : "2503070939429023276360",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_red_ch" : {
+               "product" : "lc2_b4",
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276220"
+            },
+            "v_green_ch" : {
+               "product" : "lc2_b3",
+               "id" : "2503070939429023276210",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_b1" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276190"
+            },
+            "lc2_mtl" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276400"
+            },
+            "v_one_tir" : {
+               "product" : "lc2_b10",
+               "id" : "2503070939429023276300",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_ang_sol_azimuth" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276380"
+            },
+            "v_red_vegetation" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276451"
+            },
+            "lc2_b8" : {
+               "id" : "2503070939429023276280",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_qa_l1_px" : {
+               "id" : "2503070939429023276340",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_b2" : {
+               "id" : "2503070939429023276200",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_b6" : {
+               "id" : "2503070939429023276240",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_ang_sol_zenith" : {
+               "id" : "2503070939429023276390",
+               "server" : "nffc_hrsatdb"
+            },
+            "v_swir1_ch" : {
+               "product" : "lc2_b6",
+               "id" : "2503070939429023276240",
+               "server" : "nffc_hrsatdb"
+            },
+            "lc2_b4" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276220"
+            },
+            "lc2_b9" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276290"
+            },
+            "lc2_b10" : {
+               "server" : "nffc_hrsatdb",
+               "id" : "2503070939429023276300"
+            },
+            "lc2_b3" : {
+               "id" : "2503070939429023276210",
+               "server" : "nffc_hrsatdb"
+            }
+         }
+      }
+   ]
+}
