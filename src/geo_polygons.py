@@ -1,3 +1,5 @@
+# Файл для работы с созданием полигона на векторном слое
+
 import api
 
 def polygon_coordinates_to_string(coordinates: list):

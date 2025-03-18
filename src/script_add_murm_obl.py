@@ -1,10 +1,12 @@
+# Скрипт для создания полигона около Мурманской области
+
 import geo_polygons as polygons
 import geo_transform
 import config_urls as urls
 import json
 
 def add_murmanskaya_oblast_polygon():
-    file = open("src/data/murmankaya_oblast.json", "r")
+    file = open("data/murmankaya_oblast.json", "r")
     content = file.read()
     json_data = json.loads(content)
     file.close()
@@ -21,4 +23,4 @@ def add_murmanskaya_oblast_polygon():
 
     return
 
-add_murmanskaya_oblast_polygon()
+# add_murmanskaya_oblast_polygon()
