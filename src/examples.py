@@ -1,3 +1,5 @@
+# Файл с примерами
+
 import config_urls
 import geo_points
 import geo_multipoints

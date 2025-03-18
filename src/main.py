@@ -22,7 +22,6 @@ def create_main_vector_layers():
 
 
 def main():
-    # create_main_vector_layers()
 
     return
 
