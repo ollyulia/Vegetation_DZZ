@@ -1,3 +1,5 @@
+# Файл для работы с созданием векторных слоев
+
 import api
 
 def create_point_vector_layer(

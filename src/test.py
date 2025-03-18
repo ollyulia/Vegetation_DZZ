@@ -23,16 +23,3 @@ def add_multipoint():
     points.create_points_in_vector_layer(config_urls.TEST_MULTIPOINT_VECTOR_LAYER_URL, config_urls.SRS_3857)
 
     return
-
-add_multipoint()
-
-# def create_multipoint_layer():
-#     vector_layers.create_multipoint_vector_layer(
-#         config_urls.RESOURCE_URL,
-#         config_urls.PARENT_ID,
-#         "test-multipoint-layer",
-#         config_urls.SRS_3857,
-#         []
-#     )
-
-#     return

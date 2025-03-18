@@ -1,3 +1,5 @@
+# Файл для работы с созданием точки на векторном слое
+
 import api
 
 def create_point_in_vector_layer(
