@@ -1,8 +1,8 @@
 # Скрипт для создания полигона около Мурманской области
 
-import geo_polygons as polygons
+import geo_polygons
 import geo_transform
-import config_urls as urls
+import config_urls
 import json
 
 def add_murmanskaya_oblast_polygon():
@@ -15,10 +15,10 @@ def add_murmanskaya_oblast_polygon():
 
     transformed_coordinates = geo_transform.list_wgs84_to_web_mercator(coordinates)
 
-    polygons.create_polygon_in_vector_layer(
-        urls.MAIN_POLYGON_VECTOR_LAYER_URL,
-        urls.SRS_3857,
-        polygons.polygon_coordinates_to_string(transformed_coordinates)
+    geo_polygons.create_polygon_in_vector_layer(
+        config_urls.MAIN_POLYGON_VECTOR_LAYER_URL,
+        config_urls.SRS_3857,
+        geo_polygons.polygon_coordinates_to_string(transformed_coordinates)
     )
 
     return

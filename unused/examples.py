@@ -70,5 +70,3 @@ def create_multipoint():
     )
 
     return
-
-create_multipoint()

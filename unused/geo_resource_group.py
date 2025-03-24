@@ -23,5 +23,3 @@ def create_resource_group(display_name: str, description: str):
         print(f"Группа ресурсов успешно создана! '{response.text}'")
     else:
         print(f"Ошибка создания группы ресурсов: '{response.text}'")
-
-create_resource_group("test-resource-group", "test-description")

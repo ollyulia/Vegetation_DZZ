@@ -13,27 +13,6 @@ def polygon_coordinates_to_string(coordinates: list):
 
     return ", ".join(coord_strings)
 
-def test_polygon_coordinates_to_string():
-    coordinates = [
-        [
-            3566524,
-            10809315
-        ],
-        [
-            3588538,
-            10657664
-        ],
-        [
-            3801338,
-            10669894
-        ],
-        [
-            3789108,
-            10816653
-        ]
-    ]
-    print(polygon_coordinates_to_string(coordinates))
-
 # Координаты в формате: 30 10, 40 40, 20 40, 10 20, 30 10
 def create_polygon_in_vector_layer(
     vector_layer_url: str,
@@ -54,3 +33,24 @@ def create_polygon_in_vector_layer(
         print(f"Полигон успешно добавлен! '{response.text}'")
     else:
         print(f"Ошибка загрузки полигона: '{response.text}'")
+
+def test_polygon_coordinates_to_string():
+    coordinates = [
+        [
+            3566524,
+            10809315
+        ],
+        [
+            3588538,
+            10657664
+        ],
+        [
+            3801338,
+            10669894
+        ],
+        [
+            3789108,
+            10816653
+        ]
+    ]
+    print(polygon_coordinates_to_string(coordinates))

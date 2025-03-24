@@ -3,7 +3,7 @@ import json
 import os
 
 # импорт данных для авторизации
-from vega import *
+from vega.vega import *
 
 base_url = f'http://{user}:{pwd}@sci-vega.ru/fap/toproxy'
 

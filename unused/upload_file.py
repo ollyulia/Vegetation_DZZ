@@ -15,6 +15,7 @@ def upload_file_from_disk(file_path: str, file_name_in_server: str):
             #         FileName,  FileContent, FileContentType
             "file": (file_name_in_server, file_content, "image/tiff")
         }
+        print("Отправка файла...")
         response = api.upload_file(config_urls.FILE_UPLOAD_URL, files)
 
     if response.status_code != 200:

@@ -1,7 +1,12 @@
 src/__pycache__
 .venv/
-src/config_secret.py
+
+/secret.py
+
 dbg*.*
-src/vega.py
-images/*
-data/*
+
+images
+data
+recovery_data
+
+.env

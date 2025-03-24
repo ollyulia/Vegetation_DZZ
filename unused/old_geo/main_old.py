@@ -4,8 +4,8 @@ import json
 import os
 
 
-username = "xxx"
-password = "yyy"
+username = None
+password = None
 base_res_id = 207 # Идентификатор базовой папки для пользователя student1
 AUTH = (username, password)
 
@@ -17,7 +17,7 @@ headers = {'Accept': '*/*'}
 
 # Выполняем авторизацию
 url = base_url + auth_url
-r = requests.post(url, auth=(username, password), data={"login": "xxx", "password":"yyy"}, headers=headers)
+r = requests.post(url, auth=(username, password), data={"login": username, "password":password}, headers=headers)
 cookies = r.cookies
 
 url = base_url+res_url
