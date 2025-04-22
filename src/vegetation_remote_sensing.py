@@ -3,10 +3,10 @@ import json
 import traceback
 from datetime import datetime
 
-from src import geo_portal
+from src import secret
 from src import earth_explorer
 from src import ndvi
-from src import secret
+from src import geo_portal
 
 class VegetationRemoteSensing:
     def __init__(self):
@@ -27,7 +27,7 @@ class VegetationRemoteSensing:
             secret.GEO_PORTAL_WEB_MAP_ID
         )
 
-    def add_vegetation_to_the_webmap(
+    def add_vegetation_to_the_webmap_from_earth_explorer(
         self,
         start_date: str,
         end_date: str,
@@ -36,7 +36,7 @@ class VegetationRemoteSensing:
         upper_right_latitude: float,
         upper_right_longitude: float
     ):
-        """Главная функция приложения.
+        """Функция приложения по добавлению растительности по спутниковым снимкам с EarthExplorer.
         По указанным дате и координатам:
         - обращается к EarthExplorer
         - скачивает красный и ближний инфракрасный каналы подходящих снимков
@@ -149,7 +149,6 @@ class VegetationRemoteSensing:
 
         print("Растительность успешно добавлена")
 
-
     def continue_process_images(self, downloaded_images_path):
         """Функция для продолжения работы скрипта, если во время обработки снимков произошла ошибка.
         Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
@@ -243,103 +242,6 @@ class VegetationRemoteSensing:
             return
 
         print("Растительность успешно добавлена")
-
-
-    def start(self):
-        """Запускает взаимодействие с пользователем."""
-        while True:
-            print("\nВыберите действие:")
-            print("1. Нанести на карту растительность по введенным координатам в виде прямоугольника")
-            print("2. Выйти")
-            choice = input("Ваш выбор: ")
-
-            if choice == "1":
-                # Ввод и валидация начальной даты
-                while True:
-                    start_date = input("Введите начальную дату в формате ГГГГ-ММ-ДД (пример: 2024-08-01): ")
-                    if self._validate_date(start_date):
-                        break
-                    else:
-                        print("Неверный формат даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД.")
-
-                # Ввод и валидация конечной даты
-                while True:
-                    end_date = input("Введите конечную дату в формате ГГГГ-ММ-ДД (пример: 2024-08-01): ")
-                    if self._validate_date(end_date):
-                        break
-                    else:
-                        print("Неверный формат даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД.")
-
-                # Проверка, что начальная дата не позже конечной
-                if datetime.strptime(start_date, "%Y-%m-%d") > datetime.strptime(end_date, "%Y-%m-%d"):
-                    print("Ошибка: Начальная дата не может быть позже конечной.")
-                    continue
-
-                # Ввод координат левого нижнего угла прямоугольника
-                while True:
-                    print("Ввод координаты левого нижнего угла прямоугольника")
-                    lower_left_latitude, lower_left_longitude = self._enter_coordinates()
-                    print(f"    Широта = {lower_left_latitude}, Долгота = {lower_left_longitude}")
-
-                    okay = input("Вас устраивают введенные координаты? (y/n): ")
-                    if (str.lower(okay) == "y"):
-                        break
-                    print("Вас не устроили веденные координаты левого нижнего угла прямоугольника.")
-
-                # Ввод координат правого верхнего угла прямоугольника
-                while True:
-                    print("Ввод координат правого верхнего угла прямоугольника")
-                    upper_right_latitude, upper_right_longitude = self._enter_coordinates()
-                    print(f"    Широта = {upper_right_latitude}, Долгота = {upper_right_longitude}")
-
-                    okay = input("Вас устраивают введенные координаты? (y/n): ")
-                    if (str.lower(okay) == "y"):
-                        break
-                    print("Вас не устроили веденные координаты правого верхнего угла прямоугольника.")
-
-                downloaded_images = self._earth_explorer.download_images_by_coordinates(
-                    start_date,
-                    end_date,
-                    lower_left_latitude,
-                    lower_left_longitude,
-                    upper_right_latitude,
-                    upper_right_longitude
-                )
-
-                # [
-                #     {
-                #         'name': 'LC08_L2SP_183012_20240802_20240808_02_T2_ndvi_colored.tif',
-                #         'path': 'images/ndvi_output/LC08_L2SP_183012_20240802_20240808_02_T2_ndvi_colored.tif',
-                #     },
-                #     {
-                #         'name': 'LC08_L2SP_183013_20240802_20240808_02_T1_ndvi_colored.tif',
-                #         'path': 'images/ndvi_output/LC08_L2SP_183013_20240802_20240808_02_T1_ndvi_colored.tif',
-                #     },
-                #     {
-                #         'name': 'LC09_L2SP_184012_20240801_20240802_02_T1_ndvi_colored.tif',
-                #         'path': 'images/ndvi_output/LC09_L2SP_184012_20240801_20240802_02_T1_ndvi_colored.tif',
-                #     },
-                #     {
-                #         'name': 'LC09_L2SP_184013_20240801_20240802_02_T2_ndvi_colored.tif',
-                #         'path': 'images/ndvi_output/LC09_L2SP_184013_20240801_20240802_02_T2_ndvi_colored.tif',
-                #     }
-                # ]
-                processed_images = self._ndvi.calculate(downloaded_images)
-
-                self._geo_portal.upload_snapshots(processed_images)
-
-            elif choice == "2":
-                print("Выход из программы.")
-                break
-            else:
-                print("Неверный выбор.")
-
-    def _enter_coordinates(self):
-        """Запрашивает у пользователя координаты и обрабатывает их."""
-        latitude = input("    Введите широту (latitude, y): ")
-        longitude = input("    Введите долготу (longitude, x): ")
-
-        return (latitude, longitude)
 
     def _validate_date(self, date_str):
         """Проверяет, соответствует ли строка формату ГГГГ-ММ-ДД."""

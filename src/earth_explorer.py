@@ -15,10 +15,10 @@ class EarthExplorer:
             self,
             start_date: str,
             end_date: str,
-            lower_left_latitude,
-            lower_left_longitude,
-            upper_right_latitude,
-            upper_right_longitude
+            lower_left_latitude: float,
+            lower_left_longitude: float,
+            upper_right_latitude: float,
+            upper_right_longitude: float
         ):
 
         downloaded_images = {
@@ -210,6 +210,8 @@ class EarthExplorer:
                 }
 
                 requestResults = sendRequest(serviceUrl + "download-request", download_req_payload, apiKey)
+
+                print(f"Обнаружено подходящих файлов для скачивания {len(requestResults["availableDownloads"])}")
 
                 # dump_json(requestResults, "3_request_results")
 

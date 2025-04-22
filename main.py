@@ -7,20 +7,21 @@ def main():
         return
 
     # начальная и конечная дата съемки
-    start_date = "2024-08-01"
-    end_date = "2024-08-06"
+    start_date = "2024-08-14"
+    end_date = "2024-08-15"
 
     # интересующая область задается прямоугольником
+    # Кольский полуостров
     # левый нижний угол
-    lower_left_latitude = 67.063152
-    lower_left_longitude = 35.167236
+    # 66.213585, 27.771668
+    lower_left_latitude = 68.562252
+    lower_left_longitude = 31.507020
     # правый верхний угол
-    upper_right_latitude = 67.995225
-    upper_right_longitude = 38.045654
+    # 69.549744, 41.416688
+    upper_right_latitude = 69.219015
+    upper_right_longitude = 33.924012
 
-    # 67.063152, 35.167236 - левый нижний угол прямоугольника
-    # 67.995225, 38.045654 - правый верхний угол прямоугольника
-    app.add_vegetation_to_the_webmap(
+    app.add_vegetation_to_the_webmap_from_earth_explorer(
         start_date,
         end_date,
         lower_left_latitude,
@@ -31,16 +32,13 @@ def main():
 
     return
 
-if __name__ == "__main__":
-    main()
-
 def continue_images_processing():
     app = vegetation_remote_sensing.VegetationRemoteSensing()
 
     if app is None:
         return
 
-    downloaded_images_info_path = "recovery_data/2024-03-24_downloaded_images.json"
+    downloaded_images_info_path = "recovery_data/2024-03-25_downloaded_images.json"
 
     app.continue_process_images(downloaded_images_info_path)
 
@@ -57,3 +55,7 @@ def continue_images_uploading():
     app.continue_upload_to_geoportal(processed_images_info_path)
 
     return
+
+
+if __name__ == "__main__":
+    main()

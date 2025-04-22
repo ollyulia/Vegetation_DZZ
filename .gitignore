@@ -5,6 +5,7 @@ src/__pycache__
 
 dbg*.*
 
+__pycache__
 images
 data
 recovery_data

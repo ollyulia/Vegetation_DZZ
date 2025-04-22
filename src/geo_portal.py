@@ -28,12 +28,15 @@ class GeoPortal:
         #     "LC09_L2SP_184013_20240801_20240802_02_T2_ndvi_colored.tif": "images/ndvi_output/LC09_L2SP_184013_20240801_20240802_02_T2_ndvi_colored.tif",
         # }
 
+        total_files = len(processed_images)
+        current_file_number = 1
+
         for processed_image_name, processed_image_path in processed_images.items():
             file_name_in_server = processed_image_name
             path_to_file = processed_image_path
             raster_layer_name = file_name_in_server.split(".")[0]
 
-            print(f"Добавление на карту {file_name_in_server}")
+            print(f"[{current_file_number}/{total_files}] Добавление на карту {file_name_in_server}")
 
             result = self._upload_snapshot(
                 path_to_file,
@@ -48,6 +51,8 @@ class GeoPortal:
                 print(f"Успешное добавление файла на вебкарту: {file_name_in_server}\n")
             else:
                 print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+
+            current_file_number = current_file_number + 1
 
         print("Все файлы опубликованы\n")
 

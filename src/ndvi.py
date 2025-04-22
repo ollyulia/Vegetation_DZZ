@@ -89,6 +89,9 @@ class Ndvi:
         if len(red_band_files_entries) != len(nir_band_files_entries):
             print("Разное количество файлов.")
 
+        total_files = len(red_band_files_entries)
+        current_file_number = 1
+
         for red_band_file, red_band_path in red_band_files_entries.items():
             nir_band_file = red_band_file.replace("B4", "B5")
 
@@ -96,13 +99,14 @@ class Ndvi:
 
             if nir_band_path is None:
                 print(f"Для файла с красным каналом: {red_band_file}\nНе найден файл с ближним инфракрасным каналом: {nir_band_file}\n")
+                total_files = total_files - 1
                 continue
 
             output_file_name = red_band_file.split("_SR_B4.TIF")[0]
             output_file_name = f"{output_file_name}_ndvi_colored.tif"
             output_ndvi_path = f"{OUTPUT_NDVI_DIR}/{output_file_name}"
 
-            print(f"Обработка файлов:\n    B4: {red_band_file}\n    B5: {nir_band_file}")
+            print(f"[{current_file_number}/{total_files}] Обработка файлов:\n    B4: {red_band_file}\n    B5: {nir_band_file}")
 
             ndvi, profile = calculate_ndvi(red_band_path, nir_band_path)
 
@@ -133,8 +137,11 @@ class Ndvi:
                 save_raster(rgba, profile, output_ndvi_path)
 
                 processed_images[output_file_name] = output_ndvi_path
+
             else:
                 print(f"Ошибка при расчете NDVI.")
+
+            current_file_number = current_file_number + 1
 
         print("Обработка завершена.")
 
