@@ -74,6 +74,9 @@ class VegetationRemoteSensing:
 
         print("Начало работы скрипта по добавлению растительности на вебкарту")
 
+        # Путь для загрузки файлов
+        path = f"images/{datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}"
+
         # скачивание красного и ближнего инфракрасного каналов подходящих снимков
         downloaded_images = self._earth_explorer.download_images_by_coordinates(
             start_date,
@@ -81,7 +84,8 @@ class VegetationRemoteSensing:
             lower_left_latitude,
             lower_left_longitude,
             upper_right_latitude,
-            upper_right_longitude
+            upper_right_longitude,
+            path,
         )
         # Пример объекта downloaded_images:
         # {
@@ -104,7 +108,7 @@ class VegetationRemoteSensing:
 
         try:
             # рассчет NDVI
-            processed_images = self._ndvi.calculate(downloaded_images)
+            processed_images = self._ndvi.calculate(downloaded_images, path)
             # Пример объекта processed_images:
             # {
             #     "LC08_L2SP_183012_20240802_20240808_02_T2_ndvi_colored.tif": "images/ndvi_output/LC08_L2SP_183012_20240802_20240808_02_T2_ndvi_colored.tif",
@@ -182,7 +186,7 @@ class VegetationRemoteSensing:
             print("Неизвестная ошибка: ", e)
 
         try:
-            processed_images = self._ndvi.calculate(downloaded_images)
+            processed_images = self._ndvi.calculate(downloaded_images, path)
         except Exception as exception:
             print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
 

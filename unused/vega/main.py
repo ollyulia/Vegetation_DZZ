@@ -5,7 +5,7 @@ import os
 # импорт данных для авторизации
 from vega.vega import *
 
-base_url = f'http://{user}:{pwd}@sci-vega.ru/fap/toproxy'
+BASE_URL = f'http://{user}:{pwd}@sci-vega.ru/fap/toproxy'
 
 def get_all_params(base_url='', server='', url_file='', user='', pwd='', ukey=''):
     if not base_url or not user or not pwd or not ukey or not server or not url_file:

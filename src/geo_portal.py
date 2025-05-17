@@ -1,5 +1,7 @@
 import requests
 
+import secret
+
 BASE_URL = "https://geo.mauniver.ru/"
 RESOURCE_URL = f"{BASE_URL}api/resource/"
 FILE_UPLOAD_URL = f"{BASE_URL}api/component/file_upload/"
@@ -75,6 +77,15 @@ class GeoPortal:
 
         # with open(UPLOADED_FILES_PATH, "a") as f:
         #     f.write(f"{uploaded_snapshot_file["id"]}\n")
+
+
+        # Шаг Х: создаем в Геопортале в основной папке папку с текущим временем запроса
+        # current_group_name = f""
+
+        # current_request_resource_group_id = self._create_group(
+        #     resouce_group_parent_id,
+        #     current_group_name
+        # )
 
         # Шаг 2: создаем в Геопортал в папке пользователя растровый слой и указываем в нем ID снимка для отображения
         try:
@@ -230,7 +241,7 @@ class GeoPortal:
     def _upload_raster_layer_with_file(
         self,
         uploaded_file_metadata,
-        parent_id: int,
+        resouce_group_parent_id: int,
         display_name: str,
         srs_id: int
     ) -> int:
@@ -238,7 +249,7 @@ class GeoPortal:
             "resource": {
                 "cls": "raster_layer",
                 "display_name": display_name,
-                "parent": {"id": parent_id}
+                "parent": {"id": resouce_group_parent_id}
             },
             "raster_layer": {
                 "source": {
@@ -368,3 +379,78 @@ class GeoPortal:
         print(f"    Слой успешно добавлен на веб-карту.")
 
         return True
+
+    # def _create_group(
+    #     self,
+
+    # ):
+    #     json = {
+    #         "resource": {
+    #             "cls": "resource_group",
+    #             "parent": {
+    #                 "id": config_urls.PARENT_ID
+    #             },
+    #             "display_name": display_name,
+    #             "description": description,
+    #         }
+    #     }
+
+    def _create_layer_group_in_webmap(
+            self,
+            webmap_id: int,
+            group_name: str
+        ):
+            # Получаем текущую конфигурацию веб-карты
+            get_webmap_url = f"{RESOURCE_URL}{webmap_id}"
+            response = self._get_content(get_webmap_url)
+
+            if response.status_code != 200:
+                print(f"Ошибка {response.status_code} при получении веб-карты: {response.text}")
+                return False
+
+            webmap_config = response.json()
+
+            # Создаем новую группу
+            new_group = {
+                "item_type": "group",
+                "display_name": group_name,
+                "children": [],  # Здесь будут находиться слои
+                "group_expanded": True,  # Группа будет развернута по умолчанию
+                "draw_order_position": 1
+            }
+
+            # Добавляем новую группу в массив layers
+            layers = webmap_config["webmap"]["root_item"]["children"]
+            layers.append(new_group)
+
+            payload = {"webmap": {"root_item": {"item_type": "root", "children": layers}}}
+
+            response = self._put_content(get_webmap_url, payload)
+
+            if response.status_code != 200:
+                print(f"Ошибка {response.status_code} при обновлении веб-карты: {response.text}")
+                return False
+
+            print(f"    Группа '{group_name}' успешно создана на веб-карте.")
+            return True
+
+
+def test_group_creation():
+    geo = GeoPortal(
+        secret.GEO_PORTAL_USERNAME,
+        secret.GEO_PORTAL_PASSWORD,
+        secret.GEO_PORTAL_RESOURCE_GROUP_ID,
+        secret.GEO_PORTAL_WEB_MAP_ID
+    )
+
+    # geo._create_layer_group_in_webmap(geo._web_map_id, "Test name for group")
+    processes_images = {
+        "1_combined_threshold_20.tif": "images/test/ndvi_combined/1_combined_threshold_20.tif",
+        "1_combined_threshold_30.tif": "images/test/ndvi_combined/1_combined_threshold_30.tif",
+        "1_combined_threshold_35.tif": "images/test/ndvi_combined/1_combined_threshold_35.tif",
+    }
+
+    geo.upload_snapshots(processes_images)
+
+
+test_group_creation()

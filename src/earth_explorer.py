@@ -18,7 +18,8 @@ class EarthExplorer:
             lower_left_latitude: float,
             lower_left_longitude: float,
             upper_right_latitude: float,
-            upper_right_longitude: float
+            upper_right_longitude: float,
+            path: str,
         ):
 
         downloaded_images = {
@@ -30,7 +31,7 @@ class EarthExplorer:
         # необходимые band со спутника для расчета ndvi
         SR_B4 = "SR_B4"
         SR_B5 = "SR_B5"
-        PATH = "images/downloaded" # Путь для загрузки файлов
+        PATH = path
 
         maxthreads = 5 # Количество потоков для загрузки
         sema = threading.Semaphore(value=maxthreads)
