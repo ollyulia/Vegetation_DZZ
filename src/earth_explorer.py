@@ -6,6 +6,8 @@ import threading
 import time
 import requests
 
+from pathlib import Path
+
 class EarthExplorer:
     def __init__(self, username: str, token: str):
         self._username = username
@@ -31,7 +33,14 @@ class EarthExplorer:
         # необходимые band со спутника для расчета ndvi
         SR_B4 = "SR_B4"
         SR_B5 = "SR_B5"
-        PATH = path
+
+        B4_OUTPUT_PATH = f"{path}/B4"
+        B5_OUTPUT_PATH = f"{path}/B5"
+        OTHER_OUTPUT_PATH = f"{path}/other"
+
+        Path(B4_OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
+        Path(B5_OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
+        Path(OTHER_OUTPUT_PATH).mkdir(parents=True, exist_ok=True)
 
         maxthreads = 5 # Количество потоков для загрузки
         sema = threading.Semaphore(value=maxthreads)
@@ -91,15 +100,15 @@ class EarthExplorer:
                 print(f"    Загрузка файла: '{filename}' ...\n")
 
                 if SR_B4 in filename:
-                    full_path = f"{PATH}/B4/{filename}"
+                    full_path = f"{B4_OUTPUT_PATH}/{filename}"
 
                     downloaded_images["B4"][filename] = full_path
                 elif SR_B5 in filename:
-                    full_path = f"{PATH}/B5/{filename}"
+                    full_path = f"{B5_OUTPUT_PATH}/{filename}"
 
                     downloaded_images["B5"][filename] = full_path
                 else:
-                    full_path = f"{PATH}/other/{filename}"
+                    full_path = f"{OTHER_OUTPUT_PATH}/{filename}"
 
                     downloaded_images["other"][filename] = full_path
 
