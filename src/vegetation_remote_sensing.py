@@ -2,6 +2,7 @@ import os
 import json
 import traceback
 from datetime import datetime
+from pathlib import Path
 
 from src import secret
 from src import earth_explorer
@@ -75,46 +76,54 @@ class VegetationRemoteSensing:
         print("Начало работы скрипта по добавлению растительности на вебкарту")
 
         # Путь для загрузки файлов
-        path = f"images/{datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}"
+        PATH = f"images/{datetime.now().strftime("%Y-%m-%d")}/{start_date}_{end_date}_{lower_left_latitude}:{lower_left_longitude}_{upper_right_latitude}:{lower_left_longitude}"
+        Path(PATH).mkdir(parents=True, exist_ok=True)
 
         # скачивание красного и ближнего инфракрасного каналов подходящих снимков
-        downloaded_images = self._earth_explorer.download_images_by_coordinates(
+        downloaded_images_data = self._earth_explorer.download_images_by_coordinates(
             start_date,
             end_date,
             lower_left_latitude,
             lower_left_longitude,
             upper_right_latitude,
             upper_right_longitude,
-            path,
+            PATH,
         )
         # Пример объекта downloaded_images:
         # {
         #     "B4": {
-        #         "LC08_L2SP_181013_20240804_20240808_02_T1_SR_B4.TIF": "images/downloaded/B4/LC08_L2SP_181013_20240804_20240808_02_T1_SR_B4.TIF",
-        #         "LC08_L2SP_186012_20240807_20240814_02_T1_SR_B4.TIF": "images/downloaded/B4/LC08_L2SP_186012_20240807_20240814_02_T1_SR_B4.TIF",
+        #         "A_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/A_SR_B4.TIF",
+        #         "B_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/B_SR_B4.TIF",
         #     },
         #     "B5": {
-        #         "LC08_L2SP_181013_20240804_20240808_02_T1_SR_B5.TIF": "images/downloaded/B5/LC08_L2SP_181013_20240804_20240808_02_T1_SR_B5.TIF",
-        #         "LC08_L2SP_186012_20240807_20240814_02_T1_SR_B5.TIF": "images/downloaded/B5/LC08_L2SP_186012_20240807_20240814_02_T1_SR_B5.TIF",
+        #         "A_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/A_SR_B5.TIF",
+        #         "B_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/B_SR_B5.TIF",
         #     },
         #     "other": {
-        #         "some_filename.extension": "images/downloaded/other/some_filename.extension"
+        #         "some_filename.extension": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/other/some_filename.extension"
         #     }
         # }
 
-        if len(downloaded_images["B4"]) == 0:
+        if len(downloaded_images_data["B4"]) == 0:
             print("По указанным данным не найдено снимков. Попробуйте изменить дату.")
             return
 
         try:
             # рассчет NDVI
-            processed_images = self._ndvi.calculate(downloaded_images, path)
-            # Пример объекта processed_images:
-            # {
-            #     "LC08_L2SP_183012_20240802_20240808_02_T2_ndvi_colored.tif": "images/ndvi_output/LC08_L2SP_183012_20240802_20240808_02_T2_ndvi_colored.tif",
-            #     "LC08_L2SP_183013_20240802_20240808_02_T1_ndvi_colored.tif": "images/ndvi_output/LC08_L2SP_183013_20240802_20240808_02_T1_ndvi_colored.tif",
-            #     "LC09_L2SP_184012_20240801_20240802_02_T1_ndvi_colored.tif": "images/ndvi_output/LC09_L2SP_184012_20240801_20240802_02_T1_ndvi_colored.tif",
-            #     "LC09_L2SP_184013_20240801_20240802_02_T2_ndvi_colored.tif": "images/ndvi_output/LC09_L2SP_184013_20240801_20240802_02_T2_ndvi_colored.tif",
+            processed_images = self._ndvi.calculate(downloaded_images_data, PATH)
+            # Пример processed_images: {
+            #     "0.2": [
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_Y.tif"
+            #     ]
+            #     "0.3": [
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_X.tif",
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_Y.tif"
+            #     ]
+            #     "0.4": [
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_X.tif",
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_Y.tif"
+            #     ]
             # }
         except Exception as exception:
             print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
@@ -134,7 +143,15 @@ class VegetationRemoteSensing:
 
         try:
             # загрузка на Геопортал
-            self._geo_portal.upload_snapshots(processed_images)
+            self._geo_portal.upload_snapshots(
+                processed_images,
+                start_date,
+                end_date,
+                lower_left_latitude,
+                lower_left_longitude,
+                upper_right_latitude,
+                upper_right_longitude,
+            )
         except Exception as exception:
             print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
 
@@ -153,7 +170,17 @@ class VegetationRemoteSensing:
 
         print("Растительность успешно добавлена")
 
-    def continue_process_images(self, downloaded_images_path):
+    def continue_process_images(
+            self,
+            downloaded_images_path,
+            path,
+            lower_left_latitude,
+            lower_left_longitude,
+            upper_right_latitude,
+            upper_right_longitude,
+            start_date,
+            end_date,
+        ):
         """Функция для продолжения работы скрипта, если во время обработки снимков произошла ошибка.
         Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
         ```
@@ -193,7 +220,15 @@ class VegetationRemoteSensing:
             return
 
         try:
-            self._geo_portal.upload_snapshots(processed_images)
+            self._geo_portal.upload_snapshots(
+                processed_images,
+                start_date,
+                end_date,
+                lower_left_latitude,
+                lower_left_longitude,
+                upper_right_latitude,
+                upper_right_longitude,
+            )
         except Exception as exception:
             print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
 
@@ -214,7 +249,16 @@ class VegetationRemoteSensing:
 
         return
 
-    def continue_upload_to_geoportal(self, processed_images_path):
+    def continue_upload_to_geoportal(
+            self,
+            processed_images_path,
+            start_date,
+            end_date,
+            lower_left_latitude,
+            lower_left_longitude,
+            upper_right_latitude,
+            upper_right_longitude,
+        ):
         """Функция для продолжения работы скрипта, если во время отправки снимков на Геопортал произошла ошибка.
         Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
         ```
@@ -239,7 +283,15 @@ class VegetationRemoteSensing:
             print("Неизвестная ошибка: ", e)
 
         try:
-            self._geo_portal.upload_snapshots(processed_images)
+            self._geo_portal.upload_snapshots(
+                processed_images,
+                start_date,
+                end_date,
+                lower_left_latitude,
+                lower_left_longitude,
+                upper_right_latitude,
+                upper_right_longitude,
+            )
         except Exception as exception:
             print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
 
