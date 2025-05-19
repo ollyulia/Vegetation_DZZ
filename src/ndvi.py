@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import rasterio
+<<<<<<< HEAD
 import tempfile
 import shutil
 import json
@@ -10,6 +11,12 @@ from shapely.geometry import shape, mapping
 from shapely.ops import transform
 from functools import partial
 from rasterio.mask import mask
+=======
+import glob
+import tempfile
+import shutil
+
+>>>>>>> refs/remotes/origin/main
 from pathlib import Path
 from rasterio.merge import merge
 from rasterio.warp import calculate_default_transform, reproject, Resampling
@@ -59,6 +66,7 @@ class Ndvi:
             NDVI_THRESHOLDS
         )
 
+<<<<<<< HEAD
         combined_images_data = self._combine_ndvi_thresholds(
             ndvi_thresholds_images_data,
             NDVI_THRESHOLDS,
@@ -67,6 +75,16 @@ class Ndvi:
 
         print("Обработка завершена.")
         return combined_images_data
+=======
+        # combined_images_data = self._combine_ndvi_thresholds(
+        #     ndvi_thresholds_images_data,
+        #     NDVI_THRESHOLDS,
+        #     OUTPUT_COMBINED_DIR,
+        # )
+
+        print("Обработка завершена.")
+        return ndvi_thresholds_images_data
+>>>>>>> refs/remotes/origin/main
 
     def _prepare_downloaded_images(self, downloaded_images):
         '''
@@ -147,6 +165,7 @@ class Ndvi:
         Возвращает `ndvi_thresholds_data`:
         ```
         {
+<<<<<<< HEAD
             "0.2": {
                 "20_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
                 "20_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_Y.tif"
@@ -159,6 +178,20 @@ class Ndvi:
                 "40_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_X.tif",
                 "40_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_Y.tif"
             }
+=======
+            "0.2": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_Y.tif"
+            ]
+            "0.3": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_X.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_Y.tif"
+            ]
+            "0.4": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_X.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_Y.tif"
+            ]
+>>>>>>> refs/remotes/origin/main
         }
         ```
         '''
@@ -177,7 +210,11 @@ class Ndvi:
             for threshold, color in NDVI_THRESHOLDS.items():
                 # Инициализация вложенного списка, если его ещё нет
                 if str(threshold) not in ndvi_thresholds_data:
+<<<<<<< HEAD
                     ndvi_thresholds_data[str(threshold)] = {}
+=======
+                    ndvi_thresholds_data[str(threshold)] = []
+>>>>>>> refs/remotes/origin/main
 
                 output_file_name = f"{int(threshold*100)}_{base_name}.tif"
                 output_ndvi_path = f"{OUTPUT_NDVI_DIR}/{output_file_name}"
@@ -199,7 +236,11 @@ class Ndvi:
                 rgba = np.transpose(rgba, (0, 1, 2))
 
                 if self._save_raster(rgba, profile, output_ndvi_path):
+<<<<<<< HEAD
                     ndvi_thresholds_data[str(threshold)][output_file_name] = output_ndvi_path
+=======
+                    ndvi_thresholds_data[str(threshold)].append(output_ndvi_path)
+>>>>>>> refs/remotes/origin/main
 
         return ndvi_thresholds_data
 
@@ -253,6 +294,7 @@ class Ndvi:
 
         return combined_images_data
 
+<<<<<<< HEAD
     def _load_mask(self, mask_path, target_crs):
         """Загрузка и трансформация маски в целевую систему координат"""
         with open(mask_path) as f:
@@ -274,6 +316,8 @@ class Ndvi:
         transformed_geom = transform(project, geom)
         return [mapping(transformed_geom)]
 
+=======
+>>>>>>> refs/remotes/origin/main
     def _reproject_to_target_crs(self, src_path, target_crs='EPSG:32636'):
         """
         Трансформирует растровый файл в целевую систему координат (CRS) с оптимизированными настройками
@@ -293,9 +337,15 @@ class Ndvi:
                 'transform': transform,
                 'width': width,
                 'height': height,
+<<<<<<< HEAD
                 'compress': 'lzw',
                 'tiled': True,
                 'blockxsize': 256,
+=======
+                'compress': 'lzw',  # Add compression
+                'tiled': True,      # Use tiled storage
+                'blockxsize': 256,  # Tile size
+>>>>>>> refs/remotes/origin/main
                 'blockysize': 256
             })
 
@@ -318,7 +368,11 @@ class Ndvi:
             return temp_file, temp_dir
 
     def _create_mosaic(self, threshold, tif_files, output_dir, target_crs='EPSG:32636'):
+<<<<<<< HEAD
         """Объединяет обработанные снимки, обрезает по маске и создает единый файл"""
+=======
+        """Объединяет обработанные снимки и создает единый файл"""
+>>>>>>> refs/remotes/origin/main
 
         if not tif_files:
             print("Не найдено файлов.")
@@ -330,7 +384,11 @@ class Ndvi:
         temp_dirs = []
 
         try:
+<<<<<<< HEAD
             # Обработка файлов с прогресс-баром
+=======
+            # Process files with progress tracking
+>>>>>>> refs/remotes/origin/main
             for file_name, file_path in tqdm(tif_files.items(), desc="Объединение файлов"):
                 try:
                     with rasterio.open(file_path) as src:
@@ -358,13 +416,19 @@ class Ndvi:
                 resampling=Resampling.nearest
             )
 
+<<<<<<< HEAD
             # Создаем временный файл мозаики для обрезки
             mosaic_meta = src_files_to_mosaic[0].meta.copy()
             mosaic_meta.update({
+=======
+            out_meta = src_files_to_mosaic[0].meta.copy()
+            out_meta.update({
+>>>>>>> refs/remotes/origin/main
                 "driver": "GTiff",
                 "height": mosaic.shape[1],
                 "width": mosaic.shape[2],
                 "transform": out_trans,
+<<<<<<< HEAD
                 "crs": target_crs
             })
 
@@ -422,13 +486,35 @@ class Ndvi:
                 with rasterio.open(output_path, "w", **out_meta) as dst:
                     dst.write(out_image)
 
+=======
+                "crs": target_crs,
+                "compress": 'deflate',
+                "zlevel": 6,
+                "predictor": 2,
+                "tiled": True,
+                "blockxsize": 512,
+                "blockysize": 512,
+                "nodata": 0,
+                "BIGTIFF": 'IF_NEEDED'
+            })
+
+            output_path = f"{output_dir}/combined_threshold_{int(threshold*100)}.tif"
+
+            with rasterio.open(output_path, "w", **out_meta) as dst:
+                dst.write(mosaic)
+
+>>>>>>> refs/remotes/origin/main
             print(f"\nУспешно создан файл: {output_path}")
 
         except Exception as e:
             print(f"\nError during mosaic creation: {e}")
+<<<<<<< HEAD
             raise
         finally:
             # Очистка ресурсов
+=======
+        finally:
+>>>>>>> refs/remotes/origin/main
             for src in src_files_to_mosaic:
                 try:
                     src.close()
@@ -441,12 +527,15 @@ class Ndvi:
                 except:
                     pass
 
+<<<<<<< HEAD
             try:
                 os.remove(temp_mosaic_path)
                 os.rmdir(os.path.dirname(temp_mosaic_path))
             except:
                 pass
 
+=======
+>>>>>>> refs/remotes/origin/main
         return output_path
 
     def _combine_images_for_threshold(self, threshold, files_dict, output_dir):
@@ -618,11 +707,15 @@ def test_calculate():
     }
 
     path = "images/test"
+<<<<<<< HEAD
     processed_images = ndvi.calculate(downloaded_images, path)
+=======
+    processed_images = ndvi.test(downloaded_images, path)
+>>>>>>> refs/remotes/origin/main
 
     print(processed_images)
 
-test_calculate()
+# test_calculate()
 
 x = {
     'threshold_0.2_LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif',

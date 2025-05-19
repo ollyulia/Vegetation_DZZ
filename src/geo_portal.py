@@ -537,57 +537,14 @@ def test_group_creation():
         secret.GEO_PORTAL_WEB_MAP_ID
     )
 
-    x = geo._upload_file_from_disk(
-        "output_optimized.tif",
-        "dsfstrdyteh"
-    )
+    # geo._create_layer_group_in_webmap(geo._web_map_id, "Test name for group")
+    processes_images = {
+        "1_combined_threshold_20.tif": "images/test/ndvi_combined/1_combined_threshold_20.tif",
+        "1_combined_threshold_30.tif": "images/test/ndvi_combined/1_combined_threshold_30.tif",
+        "1_combined_threshold_35.tif": "images/test/ndvi_combined/1_combined_threshold_35.tif",
+    }
 
-    print(x)
+    geo.upload_snapshots(processes_images)
 
-    id = geo._create_raster_layer()
-    print(id)
-    geo._get_raster_layer(id)
-    style_id = geo._create_raster_style_in_raster_layer(id, "dasqrwer")
-    print(style_id)
-    geo._upload_new_layer_webmap(geo._web_map_id, id, style_id, " dasiiosfio")
-
-    # print(geo._upload_raster_layer_with_file({}, 993, "dasdqeqwr", SRS_3857))
-    # Создание растрового слоя в группе с id = 987
-    # {'id': '0196e46af5405ca5ffb68e16ac2d87fa', 'size': 40751989, 'name': '0.3 порог | [2024-08-20 2024-08-22] (66.213585, 27.771668, 69.549744, 41.416688) - 2025-05-18 20:22:10', 'mime_type': 'image/tiff'}
-
-
-
-    # print(geo._create_group(geo._resource_group_id, "Test name for group"))
-    # geo._create_layer_group_in_webmap(geo._web_map_id, "Test name for group 2")
-    # processes_images = {
-    #     "1_combined_threshold_20.tif": "images/test/ndvi_combined/1_combined_threshold_20.tif",
-    #     "1_combined_threshold_30.tif": "images/test/ndvi_combined/1_combined_threshold_30.tif",
-    #     "1_combined_threshold_35.tif": "images/test/ndvi_combined/1_combined_threshold_35.tif",
-    # }
-
-    # geo.upload_snapshots(processes_images)
 
 test_group_creation()
-
-# {
-#     'item_type': 'group',
-#     'display_name': 'Test name for group',
-#     'group_expanded': True,
-#     'group_exclusive': False,
-#     'children': [
-#         {
-#             'item_type': 'layer',
-#             'display_name': 'LC08_L2SP_188012_20240821_20240830_02_T1_ndvi_colored',
-#             'layer_enabled': True,
-#             'layer_identifiable': True,
-#             'layer_transparency': None,
-#             'layer_style_id': 874,
-#             'style_parent_id': 873,
-#             'layer_min_scale_denom': None,
-#             'layer_max_scale_denom': None,
-#             'layer_adapter': 'image',
-#             'draw_order_position': 1,
-#             'legend_symbols': None
-#         }
-#     ]
-# }
