@@ -76,7 +76,7 @@ class VegetationRemoteSensing:
         print("Начало работы скрипта по добавлению растительности на вебкарту")
 
         # Путь для загрузки файлов
-        PATH = f"images/{datetime.now().strftime("%Y-%m-%d")}/{start_date}_{end_date}_{lower_left_latitude}:{lower_left_longitude}_{upper_right_latitude}:{lower_left_longitude}"
+        PATH = f"images/{datetime.now().strftime("%Y-%m-%d")}/{start_date}_{end_date}_{lower_left_latitude}:{lower_left_longitude}_{upper_right_latitude}:{upper_right_longitude}"
         Path(PATH).mkdir(parents=True, exist_ok=True)
 
         # скачивание красного и ближнего инфракрасного каналов подходящих снимков

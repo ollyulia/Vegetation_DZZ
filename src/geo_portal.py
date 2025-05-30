@@ -32,18 +32,9 @@ class GeoPortal:
         Пример объекта `processed_images`:
         ```
         {
-            "0.2": [
-                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
-                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_Y.tif"
-            ]
-            "0.3": [
-                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_X.tif",
-                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_Y.tif"
-            ]
-            "0.4": [
-                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_X.tif",
-                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_Y.tif"
-            ]
+            "0.2": "images/2025-05-17/2024-08-14_2024-08-15_68.562252:31.50702_69.219015:31.50702/ndvi_combined/combined_threshold_20.tif",
+            "0.3": "images/2025-05-17/2024-08-14_2024-08-15_68.562252:31.50702_69.219015:31.50702/ndvi_combined/combined_threshold_30.tif",
+            "0.35": "images/2025-05-17/2024-08-14_2024-08-15_68.562252:31.50702_69.219015:31.50702/ndvi_combined/combined_threshold_35.tif"
         }
         ```
         '''
@@ -61,100 +52,74 @@ class GeoPortal:
         uploaded_images_data = []
 
         for threshold in sorted_keys:
-            layers = []
-            paths_to_files = processed_images[threshold]
+            path_to_file = processed_images[threshold]
+            file_name_in_server = f"{threshold} порог | [{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
+            raster_layer_name = file_name_in_server
 
-            for path_to_file in paths_to_files:
-                file_name_in_server = f"{threshold} порог | [{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
-                raster_layer_name = file_name_in_server
+            print(f"[{current_file_number}/{total_files}] Добавление на карту {path_to_file}")
 
-                print(f"[{current_file_number}/{total_files}] Добавление на карту {path_to_file}")
+            # Шаг 1: загрузка снимка на сервер
+            uploaded_snapshot_file = self._upload_file_from_disk(path_to_file, file_name_in_server)
 
-                # Шаг 1: загрузка снимка на сервер
-                uploaded_snapshot_file = self._upload_file_from_disk(path_to_file, file_name_in_server)
+            if uploaded_snapshot_file is None:
+                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                total_files = total_files - 1
+                continue
 
-                if uploaded_snapshot_file is None:
-                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                    total_files = total_files - 1
-                    continue
+            # Шаг 2: создание растрового слоя со снимком
+            try:
+                raster_layer_id = self._upload_raster_layer_with_file(
+                    uploaded_snapshot_file,
+                    current_request_resource_group_id,
+                    raster_layer_name,
+                    SRS_3857
+                )
+            except Exception as exception:
+                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                print("Удаляем созданные ресурсы на Геопортале...")
+                self._delete_file(uploaded_snapshot_file["id"])
+                total_files = total_files - 1
+                continue
 
-                print(uploaded_snapshot_file)
+            if raster_layer_id is None:
+                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                print("Удаляем созданные ресурсы на Геопортале...")
+                self._delete_file(uploaded_snapshot_file["id"])
+                total_files = total_files - 1
+                continue
 
-                # Шаг 2: создание растрового слоя со снимком
-                try:
-                    raster_layer_id = self._upload_raster_layer_with_file(
-                        uploaded_snapshot_file,
-                        current_request_resource_group_id,
-                        raster_layer_name,
-                        SRS_3857
-                    )
-                except Exception as exception:
-                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                    print("Удаляем созданные ресурсы на Геопортале...")
-                    self._delete_file(uploaded_snapshot_file["id"])
-                    total_files = total_files - 1
-                    continue
+            # Шаг 3: создаем в растровом слое стиль
+            try:
+                raster_style_id = self._create_raster_style_in_raster_layer(
+                    raster_layer_id,
+                    f"Raster style for raster layer (ID = {raster_layer_id})"
+                )
+            except Exception as exception:
+                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                print("Удаляем созданные ресурсы на Геопортале...")
+                self._delete_file(uploaded_snapshot_file["id"])
+                self._delete_resource(raster_layer_id)
+                total_files = total_files - 1
+                continue
 
-                if raster_layer_id is None:
-                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                    print("Удаляем созданные ресурсы на Геопортале...")
-                    self._delete_file(uploaded_snapshot_file["id"])
-                    total_files = total_files - 1
-                    continue
+            if raster_style_id is None:
+                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                print("Удаляем созданные ресурсы на Геопортале...")
+                self._delete_file(uploaded_snapshot_file["id"])
+                self._delete_resource(raster_layer_id)
+                total_files = total_files - 1
+                continue
 
-                # Шаг 3: создаем в растровом слое стиль
-                try:
-                    raster_style_id = self._create_raster_style_in_raster_layer(
-                        raster_layer_id,
-                        f"Raster style for raster layer (ID = {raster_layer_id})"
-                    )
-                except Exception as exception:
-                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                    print("Удаляем созданные ресурсы на Геопортале...")
-                    self._delete_file(uploaded_snapshot_file["id"])
-                    self._delete_resource(raster_layer_id)
-                    total_files = total_files - 1
-                    continue
+            print(f"Успешная загрузка на Геопортал снимка: {path_to_file}\n")
 
-                if raster_style_id is None:
-                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                    print("Удаляем созданные ресурсы на Геопортале...")
-                    self._delete_file(uploaded_snapshot_file["id"])
-                    self._delete_resource(raster_layer_id)
-                    total_files = total_files - 1
-                    continue
-
-                print(f"Успешная загрузка на Геопортал снимка: {path_to_file}\n")
-
-                # Добавляем инфу об raster_layer_id, raster_layer_style_id, raster_layer_name
-                layer = {
-                    "item_type": "layer",
-                    "display_name": raster_layer_name,
-                    "layer_enabled": True,
-                    "layer_identifiable": True,
-                    "layer_transparency": None,
-                    "layer_style_id": raster_style_id,
-                    "style_parent_id": raster_layer_id,
-                    "layer_min_scale_denom": None,
-                    "layer_max_scale_denom": None,
-                    "layer_adapter": "image",
-                    "draw_order_position": 1,
-                    "legend_symbols": None,
-                }
-
-                layers.append(layer)
-                current_file_number = current_file_number + 1
-
-            # Создаем новую группу
-            new_group = {
-                "item_type": "group",
-                "display_name": f"{threshold}",
-                "children": layers,  # Здесь будут находиться слои
-                "group_expanded": False,  # Группа будет развернута по умолчанию
-                "draw_order_position": 1
-            }
-
-            uploaded_images_data.append(new_group)
+            # Добавляем инфу об raster_layer_id, raster_layer_style_id, raster_layer_name
+            uploaded_images_data.append({
+                "raster_layer_id": raster_layer_id,
+                "raster_style_id": raster_style_id,
+                "raster_layer_name": raster_layer_name,
+                "uploaded_snapshot_file_id": uploaded_snapshot_file["id"]
+            })
+            current_file_number = current_file_number + 1
 
         # Шаг 4: создаем и добавляем в группу на вебкарте все загруженные снимки
         try:
@@ -296,7 +261,6 @@ class GeoPortal:
             }
         }
 
-        print(f"    Создание растрового слоя в группе с id = {resouce_group_parent_id}")
         response = self._post_json(RESOURCE_URL, create_data)
 
         if response.status_code != 201:
@@ -460,11 +424,34 @@ class GeoPortal:
 
             webmap_config = response.json()
 
+            childrens = []
+            for layer_data in layers_data:
+                raster_layer_name = layer_data["raster_layer_name"]
+                raster_layer_id = layer_data["raster_layer_id"]
+                raster_style_id = layer_data["raster_style_id"]
+
+                layer = {
+                    "item_type": "layer",
+                    "display_name": raster_layer_name,
+                    "layer_enabled": True,
+                    "layer_identifiable": True,
+                    "layer_transparency": None,
+                    "layer_style_id": raster_style_id,
+                    "style_parent_id": raster_layer_id,
+                    "layer_min_scale_denom": None,
+                    "layer_max_scale_denom": None,
+                    "layer_adapter": "image",
+                    "draw_order_position": 1,
+                    "legend_symbols": None,
+                }
+
+                childrens.append(layer)
+
             # Создаем новую группу
             new_group = {
                 "item_type": "group",
                 "display_name": group_name,
-                "children": layers_data,  # Здесь будут находиться слои
+                "children": childrens,  # Здесь будут находиться слои
                 "group_expanded": True,  # Группа будет развернута по умолчанию
                 "draw_order_position": 1
             }
@@ -485,50 +472,6 @@ class GeoPortal:
             return True
 
 
-    def _create_raster_layer(self):
-        create_data = {
-            "resource": {
-                "cls": "raster_layer",
-                "display_name": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "parent": {"id": self._resource_group_id}
-            },
-            "raster_layer": {
-                "srs": {"id": SRS_3857},
-                "source": {'id': '0196e46af5405ca5ffb68e16ac2d87fa', 'size': 40751989, 'name': '0.3 порог | [2024-08-20 2024-08-22] (66.213585, 27.771668, 69.549744, 41.416688) - 2025-05-18 20:22:10', 'mime_type': 'image/tiff'}
-            }
-        }
-
-        response = self._post_json(RESOURCE_URL, create_data)
-
-        if response.status_code != 201:
-            print(f"Ошибка {response.status_code} при создании растрового слоя: {response.text}")
-            try:
-                print(response.json())
-            except Exception as e:
-                print(e)
-            return None
-        response = response.json()
-        raster_layer_id = response["id"]
-        print(f"    Растровый слой успешно создан. ID слоя: {raster_layer_id}")
-        print(response)
-        return raster_layer_id
-
-    def _get_raster_layer(
-            self,
-            raster_layer: int,
-        ):
-            get_raster_layer = f"{RESOURCE_URL}{raster_layer}"
-            response = self._get_content(get_raster_layer)
-
-            if response.status_code != 200:
-                print(f"Ошибка {response.status_code} при получении веб-карты: {response.text}")
-                return False
-
-            raster_layer_config = response.json()
-
-            print(raster_layer_config)
-
-
 def test_group_creation():
     geo = GeoPortal(
         secret.GEO_PORTAL_USERNAME,
@@ -537,14 +480,35 @@ def test_group_creation():
         secret.GEO_PORTAL_WEB_MAP_ID
     )
 
-    # geo._create_layer_group_in_webmap(geo._web_map_id, "Test name for group")
-    processes_images = {
-        "1_combined_threshold_20.tif": "images/test/ndvi_combined/1_combined_threshold_20.tif",
-        "1_combined_threshold_30.tif": "images/test/ndvi_combined/1_combined_threshold_30.tif",
-        "1_combined_threshold_35.tif": "images/test/ndvi_combined/1_combined_threshold_35.tif",
-    }
+    print(geo._create_group(geo._resource_group_id, "Test name for group"))
+    # geo._create_layer_group_in_webmap(geo._web_map_id, "Test name for group 2")
+    # processes_images = {
+    #     "1_combined_threshold_20.tif": "images/test/ndvi_combined/1_combined_threshold_20.tif",
+    #     "1_combined_threshold_30.tif": "images/test/ndvi_combined/1_combined_threshold_30.tif",
+    #     "1_combined_threshold_35.tif": "images/test/ndvi_combined/1_combined_threshold_35.tif",
+    # }
 
-    geo.upload_snapshots(processes_images)
+    # geo.upload_snapshots(processes_images)
 
-
-test_group_creation()
+# {
+#     'item_type': 'group',
+#     'display_name': 'Test name for group',
+#     'group_expanded': True,
+#     'group_exclusive': False,
+#     'children': [
+#         {
+#             'item_type': 'layer',
+#             'display_name': 'LC08_L2SP_188012_20240821_20240830_02_T1_ndvi_colored',
+#             'layer_enabled': True,
+#             'layer_identifiable': True,
+#             'layer_transparency': None,
+#             'layer_style_id': 874,
+#             'style_parent_id': 873,
+#             'layer_min_scale_denom': None,
+#             'layer_max_scale_denom': None,
+#             'layer_adapter': 'image',
+#             'draw_order_position': 1,
+#             'legend_symbols': None
+#         }
+#     ]
+# }

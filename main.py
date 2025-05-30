@@ -21,6 +21,14 @@ def main():
     upper_right_latitude = 69.549744
     upper_right_longitude = 41.416688
 
+    start_date = "2024-08-14"
+    end_date = "2024-08-15"
+
+    lower_left_latitude = 68.562252
+    lower_left_longitude = 31.50702
+    upper_right_latitude = 68.915808
+    upper_right_longitude = 37.134767
+
     app.add_vegetation_to_the_webmap_from_earth_explorer(
         start_date,
         end_date,
@@ -38,17 +46,17 @@ def continue_images_processing():
     if app is None:
         return
 
-    start_date = "2024-08-20"
-    end_date = "2024-08-22"
+    start_date = "2024-08-14"
+    end_date = "2024-08-15"
 
-    lower_left_latitude = 66.213585
-    lower_left_longitude = 27.771668
-    upper_right_latitude = 69.549744
-    upper_right_longitude = 41.416688
+    lower_left_latitude = 68.562252
+    lower_left_longitude = 31.50702
+    upper_right_latitude = 68.915808
+    upper_right_longitude = 37.134767
 
     downloaded_images_info_path = "recovery_data/2025-05-18.json"
 
-    path = "images/2025-05-18/2024-08-20_2024-08-22_66.213585:27.771668_69.549744:27.771668"
+    path = "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767"
 
     app.continue_process_images(
         downloaded_images_info_path,
@@ -69,13 +77,13 @@ def continue_images_uploading():
     if app is None:
         return
 
-    start_date = "2024-08-20"
-    end_date = "2024-08-22"
+    start_date = "2024-08-14"
+    end_date = "2024-08-15"
 
-    lower_left_latitude = 66.213585
-    lower_left_longitude = 27.771668
-    upper_right_latitude = 69.549744
-    upper_right_longitude = 41.416688
+    lower_left_latitude = 68.562252
+    lower_left_longitude = 31.50702
+    upper_right_latitude = 69.219015
+    upper_right_longitude = 31.50702
 
     processed_images_info_path = "recovery_data/2025-05-18-processed.json"
 
@@ -93,4 +101,4 @@ def continue_images_uploading():
 
 
 if __name__ == "__main__":
-    continue_images_uploading()
+    continue_images_processing()
