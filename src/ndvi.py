@@ -17,6 +17,7 @@ class Ndvi:
         self,
         downloaded_images,
         path,
+        NDVI_THRESHOLDS
     ):
         '''
         Пример объекта `downloaded_images`:
@@ -38,12 +39,6 @@ class Ndvi:
 
         Path(OUTPUT_NDVI_DIR).mkdir(parents=True, exist_ok=True)
         Path(OUTPUT_COMBINED_DIR).mkdir(parents=True, exist_ok=True)
-
-        NDVI_THRESHOLDS = {
-            0.2: (107, 195, 106),
-            0.3: (96, 182, 96),
-            0.35: (85, 168, 84),
-        }
 
         print("Вычисление NDVI")
         prepared_downloaded_images_data = self._prepare_downloaded_images(downloaded_images)
@@ -235,7 +230,8 @@ class Ndvi:
             ]
             "0.3": [
                 "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_30_part1.tif",
-                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_30_part2.tif"],
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_30_part2.tif"
+            ],
             "0.4": [
                 "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_40_part1.tif",
                 "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_40_part2.tif"

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Растительность ДЗЗ</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h1>Растительность ДЗЗ</h1>
+    <a target="_blank" href="{{ web_map }}">Ссылка на вебкарту, куда добавляются снимки</p></a>
+
+    <button id="set-coords-btn">Установить примерные координаты области Кольского полуострова (NDVI может покрывать не
+        весь регион)</button>
+
+    <button id="generate-scale-btn">Показать шкалу NDVI</button>
+    <div id="ndvi-scale-container"></div>
+
+
+    <form method="post" action="/add_vegetation_data">
+        <label>Дата начала (YYYY-MM-DD):</label>
+        <input type="text" name="start_date" required><br>
+
+        <label>Дата окончания (YYYY-MM-DD):</label>
+        <input type="text" name="end_date" required><br>
+
+        <label>Нижний левый угол (широта):</label>
+        <input type="number" step="0.000001" name="lower_left_latitude" id="lower_left_lat" required><br>
+
+        <label>Нижний левый угол (долгота):</label>
+        <input type="number" step="0.000001" name="lower_left_longitude" id="lower_left_lon" required><br>
+
+        <label>Верхний правый угол (широта):</label>
+        <input type="number" step="0.000001" name="upper_right_latitude" id="upper_right_lat" required><br>
+
+        <label>Верхний правый угол (долгота):</label>
+        <input type="number" step="0.000001" name="upper_right_longitude" id="upper_right_lon" required><br>
+
+        <button id="submit-button" type="submit">Отправить</button>
+    </form>
+
+
+
+    <div id="message"></div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

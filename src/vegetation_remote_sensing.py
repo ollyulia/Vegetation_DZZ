@@ -1,14 +1,24 @@
 import json
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
 import os
 import traceback
 
 from datetime import datetime
 from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
 
 from src import earth_explorer
 from src import geo_portal
 from src import ndvi
 from src import secret
+
+NDVI_THRESHOLDS = {
+    0.2: (107, 195, 106),
+    0.3: (96, 182, 96),
+    0.35: (85, 168, 84),
+}
 
 class VegetationRemoteSensing:
     def __init__(self):
@@ -28,6 +38,7 @@ class VegetationRemoteSensing:
             secret.GEO_PORTAL_RESOURCE_GROUP_ID,
             secret.GEO_PORTAL_WEB_MAP_ID
         )
+        self._is_working = False
 
     def add_vegetation_to_the_webmap_from_earth_explorer(
         self,
@@ -47,32 +58,49 @@ class VegetationRemoteSensing:
 
         В случае ошибок в промежуточных этапах (рассчет NDVI и загрузка на Геопортал), сохраняет информацию в файлах в папке `recovery_data`
         """
-        if not self._validate_date(start_date):
-            print("Неверный формат начальной даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД")
-            return
+        if self._is_working:
+            message = "Программа уже работает. Пожалуйста, подождите завершения работы скрипта."
+            print(message)
+            return message
+
+        self._is_working = True
 
         if not self._validate_date(start_date):
-            print("Неверный формат конечной даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД")
-            return
+            message = "Неверный формат начальной даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД"
+            print(message)
+
+            return message
+
+        if not self._validate_date(start_date):
+            message = "Неверный формат конечной даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД"
+            print(message)
+
+            return message
 
         # Проверка, что начальная дата не позже конечной
         if datetime.strptime(start_date, "%Y-%m-%d") > datetime.strptime(end_date, "%Y-%m-%d"):
-            print("Ошибка: Начальная дата не может быть позже конечной")
-            return
+            message = "Ошибка: Начальная дата не может быть позже конечной"
+            print(message)
+
+            return message
 
         # latitude широта
         # lower_left_latitude = 67.111400
         # upper_right_latitude = 67.971667
         if lower_left_latitude >= upper_right_latitude:
-            print(f"Ошибка: Неправильно задана широта: {lower_left_latitude} не должно быть больше или равно {upper_right_latitude}")
-            return
+            message = f"Ошибка: Неправильно задана широта: {lower_left_latitude} не должно быть больше или равно {upper_right_latitude}"
+            print(message)
+
+            return message
 
         # longitude долгота
         # lower_left_longitude = 35.672218
         # upper_right_longitude = 39.264748
         if lower_left_longitude >= upper_right_longitude:
-            print(f"Ошибка: Неправильно задана долгота: {lower_left_longitude} не должно быть больше или равно {upper_right_longitude}")
-            return
+            message = f"Ошибка: Неправильно задана долгота: {lower_left_longitude} не должно быть больше или равно {upper_right_longitude}"
+            print(message)
+
+            return message
 
         print("Начало работы скрипта по добавлению растительности на вебкарту")
 
@@ -106,12 +134,14 @@ class VegetationRemoteSensing:
         # }
 
         if len(downloaded_images_data["B4"]) == 0:
-            print("По указанным данным не найдено снимков. Попробуйте изменить дату.")
-            return
+            message = "По указанным данным не найдено снимков. Попробуйте изменить дату."
+            print(message)
+
+            return message
 
         try:
             # рассчет NDVI
-            processed_images = self._ndvi.calculate(downloaded_images_data, PATH)
+            processed_images = self._ndvi.calculate(downloaded_images_data, PATH, NDVI_THRESHOLDS)
             # Пример processed_images: {
             #     "0.2": [
             #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
@@ -127,7 +157,8 @@ class VegetationRemoteSensing:
             #     ]
             # }
         except Exception as exception:
-            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
+            message = f"Случилась ошибка: {exception}\n{traceback.format_exc()}"
+            print(message)
 
             error_dir = f"recovery_data"
             os.makedirs(error_dir, exist_ok=True)
@@ -140,7 +171,7 @@ class VegetationRemoteSensing:
 
             print(f"Информация об скачанных снимках сохранена в {filename}")
 
-            return
+            return message
 
         try:
             # загрузка на Геопортал
@@ -154,7 +185,8 @@ class VegetationRemoteSensing:
                 upper_right_longitude,
             )
         except Exception as exception:
-            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
+            message = f"Случилась ошибка: {exception}\n{traceback.format_exc()}"
+            print(message)
 
             error_dir = f"recovery_data"
             os.makedirs(error_dir, exist_ok=True)
@@ -167,138 +199,12 @@ class VegetationRemoteSensing:
 
             print(f"Информация об обработанных файлах сохранена в {filename}")
 
-            return
+            return message
 
-        print("Растительность успешно добавлена")
+        message = "Растительность успешно добавлена"
+        print(message)
 
-    def continue_process_images(
-            self,
-            downloaded_images_path,
-            path,
-            lower_left_latitude,
-            lower_left_longitude,
-            upper_right_latitude,
-            upper_right_longitude,
-            start_date,
-            end_date,
-        ):
-        """Функция для продолжения работы скрипта, если во время обработки снимков произошла ошибка.
-        Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
-        ```
-        {
-            "B4": {
-                "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
-                "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
-            },
-            "B5": {
-                "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
-                "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
-            },
-            "other": {
-                "{filename}.{extension}": "images/downloaded/other/{filename}.{extension}"
-            }
-        }
-        ```
-
-        :param downloaded_images_path: Путь к `json` файлу
-        :type downloaded_images_path: str
-        """
-        try:
-            with open(downloaded_images_path, "r") as file:
-                downloaded_images = json.load(file)
-        except FileNotFoundError:
-            print(f"Файл не найден: {downloaded_images_path}")
-        except json.JSONDecodeError as json_err:
-            print(f"Ошибка: файл не является валидным JSON: {json_err}")
-        except Exception as e:
-            print("Неизвестная ошибка: ", e)
-
-        try:
-            processed_images = self._ndvi.calculate(downloaded_images, path)
-        except Exception as exception:
-            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
-
-            return
-
-        try:
-            self._geo_portal.upload_snapshots(
-                processed_images,
-                start_date,
-                end_date,
-                lower_left_latitude,
-                lower_left_longitude,
-                upper_right_latitude,
-                upper_right_longitude,
-            )
-        except Exception as exception:
-            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
-
-            error_dir = f"recovery_data"
-            os.makedirs(error_dir, exist_ok=True)
-
-            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            filename = f"{error_dir}/{timestamp}_processed_images.json"
-
-            with open(filename, "w") as file:
-                json.dump(processed_images, file, indent=4)
-
-            print(f"Информация об обработанных файлах сохранена в {filename}")
-
-            return
-
-        print("Растительность успешно добавлена")
-
-        return
-
-    def continue_upload_to_geoportal(
-            self,
-            processed_images_path,
-            start_date,
-            end_date,
-            lower_left_latitude,
-            lower_left_longitude,
-            upper_right_latitude,
-            upper_right_longitude,
-        ):
-        """Функция для продолжения работы скрипта, если во время отправки снимков на Геопортал произошла ошибка.
-        Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
-        ```
-        {
-            "{filename}.tif": "images/ndvi_output/{filename}.tif",
-            "{filename}.tif": "images/ndvi_output/{filename}.tif",
-            "{filename}.tif": "images/ndvi_output/{filename}.tif"
-        }
-        ```
-
-        :param processed_images_path: Путь к `json` файлу
-        :type processed_images_path: str
-        """
-        try:
-            with open(processed_images_path, "r") as file:
-                processed_images = json.load(file)
-        except FileNotFoundError:
-            print(f"Файл не найден: {processed_images_path}")
-        except json.JSONDecodeError as json_err:
-            print(f"Ошибка: файл не является валидным JSON: {json_err}")
-        except Exception as e:
-            print("Неизвестная ошибка: ", e)
-
-        try:
-            self._geo_portal.upload_snapshots(
-                processed_images,
-                start_date,
-                end_date,
-                lower_left_latitude,
-                lower_left_longitude,
-                upper_right_latitude,
-                upper_right_longitude,
-            )
-        except Exception as exception:
-            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
-
-            return
-
-        print("Растительность успешно добавлена")
+        return message
 
     def _validate_date(self, date_str):
         """Проверяет, соответствует ли строка формату ГГГГ-ММ-ДД."""
@@ -307,3 +213,161 @@ class VegetationRemoteSensing:
             return True
         except ValueError:
             return False
+
+    def _create_ndvi_scale(self):
+        width, height = 600, 100
+        img = Image.new('RGB', (width, height), (255, 255, 255))
+        draw = ImageDraw.Draw(img)
+
+        # Рисуем градиент
+        for i in range(width):
+            pos = i / width
+            if pos < 0.2:
+                color = (107, 195, 106)
+            elif pos < 0.3:
+                color = (96, 182, 96)
+            else:
+                color = (85, 168, 84)
+            draw.line([(i, 0), (i, height-30)], fill=color)
+
+        # Добавляем подписи
+        for threshold, color in NDVI_THRESHOLDS.items():
+            x = int(threshold * width)
+            draw.line([(x, height-30), (x, height-20)], fill=(0, 0, 0))
+            draw.text((x-10, height-20), f"{threshold}", fill=(0, 0, 0))
+
+        os.makedirs("static/ndvi_scales", exist_ok=True)
+        image_path = f"static/ndvi_scales/ndvi_scale_{len(os.listdir('static/ndvi_scales'))}.png"
+        img.save(image_path)
+        return image_path
+
+
+
+    # def continue_process_images(
+    #         self,
+    #         downloaded_images_path,
+    #         path,
+    #         lower_left_latitude,
+    #         lower_left_longitude,
+    #         upper_right_latitude,
+    #         upper_right_longitude,
+    #         start_date,
+    #         end_date,
+    #     ):
+    #     """Функция для продолжения работы скрипта, если во время обработки снимков произошла ошибка.
+    #     Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
+    #     ```
+    #     {
+    #         "B4": {
+    #             "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
+    #             "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
+    #         },
+    #         "B5": {
+    #             "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
+    #             "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
+    #         },
+    #         "other": {
+    #             "{filename}.{extension}": "images/downloaded/other/{filename}.{extension}"
+    #         }
+    #     }
+    #     ```
+
+    #     :param downloaded_images_path: Путь к `json` файлу
+    #     :type downloaded_images_path: str
+    #     """
+    #     try:
+    #         with open(downloaded_images_path, "r") as file:
+    #             downloaded_images = json.load(file)
+    #     except FileNotFoundError:
+    #         print(f"Файл не найден: {downloaded_images_path}")
+    #     except json.JSONDecodeError as json_err:
+    #         print(f"Ошибка: файл не является валидным JSON: {json_err}")
+    #     except Exception as e:
+    #         print("Неизвестная ошибка: ", e)
+
+    #     try:
+    #         processed_images = self._ndvi.calculate(downloaded_images, path)
+    #     except Exception as exception:
+    #         print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
+
+    #         return
+
+    #     try:
+    #         self._geo_portal.upload_snapshots(
+    #             processed_images,
+    #             start_date,
+    #             end_date,
+    #             lower_left_latitude,
+    #             lower_left_longitude,
+    #             upper_right_latitude,
+    #             upper_right_longitude,
+    #         )
+    #     except Exception as exception:
+    #         print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
+
+    #         error_dir = f"recovery_data"
+    #         os.makedirs(error_dir, exist_ok=True)
+
+    #         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    #         filename = f"{error_dir}/{timestamp}_processed_images.json"
+
+    #         with open(filename, "w") as file:
+    #             json.dump(processed_images, file, indent=4)
+
+    #         print(f"Информация об обработанных файлах сохранена в {filename}")
+
+    #         return
+
+    #     print("Растительность успешно добавлена")
+
+    #     return
+
+    # def continue_upload_to_geoportal(
+    #         self,
+    #         processed_images_path,
+    #         start_date,
+    #         end_date,
+    #         lower_left_latitude,
+    #         lower_left_longitude,
+    #         upper_right_latitude,
+    #         upper_right_longitude,
+    #     ):
+    #     """Функция для продолжения работы скрипта, если во время отправки снимков на Геопортал произошла ошибка.
+    #     Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
+    #     ```
+    #     {
+    #         "{filename}.tif": "images/ndvi_output/{filename}.tif",
+    #         "{filename}.tif": "images/ndvi_output/{filename}.tif",
+    #         "{filename}.tif": "images/ndvi_output/{filename}.tif"
+    #     }
+    #     ```
+
+    #     :param processed_images_path: Путь к `json` файлу
+    #     :type processed_images_path: str
+    #     """
+    #     try:
+    #         with open(processed_images_path, "r") as file:
+    #             processed_images = json.load(file)
+    #     except FileNotFoundError:
+    #         print(f"Файл не найден: {processed_images_path}")
+    #     except json.JSONDecodeError as json_err:
+    #         print(f"Ошибка: файл не является валидным JSON: {json_err}")
+    #     except Exception as e:
+    #         print("Неизвестная ошибка: ", e)
+
+    #     try:
+    #         self._geo_portal.upload_snapshots(
+    #             processed_images,
+    #             start_date,
+    #             end_date,
+    #             lower_left_latitude,
+    #             lower_left_longitude,
+    #             upper_right_latitude,
+    #             upper_right_longitude,
+    #         )
+    #     except Exception as exception:
+    #         print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
+
+    #         return
+
+    #     print("Растительность успешно добавлена")

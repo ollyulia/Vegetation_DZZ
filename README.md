@@ -17,15 +17,6 @@ GEO_PORTAL_RESOURCE_GROUP_ID: int = None
 GEO_PORTAL_WEB_MAP_ID: int = None
 ```
 
-### Информация
-В результате работы скрипта появятся папки:
-- `images/downloaded/B4` - снимки с красным каналом
-- `images/downloaded/B5` - снимки с ближним инфракрасным каналом
-- `images/downloaded/other` - снимки другого формата
-- `images/ndvi_output` - обработанные снимки с картой растительности
-
-В случае ошибки при обработке или загрузке снимков, появится папка `recovery_data` в которой сохранена информация о снимках (не сами снимки).
-
 ### Сайты
 
 - [EarthExplorer](https://earthexplorer.usgs.gov/)
@@ -38,6 +29,7 @@ GEO_PORTAL_WEB_MAP_ID: int = None
 # Растительность ДЗЗ (Дистанционное зондирование Земли)
 
 ![demonstration](preview.png)
+![website](website-preview.png)
 
 ## Описание
 Необходимо разобраться с существующими методиками определения растительного покрова по материалам ДЗЗ.

@@ -31,9 +31,18 @@ class GeoPortal:
         Пример объекта `processed_images`:
         ```
         {
-            "0.2": "images/2025-05-17/2024-08-14_2024-08-15_68.562252:31.50702_69.219015:31.50702/ndvi_combined/combined_threshold_20.tif",
-            "0.3": "images/2025-05-17/2024-08-14_2024-08-15_68.562252:31.50702_69.219015:31.50702/ndvi_combined/combined_threshold_30.tif",
-            "0.35": "images/2025-05-17/2024-08-14_2024-08-15_68.562252:31.50702_69.219015:31.50702/ndvi_combined/combined_threshold_35.tif"
+            "0.2": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_20_part1.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_20_part2.tif"
+            ]
+            "0.3": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_30_part1.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_30_part2.tif"
+            ],
+            "0.4": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_40_part1.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_40_part2.tif"
+            ]
         }
         ```
         '''
@@ -46,9 +55,14 @@ class GeoPortal:
         sorted_keys = sorted(processed_images.keys(), key=lambda x: float(x), reverse=True)
 
         current_file_number = 1
-        total_files = len(sorted_keys)
+        total_files = 0
+        uploaded_images_data = {}
 
-        uploaded_images_data = []
+        for threshold, parts in processed_images.items():
+            uploaded_images_data[threshold] = []
+            total_files = total_files + len(parts)
+
+        # uploaded_images_data = []
 
         for threshold in sorted_keys:
             paths_to_files = processed_images[threshold]
@@ -113,7 +127,7 @@ class GeoPortal:
                 print(f"Успешная загрузка на Геопортал снимка: {path_to_file}\n")
 
                 # Добавляем инфу об raster_layer_id, raster_layer_style_id, raster_layer_name
-                uploaded_images_data.append({
+                uploaded_images_data[threshold].append({
                     "raster_layer_id": raster_layer_id,
                     "raster_style_id": raster_style_id,
                     "raster_layer_name": raster_layer_name,
@@ -412,7 +426,7 @@ class GeoPortal:
             self,
             webmap_id: int,
             group_name: str,
-            layers_data,
+            thresholds_entries,
         ):
             # Получаем текущую конфигурацию веб-карты
             get_webmap_url = f"{RESOURCE_URL}{webmap_id}"
@@ -425,27 +439,39 @@ class GeoPortal:
             webmap_config = response.json()
 
             childrens = []
-            for layer_data in layers_data:
-                raster_layer_name = layer_data["raster_layer_name"]
-                raster_layer_id = layer_data["raster_layer_id"]
-                raster_style_id = layer_data["raster_style_id"]
+            for threshold, threshold_entries in thresholds_entries.items():
+                threshold_level_layers = []
+                for threshold_entry in threshold_entries:
+                    raster_layer_name = threshold_entry["raster_layer_name"]
+                    raster_layer_id = threshold_entry["raster_layer_id"]
+                    raster_style_id = threshold_entry["raster_style_id"]
 
-                layer = {
-                    "item_type": "layer",
-                    "display_name": raster_layer_name,
-                    "layer_enabled": True,
-                    "layer_identifiable": True,
-                    "layer_transparency": None,
-                    "layer_style_id": raster_style_id,
-                    "style_parent_id": raster_layer_id,
-                    "layer_min_scale_denom": None,
-                    "layer_max_scale_denom": None,
-                    "layer_adapter": "image",
-                    "draw_order_position": 1,
-                    "legend_symbols": None,
+                    layer = {
+                        "item_type": "layer",
+                        "display_name": raster_layer_name,
+                        "layer_enabled": True,
+                        "layer_identifiable": True,
+                        "layer_transparency": None,
+                        "layer_style_id": raster_style_id,
+                        "style_parent_id": raster_layer_id,
+                        "layer_min_scale_denom": None,
+                        "layer_max_scale_denom": None,
+                        "layer_adapter": "image",
+                        "draw_order_position": 1,
+                        "legend_symbols": None,
+                    }
+
+                    threshold_level_layers.append(layer)
+
+                threshold_level_group = {
+                    "item_type": "group",
+                    "display_name": threshold,
+                    "children": threshold_level_layers,
+                    "group_expanded": False,
+                    "draw_order_position": 1
                 }
 
-                childrens.append(layer)
+                childrens.append(threshold_level_group)
 
             # Создаем новую группу
             new_group = {
