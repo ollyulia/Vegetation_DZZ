@@ -1,11 +1,13 @@
-import rasterio
 import numpy as np
+import os
+import rasterio
+import tempfile
+
+from contextlib import ExitStack
 from pathlib import Path
-from collections import defaultdict
-from rasterio.transform import from_origin
-from rasterio.crs import CRS
 from pathlib import Path
-from rasterio.vrt import WarpedVRT
+from rasterio.merge import merge
+from rasterio.warp import calculate_default_transform, reproject, Resampling
 
 class Ndvi:
     def __init__(self):
@@ -43,14 +45,17 @@ class Ndvi:
             0.35: (85, 168, 84),
         }
 
+        print("Вычисление NDVI")
         prepared_downloaded_images_data = self._prepare_downloaded_images(downloaded_images)
 
+        print("Разбиение снимка на пороговые значения")
         ndvi_thresholds_images_data = self._create_ndvi_thresholds(
             prepared_downloaded_images_data,
             OUTPUT_NDVI_DIR,
             NDVI_THRESHOLDS
         )
 
+        print("Объединение снимков по пороговым значениям")
         combined_images_data = self._combine_ndvi_thresholds(
             ndvi_thresholds_images_data,
             NDVI_THRESHOLDS,
@@ -196,55 +201,6 @@ class Ndvi:
 
         return ndvi_thresholds_data
 
-    # def _combine_ndvi_thresholds(
-    #     self,
-    #     ndvi_thresholds_images_data,
-    #     NDVI_THRESHOLDS,
-    #     OUTPUT_COMBINED_DIR,
-    # ):
-    #     '''
-    #     `ndvi_thresholds_images_data`:
-    #     ```
-    #     {
-    #         "0.2": {
-    #             "20_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
-    #             "20_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_Y.tif"
-    #         },
-    #         "0.3": {
-    #             "30_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_X.tif",
-    #             "30_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_Y.tif"
-    #         },
-    #         "0.4": {
-    #             "40_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_X.tif",
-    #             "40_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_Y.tif"
-    #         }
-    #     }
-    #     ```
-
-    #     Возвращает `combined_images_data`:
-    #     ```
-    #     {
-    #         '0.2': 'images/test/ndvi_combined/combined_threshold_20.tif',
-    #         '0.3': 'images/test/ndvi_combined/combined_threshold_30.tif',
-    #         '0.4': 'images/test/ndvi_combined/combined_threshold_40.tif'
-    #     }
-    #     ```
-    #     '''
-    #     combined_images_data = {}
-
-    #     # Объединение изображений по порогам
-    #     for threshold in NDVI_THRESHOLDS:
-    #         combined_path = self._combine_images_for_threshold(
-    #             threshold,
-    #             ndvi_thresholds_images_data[str(threshold)],
-    #             OUTPUT_COMBINED_DIR
-    #         )
-
-    #         if combined_path:
-    #             combined_images_data[f"{threshold}"] = combined_path
-
-    #     return combined_images_data
-
     def _combine_ndvi_thresholds(
         self,
         ndvi_thresholds_images_data,
@@ -252,132 +208,161 @@ class Ndvi:
         OUTPUT_COMBINED_DIR,
     ):
         '''
-        Объединяет изображения NDVI по порогам в один файл с учетом CRS EPSG:32636,
-        применяя стандартную цветовую схему для NDVI.
-        '''
-        combined_images_data = {}
-        target_crs = CRS.from_epsg(32636)
-
-        # Создаем стандартную цветовую карту для NDVI
-        ndvi_colormap = {
-            0: (0, 0, 0, 0),        # NoData - прозрачный
-            1: (165, 0, 38, 255),    # Красный (низкие значения)
-            85: (255, 255, 0, 255), # Желтый (средние значения)
-            170: (0, 128, 0, 255),  # Зеленый (высокие значения)
-            255: (0, 100, 0, 255)   # Темно-зеленый (максимальные значения)
+        `ndvi_thresholds_images_data`:
+        ```
+        {
+            "0.2": {
+                "20_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
+                "20_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_Y.tif"
+            },
+            "0.3": {
+                "30_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_X.tif",
+                "30_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_Y.tif"
+            },
+            "0.4": {
+                "40_X.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_X.tif",
+                "40_Y.tif": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_Y.tif"
+            }
         }
+        ```
 
-        Path(OUTPUT_COMBINED_DIR).mkdir(parents=True, exist_ok=True)
+        Возвращает `combined_files`:
+        ```
+        {
+            "0.2": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_20_part1.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_20_part2.tif"
+            ]
+            "0.3": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_30_part1.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_30_part2.tif"],
+            "0.4": [
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_40_part1.tif",
+                "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_combined/combined_threshold_40_part2.tif"
+            ]
+        }
+        ```
+        '''
+        files_per_combined = 2
+        combined_files = {}
 
-        for threshold in NDVI_THRESHOLDS:
-            if str(threshold) not in ndvi_thresholds_images_data:
-                continue
+        os.makedirs(OUTPUT_COMBINED_DIR, exist_ok=True)
 
-            files_dict = ndvi_thresholds_images_data[str(threshold)]
-            if not files_dict:
-                continue
+        for threshold, files_dict in ndvi_thresholds_images_data.items():
+            file_paths = list(files_dict.values())
+            combined_files[threshold] = []
 
-            datasets = []
-            bounds = []
-            transforms = []
-            shapes = []
-            src_files = []
-
-            for file_path in files_dict.values():
-                try:
-                    src = rasterio.open(file_path)
-                    src_files.append(src)
-
-                    if src.crs != target_crs:
-                        vrt = WarpedVRT(src, crs=target_crs)
-                        datasets.append(vrt)
-                    else:
-                        datasets.append(src)
-
-                    bounds.append(datasets[-1].bounds)
-                    transforms.append(datasets[-1].transform)
-                    shapes.append(datasets[-1].shape)
-                except Exception as e:
-                    print(f"Ошибка открытия файла {file_path}: {e}")
+            for i in range(0, len(file_paths), files_per_combined):
+                group = file_paths[i:i+files_per_combined]
+                if not group:
                     continue
 
-            if not datasets:
-                for src in src_files:
-                    src.close()
-                continue
+                output_filename = f"combined_threshold_{int(float(threshold)*100)}_part{i//files_per_combined+1}.tif"
+                output_path = os.path.join(OUTPUT_COMBINED_DIR, output_filename)
+                print(f"Объединение {output_path}")
 
+                try:
+                    self.merge_tiffs(group, output_path, compress=True)
+                    combined_files[threshold].append(output_path)
+                except Exception as e:
+                    print(f"Ошибка при объединении файлов {group}: {e}")
+                    continue
+
+        return combined_files
+
+    def merge_tiffs(self, input_paths, output_path, compress=True):
+        """
+        Объединяет несколько TIFF-файлов в один с возможностью сжатия.
+
+        Args:
+            input_paths (list): Список путей к входным файлам
+            output_path (str): Путь для сохранения объединенного файла
+            compress (bool): Применять ли сжатие к выходному файлу
+        """
+        # Используем ExitStack для управления контекстами файлов
+        with ExitStack() as stack:
+            src_files = []
+            reprojected_files = []
+
+            # Открываем все исходные файлы
+            for path in input_paths:
+                src = stack.enter_context(rasterio.open(path))
+                src_files.append(src)
+
+            # Определяем целевой CRS (берем первый файл как эталон)
+            target_crs = src_files[0].crs
+
+            # Подготовка файлов для объединения
+            files_to_merge = []
+
+            for src in src_files:
+                if src.crs == target_crs:
+                    files_to_merge.append(src)
+                else:
+                    # Репроектируем в целевой CRS
+                    transform, width, height = calculate_default_transform(
+                        src.crs, target_crs, src.width, src.height, *src.bounds)
+
+                    # Создаем временный файл для репроекции
+                    tmpfile = tempfile.NamedTemporaryFile(suffix='.tif', delete=False)
+                    tmpfile.close()
+                    reprojected_path = tmpfile.name
+                    reprojected_files.append(reprojected_path)  # Запоминаем для удаления
+
+                    kwargs = src.meta.copy()
+                    kwargs.update({
+                        'crs': target_crs,
+                        'transform': transform,
+                        'width': width,
+                        'height': height
+                    })
+
+                    with rasterio.open(reprojected_path, 'w', **kwargs) as dst:
+                        for band in range(1, src.count + 1):
+                            reproject(
+                                source=rasterio.band(src, band),
+                                destination=rasterio.band(dst, band),
+                                src_transform=src.transform,
+                                src_crs=src.crs,
+                                dst_transform=transform,
+                                dst_crs=target_crs,
+                                resampling=Resampling.nearest)
+
+                    # Открываем репроектированный файл
+                    reprojected_src = stack.enter_context(rasterio.open(reprojected_path))
+                    files_to_merge.append(reprojected_src)
+
+            # Объединяем все файлы
+            mosaic, out_trans = merge(files_to_merge)
+
+            # Параметры сжатия
+            compress_opts = {
+                'compress': 'DEFLATE',
+                'predictor': 2,  # Для float-данных лучше использовать predictor=2
+                'zlevel': 6,     # Уровень компрессии (1-9)
+                'num_threads': 'ALL_CPUS'  # Использовать все ядра для сжатия
+            } if compress else {}
+
+            # Сохраняем объединенный файл
+            out_meta = files_to_merge[0].meta.copy()
+            out_meta.update({
+                "driver": "GTiff",
+                "height": mosaic.shape[1],
+                "width": mosaic.shape[2],
+                "transform": out_trans,
+                "crs": target_crs,
+                **compress_opts  # Добавляем параметры сжатия
+            })
+
+            with rasterio.open(output_path, "w", **out_meta) as dest:
+                dest.write(mosaic)
+
+        # Удаляем временные файлы после использования
+        for path in reprojected_files:
             try:
-                overall_bounds = rasterio.coords.BoundingBox(
-                    left=min(b.left for b in bounds),
-                    bottom=min(b.bottom for b in bounds),
-                    right=max(b.right for b in bounds),
-                    top=max(b.top for b in bounds))
-
-                res = datasets[0].res
-                width = int(round((overall_bounds.right - overall_bounds.left) / res[0]))
-                height = int(round((overall_bounds.top - overall_bounds.bottom) / res[1]))
-
-                out_transform = from_origin(
-                    overall_bounds.left, overall_bounds.top, res[0], res[1])
-
-                first_dataset = datasets[0]
-                out_profile = {
-                    'driver': 'GTiff',
-                    'height': height,
-                    'width': width,
-                    'count': 1,
-                    'dtype': first_dataset.dtypes[0],
-                    'crs': target_crs,
-                    'transform': out_transform,
-                    'compress': 'lzw',
-                    'nodata': first_dataset.nodata
-                }
-
-                combined = np.zeros((height, width), dtype=out_profile['dtype'])
-                combined_mask = np.zeros((height, width), dtype=bool)
-
-                for i, dataset in enumerate(datasets):
-                    try:
-                        col_off = int(round((dataset.bounds.left - overall_bounds.left) / res[0]))
-                        row_off = int(round((overall_bounds.top - dataset.bounds.top) / res[1]))
-
-                        data = dataset.read(1)
-                        src_height, src_width = dataset.shape
-                        dst_height = min(src_height, height - row_off)
-                        dst_width = min(src_width, width - col_off)
-
-                        if dst_height <= 0 or dst_width <= 0:
-                            continue
-
-                        data = data[:dst_height, :dst_width]
-                        mask = (data != dataset.nodata) if dataset.nodata is not None else np.ones_like(data, dtype=bool)
-                        new_pixels = mask & (~combined_mask[row_off:row_off+dst_height, col_off:col_off+dst_width])
-
-                        combined[row_off:row_off+dst_height, col_off:col_off+dst_width][new_pixels] = data[new_pixels]
-                        combined_mask[row_off:row_off+dst_height, col_off:col_off+dst_width] |= mask
-
-                    except Exception as e:
-                        print(f"Ошибка обработки файла {src_files[i].name}: {e}")
-                        continue
-
-                threshold_percent = int(float(threshold) * 100)
-                output_path = Path(OUTPUT_COMBINED_DIR) / f"combined_threshold_{threshold_percent}.tif"
-
-                with rasterio.open(output_path, 'w', **out_profile) as dst:
-                    dst.write(combined, 1)
-                    # Применяем стандартную цветовую схему NDVI
-                    dst.write_colormap(1, ndvi_colormap)
-
-                combined_images_data[str(threshold)] = str(output_path)
-
-            finally:
-                for dataset in datasets:
-                    if hasattr(dataset, 'close'):
-                        dataset.close()
-                for src in src_files:
-                    src.close()
-
-        return combined_images_data
+                os.unlink(path)
+            except:
+                pass
 
     def _calculate_ndvi(self, red_band_path: str, nir_band_path: str):
         try:
@@ -432,7 +417,7 @@ def test_calculate():
 
     print(processed_images)
 
-test_calculate()
+# test_calculate()
 
 x = {
     'threshold_0.2_LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif',

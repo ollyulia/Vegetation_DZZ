@@ -1,6 +1,5 @@
-import requests
 import datetime
-
+import requests
 import secret
 
 BASE_URL = "https://geo.mauniver.ru/"
@@ -52,74 +51,75 @@ class GeoPortal:
         uploaded_images_data = []
 
         for threshold in sorted_keys:
-            path_to_file = processed_images[threshold]
-            file_name_in_server = f"{threshold} порог | [{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
-            raster_layer_name = file_name_in_server
+            paths_to_files = processed_images[threshold]
+            for path_to_file in paths_to_files:
+                file_name_in_server = f"{threshold} порог | [{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
+                raster_layer_name = file_name_in_server
 
-            print(f"[{current_file_number}/{total_files}] Добавление на карту {path_to_file}")
+                print(f"[{current_file_number}/{total_files}] Добавление на карту {path_to_file}")
 
-            # Шаг 1: загрузка снимка на сервер
-            uploaded_snapshot_file = self._upload_file_from_disk(path_to_file, file_name_in_server)
+                # Шаг 1: загрузка снимка на сервер
+                uploaded_snapshot_file = self._upload_file_from_disk(path_to_file, file_name_in_server)
 
-            if uploaded_snapshot_file is None:
-                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                total_files = total_files - 1
-                continue
+                if uploaded_snapshot_file is None:
+                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                    total_files = total_files - 1
+                    continue
 
-            # Шаг 2: создание растрового слоя со снимком
-            try:
-                raster_layer_id = self._upload_raster_layer_with_file(
-                    uploaded_snapshot_file,
-                    current_request_resource_group_id,
-                    raster_layer_name,
-                    SRS_3857
-                )
-            except Exception as exception:
-                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                print("Удаляем созданные ресурсы на Геопортале...")
-                self._delete_file(uploaded_snapshot_file["id"])
-                total_files = total_files - 1
-                continue
+                # Шаг 2: создание растрового слоя со снимком
+                try:
+                    raster_layer_id = self._upload_raster_layer_with_file(
+                        uploaded_snapshot_file,
+                        current_request_resource_group_id,
+                        raster_layer_name,
+                        SRS_3857
+                    )
+                except Exception as exception:
+                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                    print("Удаляем созданные ресурсы на Геопортале...")
+                    self._delete_file(uploaded_snapshot_file["id"])
+                    total_files = total_files - 1
+                    continue
 
-            if raster_layer_id is None:
-                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                print("Удаляем созданные ресурсы на Геопортале...")
-                self._delete_file(uploaded_snapshot_file["id"])
-                total_files = total_files - 1
-                continue
+                if raster_layer_id is None:
+                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                    print("Удаляем созданные ресурсы на Геопортале...")
+                    self._delete_file(uploaded_snapshot_file["id"])
+                    total_files = total_files - 1
+                    continue
 
-            # Шаг 3: создаем в растровом слое стиль
-            try:
-                raster_style_id = self._create_raster_style_in_raster_layer(
-                    raster_layer_id,
-                    f"Raster style for raster layer (ID = {raster_layer_id})"
-                )
-            except Exception as exception:
-                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                print("Удаляем созданные ресурсы на Геопортале...")
-                self._delete_file(uploaded_snapshot_file["id"])
-                self._delete_resource(raster_layer_id)
-                total_files = total_files - 1
-                continue
+                # Шаг 3: создаем в растровом слое стиль
+                try:
+                    raster_style_id = self._create_raster_style_in_raster_layer(
+                        raster_layer_id,
+                        f"Raster style for raster layer (ID = {raster_layer_id})"
+                    )
+                except Exception as exception:
+                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                    print("Удаляем созданные ресурсы на Геопортале...")
+                    self._delete_file(uploaded_snapshot_file["id"])
+                    self._delete_resource(raster_layer_id)
+                    total_files = total_files - 1
+                    continue
 
-            if raster_style_id is None:
-                print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
-                print("Удаляем созданные ресурсы на Геопортале...")
-                self._delete_file(uploaded_snapshot_file["id"])
-                self._delete_resource(raster_layer_id)
-                total_files = total_files - 1
-                continue
+                if raster_style_id is None:
+                    print(f"Не удалось добавить файл на вебкарту: {path_to_file}\n")
+                    print("Удаляем созданные ресурсы на Геопортале...")
+                    self._delete_file(uploaded_snapshot_file["id"])
+                    self._delete_resource(raster_layer_id)
+                    total_files = total_files - 1
+                    continue
 
-            print(f"Успешная загрузка на Геопортал снимка: {path_to_file}\n")
+                print(f"Успешная загрузка на Геопортал снимка: {path_to_file}\n")
 
-            # Добавляем инфу об raster_layer_id, raster_layer_style_id, raster_layer_name
-            uploaded_images_data.append({
-                "raster_layer_id": raster_layer_id,
-                "raster_style_id": raster_style_id,
-                "raster_layer_name": raster_layer_name,
-                "uploaded_snapshot_file_id": uploaded_snapshot_file["id"]
-            })
-            current_file_number = current_file_number + 1
+                # Добавляем инфу об raster_layer_id, raster_layer_style_id, raster_layer_name
+                uploaded_images_data.append({
+                    "raster_layer_id": raster_layer_id,
+                    "raster_style_id": raster_style_id,
+                    "raster_layer_name": raster_layer_name,
+                    "uploaded_snapshot_file_id": uploaded_snapshot_file["id"]
+                })
+                current_file_number = current_file_number + 1
 
         # Шаг 4: создаем и добавляем в группу на вебкарте все загруженные снимки
         try:

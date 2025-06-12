@@ -1,10 +1,10 @@
 import datetime
 import json
 import re
+import requests
 import sys
 import threading
 import time
-import requests
 
 from pathlib import Path
 

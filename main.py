@@ -14,20 +14,20 @@ def main():
     # Кольский полуостров
     # левый нижний угол
     # 66.213585, 27.771668
-    lower_left_latitude = 66.213585
-    lower_left_longitude = 27.771668
+    lower_left_latitude = 66.372602
+    lower_left_longitude = 29.540467
     # правый верхний угол
     # 69.549744, 41.416688
     upper_right_latitude = 69.549744
     upper_right_longitude = 41.416688
 
-    start_date = "2024-08-14"
-    end_date = "2024-08-15"
+    start_date = "2024-07-20"
+    end_date = "2024-07-30"
 
-    lower_left_latitude = 68.562252
-    lower_left_longitude = 31.50702
-    upper_right_latitude = 68.915808
-    upper_right_longitude = 37.134767
+    lower_left_latitude = 66.240158
+    lower_left_longitude = 32.067323
+    upper_right_latitude = 69.287122
+    upper_right_longitude = 41.559510
 
     app.add_vegetation_to_the_webmap_from_earth_explorer(
         start_date,
@@ -85,7 +85,7 @@ def continue_images_uploading():
     upper_right_latitude = 69.219015
     upper_right_longitude = 31.50702
 
-    processed_images_info_path = "recovery_data/2025-05-18-processed.json"
+    processed_images_info_path = "recovery_data/2025-05-30_17-29-26_processed_images.json"
 
     app.continue_upload_to_geoportal(
         processed_images_info_path,
@@ -101,4 +101,4 @@ def continue_images_uploading():
 
 
 if __name__ == "__main__":
-    continue_images_processing()
+    main()
