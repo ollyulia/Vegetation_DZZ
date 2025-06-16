@@ -1,6 +1,6 @@
 src/__pycache__
 src/test.py
-.venv/
+venv/
 
 static/ndvi_scales
 
