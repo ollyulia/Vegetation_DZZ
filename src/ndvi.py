@@ -5,7 +5,6 @@ import tempfile
 
 from contextlib import ExitStack
 from pathlib import Path
-from pathlib import Path
 from rasterio.merge import merge
 from rasterio.warp import calculate_default_transform, reproject, Resampling
 
@@ -388,66 +387,3 @@ class Ndvi:
         except Exception as e:
             print(f"Ошибка при сохранении растра: {e}")
             return False
-
-
-def test_calculate():
-    ndvi = Ndvi()
-
-    downloaded_images = {
-        "B4": {
-            "LC08_L2SP_187011_20240814_20240822_02_T1_SR_B4.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B4/LC08_L2SP_187011_20240814_20240822_02_T1_SR_B4.TIF",
-            "LC08_L2SP_187012_20240814_20240822_02_T1_SR_B4.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B4/LC08_L2SP_187012_20240814_20240822_02_T1_SR_B4.TIF",
-            "LC09_L2SP_186011_20240815_20240816_02_T1_SR_B4.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B4/LC09_L2SP_186011_20240815_20240816_02_T1_SR_B4.TIF",
-            "LC09_L2SP_186012_20240815_20240816_02_T1_SR_B4.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B4/LC09_L2SP_186012_20240815_20240816_02_T1_SR_B4.TIF"
-        },
-        "B5": {
-            "LC08_L2SP_187011_20240814_20240822_02_T1_SR_B5.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B5/LC08_L2SP_187011_20240814_20240822_02_T1_SR_B5.TIF",
-            "LC08_L2SP_187012_20240814_20240822_02_T1_SR_B5.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B5/LC08_L2SP_187012_20240814_20240822_02_T1_SR_B5.TIF",
-            "LC09_L2SP_186011_20240815_20240816_02_T1_SR_B5.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B5/LC09_L2SP_186011_20240815_20240816_02_T1_SR_B5.TIF",
-            "LC09_L2SP_186012_20240815_20240816_02_T1_SR_B5.TIF": "images/2025-05-20/2024-08-14_2024-08-15_68.562252:31.50702_68.915808:37.134767/B5/LC09_L2SP_186012_20240815_20240816_02_T1_SR_B5.TIF"
-        }
-    }
-
-    path = "images/test"
-    processed_images = ndvi.calculate(downloaded_images, path)
-
-    print(processed_images)
-
-# test_calculate()
-
-x = {
-    'threshold_0.2_LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif',
-    'threshold_0.3_LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.3.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.3.tif',
-    'threshold_0.4_LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.4.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.4.tif',
-    'threshold_0.2_LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.2.tif': 'images/test/ndvi_output/LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.2.tif',
-    'threshold_0.3_LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.3.tif': 'images/test/ndvi_output/LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.3.tif',
-    'threshold_0.4_LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.4.tif': 'images/test/ndvi_output/LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.4.tif'
-}
-
-# 0.1: (117, 209, 117),
-# 0.2: (107, 195, 106),
-# 0.3: (96, 182, 96), # Светло-зеленый
-# 0.4: (85, 168, 84),   # Зеленый
-# 0.5: (74, 155, 74),     # Темно-зеленый
-# 0.6: (64, 141, 64),
-# 0.7: (42, 116, 42),
-# 0.8: (30, 101, 30),
-# 0.9: (20, 88, 21),
-
-# x = defaultdict(
-#     <class 'dict'>,
-#     {
-#         '0.2': {
-#             'LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.2.tif',
-#             'LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.2.tif': 'images/test/ndvi_output/LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.2.tif'
-#         },
-#         '0.3': {
-#             'LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.3.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.3.tif',
-#             'LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.3.tif': 'images/test/ndvi_output/LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.3.tif'
-#         },
-#         '0.4': {
-#             'LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.4.tif': 'images/test/ndvi_output/LC09_L2SP_186012_20240815_20240816_02_T1_ndvi_threshold_0.4.tif',
-#             'LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.4.tif': 'images/test/ndvi_output/LC09_L2SP_186013_20240815_20240816_02_T1_ndvi_threshold_0.4.tif'
-#         }
-#     }
-# )

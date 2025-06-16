@@ -1,13 +1,10 @@
 import json
-import matplotlib.colors as mcolors
-import matplotlib.pyplot as plt
-import numpy as np
 import os
 import traceback
 
 from datetime import datetime
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 from src import earth_explorer
 from src import geo_portal
@@ -241,133 +238,131 @@ class VegetationRemoteSensing:
         img.save(image_path)
         return image_path
 
+    def continue_process_images(
+            self,
+            downloaded_images_path,
+            path,
+            lower_left_latitude,
+            lower_left_longitude,
+            upper_right_latitude,
+            upper_right_longitude,
+            start_date,
+            end_date,
+        ):
+        """Функция для продолжения работы скрипта, если во время обработки снимков произошла ошибка.
+        Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
+        ```
+        {
+            "B4": {
+                "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
+                "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
+            },
+            "B5": {
+                "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
+                "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
+            },
+            "other": {
+                "{filename}.{extension}": "images/downloaded/other/{filename}.{extension}"
+            }
+        }
+        ```
 
+        :param downloaded_images_path: Путь к `json` файлу
+        :type downloaded_images_path: str
+        """
+        try:
+            with open(downloaded_images_path, "r") as file:
+                downloaded_images = json.load(file)
+        except FileNotFoundError:
+            print(f"Файл не найден: {downloaded_images_path}")
+        except json.JSONDecodeError as json_err:
+            print(f"Ошибка: файл не является валидным JSON: {json_err}")
+        except Exception as e:
+            print("Неизвестная ошибка: ", e)
 
-    # def continue_process_images(
-    #         self,
-    #         downloaded_images_path,
-    #         path,
-    #         lower_left_latitude,
-    #         lower_left_longitude,
-    #         upper_right_latitude,
-    #         upper_right_longitude,
-    #         start_date,
-    #         end_date,
-    #     ):
-    #     """Функция для продолжения работы скрипта, если во время обработки снимков произошла ошибка.
-    #     Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
-    #     ```
-    #     {
-    #         "B4": {
-    #             "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
-    #             "{filename}_SR_B4.TIF": "images/downloaded/B4/{filename}_SR_B4.TIF",
-    #         },
-    #         "B5": {
-    #             "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
-    #             "{filename}_SR_B5.TIF": "images/downloaded/B5/{filename}_SR_B5.TIF",
-    #         },
-    #         "other": {
-    #             "{filename}.{extension}": "images/downloaded/other/{filename}.{extension}"
-    #         }
-    #     }
-    #     ```
+        try:
+            processed_images = self._ndvi.calculate(downloaded_images, path)
+        except Exception as exception:
+            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
 
-    #     :param downloaded_images_path: Путь к `json` файлу
-    #     :type downloaded_images_path: str
-    #     """
-    #     try:
-    #         with open(downloaded_images_path, "r") as file:
-    #             downloaded_images = json.load(file)
-    #     except FileNotFoundError:
-    #         print(f"Файл не найден: {downloaded_images_path}")
-    #     except json.JSONDecodeError as json_err:
-    #         print(f"Ошибка: файл не является валидным JSON: {json_err}")
-    #     except Exception as e:
-    #         print("Неизвестная ошибка: ", e)
+            return
 
-    #     try:
-    #         processed_images = self._ndvi.calculate(downloaded_images, path)
-    #     except Exception as exception:
-    #         print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
+        try:
+            self._geo_portal.upload_snapshots(
+                processed_images,
+                start_date,
+                end_date,
+                lower_left_latitude,
+                lower_left_longitude,
+                upper_right_latitude,
+                upper_right_longitude,
+            )
+        except Exception as exception:
+            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
 
-    #         return
+            error_dir = f"recovery_data"
+            os.makedirs(error_dir, exist_ok=True)
 
-    #     try:
-    #         self._geo_portal.upload_snapshots(
-    #             processed_images,
-    #             start_date,
-    #             end_date,
-    #             lower_left_latitude,
-    #             lower_left_longitude,
-    #             upper_right_latitude,
-    #             upper_right_longitude,
-    #         )
-    #     except Exception as exception:
-    #         print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            filename = f"{error_dir}/{timestamp}_processed_images.json"
 
-    #         error_dir = f"recovery_data"
-    #         os.makedirs(error_dir, exist_ok=True)
+            with open(filename, "w") as file:
+                json.dump(processed_images, file, indent=4)
 
-    #         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    #         filename = f"{error_dir}/{timestamp}_processed_images.json"
+            print(f"Информация об обработанных файлах сохранена в {filename}")
 
-    #         with open(filename, "w") as file:
-    #             json.dump(processed_images, file, indent=4)
+            return
 
-    #         print(f"Информация об обработанных файлах сохранена в {filename}")
+        print("Растительность успешно добавлена")
 
-    #         return
+        return
 
-    #     print("Растительность успешно добавлена")
+    def continue_upload_to_geoportal(
+            self,
+            processed_images_path,
+            start_date,
+            end_date,
+            lower_left_latitude,
+            lower_left_longitude,
+            upper_right_latitude,
+            upper_right_longitude,
+        ):
+        """Функция для продолжения работы скрипта, если во время отправки снимков на Геопортал произошла ошибка.
+        Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
+        ```
+        {
+            "{filename}.tif": "images/ndvi_output/{filename}.tif",
+            "{filename}.tif": "images/ndvi_output/{filename}.tif",
+            "{filename}.tif": "images/ndvi_output/{filename}.tif"
+        }
+        ```
 
-    #     return
+        :param processed_images_path: Путь к `json` файлу
+        :type processed_images_path: str
+        """
+        try:
+            with open(processed_images_path, "r") as file:
+                processed_images = json.load(file)
+        except FileNotFoundError:
+            print(f"Файл не найден: {processed_images_path}")
+        except json.JSONDecodeError as json_err:
+            print(f"Ошибка: файл не является валидным JSON: {json_err}")
+        except Exception as e:
+            print("Неизвестная ошибка: ", e)
 
-    # def continue_upload_to_geoportal(
-    #         self,
-    #         processed_images_path,
-    #         start_date,
-    #         end_date,
-    #         lower_left_latitude,
-    #         lower_left_longitude,
-    #         upper_right_latitude,
-    #         upper_right_longitude,
-    #     ):
-    #     """Функция для продолжения работы скрипта, если во время отправки снимков на Геопортал произошла ошибка.
-    #     Ожидается, что в указанном пути существует файл `{filename}.json` со следующей структурой:
-    #     ```
-    #     {
-    #         "{filename}.tif": "images/ndvi_output/{filename}.tif",
-    #         "{filename}.tif": "images/ndvi_output/{filename}.tif",
-    #         "{filename}.tif": "images/ndvi_output/{filename}.tif"
-    #     }
-    #     ```
+        try:
+            self._geo_portal.upload_snapshots(
+                processed_images,
+                start_date,
+                end_date,
+                lower_left_latitude,
+                lower_left_longitude,
+                upper_right_latitude,
+                upper_right_longitude,
+            )
+        except Exception as exception:
+            print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
 
-    #     :param processed_images_path: Путь к `json` файлу
-    #     :type processed_images_path: str
-    #     """
-    #     try:
-    #         with open(processed_images_path, "r") as file:
-    #             processed_images = json.load(file)
-    #     except FileNotFoundError:
-    #         print(f"Файл не найден: {processed_images_path}")
-    #     except json.JSONDecodeError as json_err:
-    #         print(f"Ошибка: файл не является валидным JSON: {json_err}")
-    #     except Exception as e:
-    #         print("Неизвестная ошибка: ", e)
+            return
 
-    #     try:
-    #         self._geo_portal.upload_snapshots(
-    #             processed_images,
-    #             start_date,
-    #             end_date,
-    #             lower_left_latitude,
-    #             lower_left_longitude,
-    #             upper_right_latitude,
-    #             upper_right_longitude,
-    #         )
-    #     except Exception as exception:
-    #         print(f"Случилась ошибка: {exception}\n{traceback.format_exc()}")
-
-    #         return
-
-    #     print("Растительность успешно добавлена")
+        print("Растительность успешно добавлена")
