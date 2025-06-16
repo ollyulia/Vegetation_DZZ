@@ -1,4 +1,4 @@
-document.querySelector("form").addEventListener("submit", async (e) => {
+document.getElementById("vegetation-params").addEventListener("submit", async (e) => {
     e.preventDefault();
     document.getElementById("submit-button").disabled = true;
     document.getElementById("message").innerHTML = "Запрос получен. Пожалуйста, ожидайте пока программа скачает, обработает и загрузит снимки...";

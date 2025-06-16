@@ -118,6 +118,12 @@ class VegetationRemoteSensing:
 
             return message
 
+        if min_cloudiness > max_cloudiness:
+            message = f"Ошибка: Неправильно заданы параметры облачности: минимальная облачность = {min_cloudiness} не может быть больше максимальной облачности {max_cloudiness}"
+            print(message)
+
+            return message
+
         print("Начало работы скрипта по добавлению растительности на вебкарту")
 
         # Путь для загрузки файлов

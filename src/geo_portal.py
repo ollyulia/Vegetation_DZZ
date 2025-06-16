@@ -13,8 +13,8 @@ UPLOADED_FILES_PATH = "uploaded_files_ids.txt"
 class GeoPortal:
     def __init__(self, username: str, password: str, resource_group_id: int, web_map_id: int):
         self._auth = (username, password)
-        self._resource_group_id = resource_group_id
-        self._web_map_id = web_map_id
+        self._resource_group_id = int(resource_group_id)
+        self._web_map_id = int(web_map_id)
 
     def upload_snapshots(
             self,

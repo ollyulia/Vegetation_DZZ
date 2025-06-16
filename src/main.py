@@ -5,9 +5,8 @@ from fastapi.templating import Jinja2Templates
 
 from src import vegetation_remote_sensing
 
-vegetation_app = vegetation_remote_sensing.VegetationRemoteSensing()
-
 app = FastAPI()
+app.state.vegetation_app = None
 
 # Подключаем статику и шаблоны
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -15,7 +14,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_form(request: Request):
-    if vegetation_app is None:
+    if app.state.vegetation_app is None:
         return templates.TemplateResponse(
             "missing_credentials.html",
             {
@@ -23,7 +22,7 @@ async def read_form(request: Request):
             }
         )
 
-    web_map_url = f"https://geo.mauniver.ru/resource/{vegetation_app._geo_portal._web_map_id}/display"
+    web_map_url = f"https://geo.mauniver.ru/resource/{app.state.vegetation_app._geo_portal._web_map_id}/display"
     return templates.TemplateResponse("index.html", {
         "request": request,
         "web_map": web_map_url
@@ -41,7 +40,7 @@ async def add_vegetation_data(
     min_cloudiness: int = Form(...),
     max_cloudiness: int = Form(...),
 ):
-    if vegetation_app is None:
+    if app.state.vegetation_app is None:
         return templates.TemplateResponse(
             "missing_credentials.html",
             {
@@ -50,25 +49,25 @@ async def add_vegetation_data(
         )
 
     try:
-        message = vegetation_app.add_vegetation_to_the_webmap_from_earth_explorer(
+        message = app.state.vegetation_app.add_vegetation_to_the_webmap_from_earth_explorer(
             start_date, end_date,
             lower_left_latitude, lower_left_longitude,
             upper_right_latitude, upper_right_longitude,
             min_cloudiness, max_cloudiness,
         )
-        vegetation_app._is_working = False
+        app.state.vegetation_app._is_working = False
         return {"message": message}
     except Exception as e:
-        vegetation_app._is_working = False
+        app.state.vegetation_app._is_working = False
         return {"message": str(e)}
 
 
 @app.post("/generate_ndvi_scale")
 async def generate_scale(request: Request):
-    if vegetation_app is None:
+    if app.state.vegetation_app is None:
         return RedirectResponse(url="/enter_credentials")
 
-    scale_path = vegetation_app._create_ndvi_scale()
+    scale_path = app.state.vegetation_app._create_ndvi_scale()
     return {"scale_url": f"/{scale_path}"}
 
 
@@ -91,8 +90,8 @@ async def save_credentials(
     geo_portal_resource_group_id: str = Form(...),
     geo_portal_web_map_id: str = Form(...)
 ):
-    global vegetation_app
-    vegetation_app = vegetation_remote_sensing.VegetationRemoteSensing(
+
+    app.state.vegetation_app = vegetation_remote_sensing.VegetationRemoteSensing(
         earth_explorer_username=earth_explorer_username,
         earth_explorer_token=earth_explorer_token,
         geo_portal_username=geo_portal_username,
