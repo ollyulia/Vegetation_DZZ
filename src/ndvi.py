@@ -171,7 +171,8 @@ class Ndvi:
                 if str(threshold) not in ndvi_thresholds_data:
                     ndvi_thresholds_data[str(threshold)] = {}
 
-                output_file_name = f"{int(threshold*100)}_{base_name}.tif"
+                amount = int(threshold*100)
+                output_file_name = f"{amount}_{base_name}.tif"
                 output_ndvi_path = f"{OUTPUT_NDVI_DIR}/{output_file_name}"
 
                 # Создание изображения для порога
@@ -252,7 +253,9 @@ class Ndvi:
                 if not group:
                     continue
 
-                output_filename = f"combined_threshold_{int(float(threshold)*100)}_part{i//files_per_combined+1}.tif"
+                amount = int(float(threshold)*100)
+                part = i//files_per_combined+1
+                output_filename = f"combined_threshold_{amount}_part{part}.tif"
                 output_path = os.path.join(OUTPUT_COMBINED_DIR, output_filename)
                 print(f"Объединение {output_path}")
 

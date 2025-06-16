@@ -48,7 +48,8 @@ class GeoPortal:
         print("\nНачало загрузки файлов на Геопортал")
 
         # Создание папки для текущего запроса на сервере
-        current_group_name = f"[{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
+        strftime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_group_name = f"[{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {strftime}"
         current_request_resource_group_id = self._create_group(self._resource_group_id, current_group_name)
 
         sorted_keys = sorted(processed_images.keys(), key=lambda x: float(x), reverse=False)
@@ -66,7 +67,8 @@ class GeoPortal:
         for threshold in sorted_keys:
             paths_to_files = processed_images[threshold]
             for path_to_file in paths_to_files:
-                file_name_in_server = f"{threshold} порог | [{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
+                strftime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                file_name_in_server = f"{threshold} порог | [{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {strftime}"
                 raster_layer_name = file_name_in_server
 
                 print(f"[{current_file_number}/{total_files}] Добавление на карту {path_to_file}")

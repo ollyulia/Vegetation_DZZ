@@ -89,7 +89,8 @@ class EarthExplorer:
                 )
                 sys.exit()
             response.close()
-            print(f"Завершен запрос к {endpoint} с ID = {output["requestId"]}")
+            requestId = output["requestId"]
+            print(f"Завершен запрос к {endpoint} с ID = {requestId}")
 
             return output["data"]
 
@@ -183,7 +184,8 @@ class EarthExplorer:
         bandNames = {SR_B4, SR_B5}
 
         if scenes["recordsReturned"] > 0:
-            print(f"Найдено {scenes["recordsReturned"]} подходящих сцен")
+            recordsReturned = scenes["recordsReturned"]
+            print(f"Найдено {recordsReturned} подходящих сцен")
 
             sceneIds = []
             for result in scenes['results']:
@@ -223,7 +225,8 @@ class EarthExplorer:
 
                 requestResults = sendRequest(serviceUrl + "download-request", download_req_payload, apiKey)
 
-                print(f"Обнаружено подходящих файлов для скачивания {len(requestResults["availableDownloads"])}")
+                length = len(requestResults["availableDownloads"])
+                print(f"Обнаружено подходящих файлов для скачивания {length}")
 
                 # dump_json(requestResults, "3_request_results")
 
