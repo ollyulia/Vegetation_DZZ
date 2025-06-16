@@ -18,23 +18,40 @@ NDVI_THRESHOLDS = {
 }
 
 class VegetationRemoteSensing:
-    def __init__(self):
-        all_set = secret.check()
-        if not all_set:
-            print("Пожалуйста, укажите все необходимые данные для авторизации в файле secret.py")
+    def __init__(
+            self,
+            earth_explorer_username=None,
+            earth_explorer_token=None,
+            geo_portal_username=None,
+            geo_portal_password=None,
+            geo_portal_resource_group_id=None,
+            geo_portal_web_map_id=None,
+        ):
+        params_provided = all([
+            earth_explorer_username is not None,
+            earth_explorer_token is not None,
+            geo_portal_username is not None,
+            geo_portal_password is not None,
+            geo_portal_resource_group_id is not None,
+            geo_portal_web_map_id is not None
+        ])
+
+        secrets_available = secret.check()
+
+        if not params_provided and not secrets_available:
+            print("Пожалуйста, укажите все необходимые данные для авторизации либо в параметрах, либо в файле secret.py")
             return None
 
-        self._earth_explorer = earth_explorer.EarthExplorer(
-            secret.EARTH_EXPLORER_USERNAME,
-            secret.EARTH_EXPLORER_TOKEN
-        )
+        ee_user = earth_explorer_username if earth_explorer_username is not None else secret.EARTH_EXPLORER_USERNAME
+        ee_token = earth_explorer_token if earth_explorer_token is not None else secret.EARTH_EXPLORER_TOKEN
+        gp_user = geo_portal_username if geo_portal_username is not None else secret.GEO_PORTAL_USERNAME
+        gp_pass = geo_portal_password if geo_portal_password is not None else secret.GEO_PORTAL_PASSWORD
+        gp_res = geo_portal_resource_group_id if geo_portal_resource_group_id is not None else secret.GEO_PORTAL_RESOURCE_GROUP_ID
+        gp_map = geo_portal_web_map_id if geo_portal_web_map_id is not None else secret.GEO_PORTAL_WEB_MAP_ID
+
+        self._earth_explorer = earth_explorer.EarthExplorer(ee_user, ee_token)
         self._ndvi = ndvi.Ndvi()
-        self._geo_portal = geo_portal.GeoPortal(
-            secret.GEO_PORTAL_USERNAME,
-            secret.GEO_PORTAL_PASSWORD,
-            secret.GEO_PORTAL_RESOURCE_GROUP_ID,
-            secret.GEO_PORTAL_WEB_MAP_ID
-        )
+        self._geo_portal = geo_portal.GeoPortal(gp_user, gp_pass, gp_res, gp_map)
         self._is_working = False
 
     def add_vegetation_to_the_webmap_from_earth_explorer(
@@ -44,7 +61,9 @@ class VegetationRemoteSensing:
         lower_left_latitude: float,
         lower_left_longitude: float,
         upper_right_latitude: float,
-        upper_right_longitude: float
+        upper_right_longitude: float,
+        min_cloudiness: int,
+        max_cloudiness: int,
     ):
         """Функция приложения по добавлению растительности по спутниковым снимкам с EarthExplorer.
         По указанным дате и координатам:
@@ -113,6 +132,8 @@ class VegetationRemoteSensing:
             lower_left_longitude,
             upper_right_latitude,
             upper_right_longitude,
+            min_cloudiness,
+            max_cloudiness,
             PATH,
         )
         # Пример объекта downloaded_images:

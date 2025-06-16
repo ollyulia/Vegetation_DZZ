@@ -1,6 +1,5 @@
 import datetime
 import requests
-import secret
 
 BASE_URL = "https://geo.mauniver.ru/"
 RESOURCE_URL = f"{BASE_URL}api/resource/"
@@ -52,7 +51,7 @@ class GeoPortal:
         current_group_name = f"[{start_date} {end_date}] ({lower_left_latitude}, {lower_left_longitude}, {upper_right_latitude}, {upper_right_longitude}) - {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
         current_request_resource_group_id = self._create_group(self._resource_group_id, current_group_name)
 
-        sorted_keys = sorted(processed_images.keys(), key=lambda x: float(x), reverse=True)
+        sorted_keys = sorted(processed_images.keys(), key=lambda x: float(x), reverse=False)
 
         current_file_number = 1
         total_files = 0
@@ -135,6 +134,16 @@ class GeoPortal:
                 })
                 current_file_number = current_file_number + 1
 
+        # uploaded_images_data = {
+        #     "0.2": [
+        #         {
+        #             "raster_layer_id": raster_layer_id,
+        #             "raster_style_id": raster_style_id,
+        #             "raster_layer_name": raster_layer_name,
+        #             "uploaded_snapshot_file_id": uploaded_snapshot_file,
+        #         },
+        #     ...
+        # }
         # Шаг 4: создаем и добавляем в группу на вебкарте все загруженные снимки
         try:
             result = self._create_layer_group_in_webmap(
@@ -144,23 +153,25 @@ class GeoPortal:
         )
         except Exception as exception:
             print("Удаляем созданные ресурсы на Геопортале...")
-            for image_data in uploaded_images_data:
+            for threshold, images_data in uploaded_images_data.items():
                 print("Удаляем созданные ресурсы на Геопортале...")
-                self._delete_file(image_data["uploaded_snapshot_file"])
-                self._delete_resource(image_data["raster_layer_id"])
-                self._delete_resource(image_data["raster_style_id"])
-                self._delete_resource(current_request_resource_group_id)
+                for image_data in images_data:
+                    self._delete_file(image_data["uploaded_snapshot_file"])
+                    self._delete_resource(image_data["raster_layer_id"])
+                    self._delete_resource(image_data["raster_style_id"])
+                    self._delete_resource(current_request_resource_group_id)
 
             raise exception
 
         if not result:
             print("Удаляем созданные ресурсы на Геопортале...")
-            for image_data in uploaded_images_data:
+            for threshold, images_data in uploaded_images_data.items():
                 print("Удаляем созданные ресурсы на Геопортале...")
-                self._delete_file(image_data["uploaded_snapshot_file"])
-                self._delete_resource(image_data["raster_layer_id"])
-                self._delete_resource(image_data["raster_style_id"])
-                self._delete_resource(current_request_resource_group_id)
+                for image_data in images_data:
+                    self._delete_file(image_data["uploaded_snapshot_file"])
+                    self._delete_resource(image_data["raster_layer_id"])
+                    self._delete_resource(image_data["raster_style_id"])
+                    self._delete_resource(current_request_resource_group_id)
 
             print(f"Не удалось добавить снимки на вебкарту\n")
             return
@@ -438,8 +449,11 @@ class GeoPortal:
 
             webmap_config = response.json()
 
+            sorted_keys = sorted(thresholds_entries.keys(), key=lambda x: float(x), reverse=True)
+
             childrens = []
-            for threshold, threshold_entries in thresholds_entries.items():
+            for threshold in sorted_keys:
+                threshold_entries = thresholds_entries[threshold]
                 threshold_level_layers = []
                 for threshold_entry in threshold_entries:
                     raster_layer_name = threshold_entry["raster_layer_name"]

@@ -21,6 +21,8 @@ class EarthExplorer:
             lower_left_longitude: float,
             upper_right_latitude: float,
             upper_right_longitude: float,
+            min_cloudiness: int,
+            max_cloudiness: int,
             path: str,
         ):
 
@@ -157,7 +159,7 @@ class EarthExplorer:
             "end": end_date
         }
 
-        cloudCoverFilter = {'min' : 0, 'max' : 60}
+        cloudCoverFilter = {'min' : min_cloudiness, 'max' : max_cloudiness}
 
         search_payload = {
             "datasetName" : datasetName,
