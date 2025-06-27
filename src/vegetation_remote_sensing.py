@@ -2,7 +2,7 @@ import json
 import os
 import traceback
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from PIL import Image, ImageDraw
 
@@ -12,15 +12,15 @@ from src import ndvi
 from src import secret
 
 NDVI_THRESHOLDS = {
-    0.2: (183, 81, 21),
-    0.3: (255, 142, 75),
-    0.4: (255, 220, 75),
-    0.5: (189, 255, 155),
-    0.6: (141, 250, 86),
-    0.7: (68, 203, 0),
-    0.8: (68, 149, 23),
-    0.9: (58, 107, 33),
-    #1.0: (3, 4, 2),
+    0.1: (183, 81, 21),
+    0.2: (255, 142, 75),
+    0.3: (255, 220, 75),
+    0.4: (189, 255, 155),
+    0.5: (141, 250, 86),
+    0.6: (68, 203, 0),
+    0.7: (68, 149, 23),
+    0.8: (58, 107, 33),
+    0.9: (33, 77, 11),
 }
 
 class VegetationRemoteSensing:
@@ -93,7 +93,7 @@ class VegetationRemoteSensing:
 
             return message
 
-        if not self._validate_date(start_date):
+        if not self._validate_date(end_date):
             message = "Неверный формат конечной даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД"
             print(message)
 
@@ -102,6 +102,12 @@ class VegetationRemoteSensing:
         # Проверка, что начальная дата не позже конечной
         if datetime.strptime(start_date, "%Y-%m-%d") > datetime.strptime(end_date, "%Y-%m-%d"):
             message = "Ошибка: Начальная дата не может быть позже конечной"
+            print(message)
+
+            return message
+
+        if not self._check_date_range(start_date, end_date):
+            message = "Ошибка в диапазоне дат"
             print(message)
 
             return message
@@ -124,8 +130,44 @@ class VegetationRemoteSensing:
 
             return message
 
+        if lower_left_latitude < -90 or lower_left_latitude > 90:
+            message = f"Ошибка: Неправильно задана широта: {lower_left_latitude} должно быть в диапазоне от -90 до 90"
+            print(message)
+
+            return message
+
+        if upper_right_latitude < -90 or upper_right_latitude > 90:
+            message = f"Ошибка: Неправильно задана широта: {upper_right_latitude} должно быть в диапазоне от -90 до 90"
+            print(message)
+
+            return message
+
+        if lower_left_longitude < -180 or lower_left_longitude > 180:
+            message = f"Ошибка: Неправильно задана долгота: {lower_left_longitude} должно быть в диапазоне от -180 до 180"
+            print(message)
+
+            return message
+
+        if upper_right_longitude < -180 or upper_right_longitude > 180:
+            message = f"Ошибка: Неправильно задана долгота: {upper_right_longitude} должно быть в диапазоне от -180 до 180"
+            print(message)
+
+            return message
+
         if min_cloudiness > max_cloudiness:
             message = f"Ошибка: Неправильно заданы параметры облачности: минимальная облачность = {min_cloudiness} не может быть больше максимальной облачности {max_cloudiness}"
+            print(message)
+
+            return message
+
+        if min_cloudiness < 0 or min_cloudiness > 100:
+            message = f"Ошибка: Неправильно задана минимальная облачность: значение {min_cloudiness} должно быть в диапазоне от 0 по 100"
+            print(message)
+
+            return message
+
+        if max_cloudiness < 0 or max_cloudiness > 100:
+            message = f"Ошибка: Неправильно задана максимальная облачность: значение {max_cloudiness} должно быть в диапазоне от 0 по 100"
             print(message)
 
             return message
@@ -137,32 +179,39 @@ class VegetationRemoteSensing:
         PATH = f"images/{strftime}/{start_date}_{end_date}_{lower_left_latitude}:{lower_left_longitude}_{upper_right_latitude}:{upper_right_longitude}"
         Path(PATH).mkdir(parents=True, exist_ok=True)
 
-        # скачивание красного и ближнего инфракрасного каналов подходящих снимков
-        downloaded_images_data = self._earth_explorer.download_images_by_coordinates(
-            start_date,
-            end_date,
-            lower_left_latitude,
-            lower_left_longitude,
-            upper_right_latitude,
-            upper_right_longitude,
-            min_cloudiness,
-            max_cloudiness,
-            PATH,
-        )
-        # Пример объекта downloaded_images:
-        # {
-        #     "B4": {
-        #         "A_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/A_SR_B4.TIF",
-        #         "B_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/B_SR_B4.TIF",
-        #     },
-        #     "B5": {
-        #         "A_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/A_SR_B5.TIF",
-        #         "B_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/B_SR_B5.TIF",
-        #     },
-        #     "other": {
-        #         "some_filename.extension": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/other/some_filename.extension"
-        #     }
-        # }
+        try:
+            # скачивание красного и ближнего инфракрасного каналов подходящих снимков
+            downloaded_images_data = self._earth_explorer.download_images_by_coordinates(
+                start_date,
+                end_date,
+                lower_left_latitude,
+                lower_left_longitude,
+                upper_right_latitude,
+                upper_right_longitude,
+                min_cloudiness,
+                max_cloudiness,
+                PATH,
+            )
+            # Пример объекта downloaded_images:
+            # {
+            #     "B4": {
+            #         "A_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/A_SR_B4.TIF",
+            #         "B_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/B_SR_B4.TIF",
+            #     },
+            #     "B5": {
+            #         "A_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/A_SR_B5.TIF",
+            #         "B_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/B_SR_B5.TIF",
+            #     },
+            #     "other": {
+            #         "some_filename.extension": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/other/some_filename.extension"
+            #     }
+            # }
+        except Exception as exception:
+            message = f"Случилась ошибка: {exception}\n{traceback.format_exc()}"
+            print(message)
+
+            return message
+
 
         if len(downloaded_images_data["B4"]) == 0:
             message = "По указанным данным не найдено снимков. Попробуйте изменить дату."
@@ -253,22 +302,25 @@ class VegetationRemoteSensing:
         # Рисуем градиент
         for i in range(width):
             pos = i / width
-            if pos < 0.2:
+            if pos < 0.1:
                 color = (183, 81, 21)
-            elif pos < 0.3:
+            elif pos < 0.2:
                 color = (255, 142, 75)
-            elif pos < 0.4:
+            elif pos < 0.3:
                 color = (255, 220, 75)
-            elif pos < 0.5:
+            elif pos < 0.4:
                 color = (189, 255, 155)
-            elif pos < 0.6:
+            elif pos < 0.5:
                 color = (141, 250, 86)
-            elif pos < 0.7:
+            elif pos < 0.6:
                 color = (68, 203, 0)
-            elif pos < 0.8:
+            elif pos < 0.7:
                 color = (68, 149, 23)
-            else:
+            elif pos < 0.8:
                 color = (58, 107, 33)
+            else:
+                color = (33, 77, 11)
+
             draw.line([(i, 0), (i, height-30)], fill=color)
 
         # Добавляем подписи
@@ -410,3 +462,21 @@ class VegetationRemoteSensing:
             return
 
         print("Растительность успешно добавлена")
+
+    def _check_date_range(self, start_date: str, end_date: str) -> bool:
+        start = datetime.strptime(start_date, "%Y-%m-%d")
+        end = datetime.strptime(end_date, "%Y-%m-%d")
+
+        # Проверяем, что конечная дата не меньше начальной
+        if end < start:
+            message = "Конечная дата не может быть раньше начальной даты"
+            print(message)
+            return False
+
+        # Проверяем, что разница между датами не больше 30 дней
+        if (end - start) > timedelta(days=30):
+            message = "Разница между начальной и конечной датой не должна превышать 30 дней"
+            print(message)
+            return False
+
+        return True
