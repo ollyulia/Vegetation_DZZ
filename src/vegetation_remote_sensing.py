@@ -12,9 +12,15 @@ from src import ndvi
 from src import secret
 
 NDVI_THRESHOLDS = {
-    0.2: (107, 195, 106),
-    0.3: (96, 182, 96),
-    0.35: (85, 168, 84),
+    0.2: (183, 81, 21),
+    0.3: (255, 142, 75),
+    0.4: (255, 220, 75),
+    0.5: (189, 255, 155),
+    0.6: (141, 250, 86),
+    0.7: (68, 203, 0),
+    0.8: (68, 149, 23),
+    0.9: (58, 107, 33),
+    #1.0: (3, 4, 2),
 }
 
 class VegetationRemoteSensing:
@@ -248,11 +254,21 @@ class VegetationRemoteSensing:
         for i in range(width):
             pos = i / width
             if pos < 0.2:
-                color = (107, 195, 106)
+                color = (183, 81, 21)
             elif pos < 0.3:
-                color = (96, 182, 96)
+                color = (255, 142, 75)
+            elif pos < 0.4:
+                color = (255, 220, 75)
+            elif pos < 0.5:
+                color = (189, 255, 155)
+            elif pos < 0.6:
+                color = (141, 250, 86)
+            elif pos < 0.7:
+                color = (68, 203, 0)
+            elif pos < 0.8:
+                color = (68, 149, 23)
             else:
-                color = (85, 168, 84)
+                color = (58, 107, 33)
             draw.line([(i, 0), (i, height-30)], fill=color)
 
         # Добавляем подписи
