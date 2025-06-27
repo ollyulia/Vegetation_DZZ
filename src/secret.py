@@ -8,9 +8,9 @@ GEO_PORTAL_USERNAME: str = None
 # Ваш пароль для аккаунта на сайте Геопортала университета
 GEO_PORTAL_PASSWORD: str = None
 
-# ID папки на Геопортале университета, в которую будут сохраняться растровые слои с растительностью
+# ID папки на Геопортале университета, в которую будут сохранять-ся растровые слои с растительностью
 GEO_PORTAL_RESOURCE_GROUP_ID: int = None
-# ID вебкарты на Геопортале университета, на которой будут отображаться растровые слои с растительностью
+# ID вебкарты на Геопортале университета, на которой будут отоб-ражаться раст-ровые слои с растительностью
 GEO_PORTAL_WEB_MAP_ID: int = None
 
 def check():
@@ -41,3 +41,263 @@ def check():
         all_set = False
 
     return all_set
+
+Файл src/vegetation_remote_sensing.py
+import json
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+import traceback
+
+from datetime import datetime
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+
+from src import earth_explorer
+from src import geo_portal
+from src import ndvi
+from src import secret
+
+NDVI_THRESHOLDS = {
+    0.2: (183, 81, 21),
+    0.3: (255, 142, 75),
+    0.4: (255, 220, 75),
+    0.5: (189, 255, 155),
+    0.6: (141, 250, 86),
+    0.7: (68, 203, 0),
+    0.8: (68, 149, 23),
+    0.9: (58, 107, 33),
+    #1.0: (3, 4, 2),
+}
+
+class VegetationRemoteSensing:
+    def __init__(self):
+        all_set = secret.check()
+        if not all_set:
+            print("Пожалуйста, укажите все необходимые данные для авторизации в файле secret.py")
+            return None
+
+        self._earth_explorer = earth_explorer.EarthExplorer(
+            secret.EARTH_EXPLORER_USERNAME,
+            secret.EARTH_EXPLORER_TOKEN
+        )
+        self._ndvi = ndvi.Ndvi()
+        self._geo_portal = geo_portal.GeoPortal(
+            secret.GEO_PORTAL_USERNAME,
+            secret.GEO_PORTAL_PASSWORD,
+            secret.GEO_PORTAL_RESOURCE_GROUP_ID,
+            secret.GEO_PORTAL_WEB_MAP_ID
+        )
+        self._is_working = False
+
+    def add_vegetation_to_the_webmap_from_earth_explorer(
+        self,
+        start_date: str,
+        end_date: str,
+        lower_left_latitude: float,
+        lower_left_longitude: float,
+        upper_right_latitude: float,
+        upper_right_longitude: float
+    ):
+        """Функция приложения по добавлению растительности по спутниковым снимкам с EarthExplorer.
+        По указанным дате и координатам:
+        - обращается к EarthExplorer
+        - скачивает красный и ближний инфракрасный каналы подхо-дящих снимков
+        - рассчитывает индекс NDVI и сохраняет в виде карты с зе-леной расти-тельностью
+        - создает необходимые ресурсы (слои, стили и т.д.) на Ге-опортале и за-гружает карту растительности
+
+        В случае ошибок в промежуточных этапах (рассчет NDVI и загрузка на Ге-опортал), сохраняет информацию в файлах в папке `recovery_data`
+        """
+        if self._is_working:
+            message = "Программа уже работает. Пожалуйста, подо-ждите заверше-ния работы скрипта."
+            print(message)
+            return message
+
+        self._is_working = True
+
+        if not self._validate_date(start_date):
+            message = "Неверный формат начальной даты. Пожалуйста, введите да-ту в формате ГГГГ-ММ-ДД"
+            print(message)
+
+            return message
+
+        if not self._validate_date(start_date):
+            message = "Неверный формат конечной даты. Пожалуйста, введите дату в формате ГГГГ-ММ-ДД"
+            print(message)
+
+            return message
+
+        # Проверка, что начальная дата не позже конечной
+        if datetime.strptime(start_date, "%Y-%m-%d") > datetime.strptime(end_date, "%Y-%m-%d"):
+            message = "Ошибка: Начальная дата не может быть позже конечной"
+            print(message)
+
+            return message
+
+        # latitude широта
+        # lower_left_latitude = 67.111400
+        # upper_right_latitude = 67.971667
+        if lower_left_latitude >= upper_right_latitude:
+            message = f"Ошибка: Неправильно задана широта: {low-er_left_latitude} не должно быть больше или равно {up-per_right_latitude}"
+            print(message)
+
+            return message
+
+        # longitude долгота
+        # lower_left_longitude = 35.672218
+        # upper_right_longitude = 39.264748
+        if lower_left_longitude >= upper_right_longitude:
+            message = f"Ошибка: Неправильно задана долгота: {low-er_left_longitude} не должно быть больше или равно {up-per_right_longitude}"
+            print(message)
+
+            return message
+
+        print("Начало работы скрипта по добавлению растительности на вебкар-ту")
+
+        # Путь для загрузки файлов
+        PATH = f"images/{datetime.now().strftime("%Y-%m-%d")}/{start_date}_{end_date}_{lower_left_latitude}:{lower_left_longitude}_{upper_right_latitude}:{upper_right_longitude}"
+        Path(PATH).mkdir(parents=True, exist_ok=True)
+
+        # скачивание красного и ближнего инфракрасного каналов подходящих снимков
+        downloaded_images_data = self._earth_explorer.download_images_by_coordinates(
+            start_date,
+            end_date,
+            lower_left_latitude,
+            lower_left_longitude,
+            upper_right_latitude,
+            upper_right_longitude,
+            PATH,
+        )
+        # Пример объекта downloaded_images:
+        # {
+        #     "B4": {
+        #         "A_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/A_SR_B4.TIF",
+        #         "B_SR_B4.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B4/B_SR_B4.TIF",
+        #     },
+        #     "B5": {
+        #         "A_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/A_SR_B5.TIF",
+        #         "B_SR_B5.TIF": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/B5/B_SR_B5.TIF",
+        #     },
+        #     "other": {
+        #         "some_filename.extension": "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/other/some_filename.extension"
+        #     }
+        # }
+
+        if len(downloaded_images_data["B4"]) == 0:
+            message = "По указанным данным не найдено снимков. Попробуйте из-менить дату."
+            print(message)
+
+            return message
+
+        try:
+            # рассчет NDVI
+            processed_images = self._ndvi.calculate(downloaded_images_data, PATH, NDVI_THRESHOLDS)
+            # Пример processed_images: {
+            #     "0.2": [
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_X.tif",
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/20_Y.tif"
+            #     ]
+            #     "0.3": [
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_X.tif",
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/30_Y.tif"
+            #     ]
+            #     "0.4": [
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_X.tif",
+            #         "images/2025-05-17/2024-08-15_2024-08-20_x1:y1_x2:y2/ndvi_thresholds/40_Y.tif"
+            #     ]
+            # }
+        except Exception as exception:
+            message = f"Случилась ошибка: {excep-tion}\n{traceback.format_exc()}"
+            print(message)
+
+            error_dir = f"recovery_data"
+            os.makedirs(error_dir, exist_ok=True)
+
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            filename = f"{error_dir}/{timestamp}_downloaded_images.json"
+
+            with open(filename, "w") as file:
+                json.dump(processed_images, file, indent=4)
+
+            print(f"Информация об скачанных снимках сохранена в {filename}")
+
+            return message
+
+        try:
+            # загрузка на Геопортал
+            self._geo_portal.upload_snapshots(
+                processed_images,
+                start_date,
+                end_date,
+                lower_left_latitude,
+                lower_left_longitude,
+                upper_right_latitude,
+                upper_right_longitude,
+            )
+        except Exception as exception:
+            message = f"Случилась ошибка: {excep-tion}\n{traceback.format_exc()}"
+            print(message)
+
+            error_dir = f"recovery_data"
+            os.makedirs(error_dir, exist_ok=True)
+
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            filename = f"{error_dir}/{timestamp}_processed_images.json"
+
+            with open(filename, "w") as file:
+                json.dump(processed_images, file, indent=4)
+
+            print(f"Информация об обработанных файлах сохранена в {filename}")
+
+            return message
+
+        message = "Растительность успешно добавлена"
+        print(message)
+
+        return message
+
+    def _validate_date(self, date_str):
+        """Проверяет, соответствует ли строка формату ГГГГ-ММ-ДД."""
+        try:
+            datetime.strptime(date_str, "%Y-%m-%d")
+            return True
+        except ValueError:
+            return False
+
+    def _create_ndvi_scale(self):
+        width, height = 600, 100
+        img = Image.new('RGB', (width, height), (255, 255, 255))
+        draw = ImageDraw.Draw(img)
+
+        # Рисуем градиент
+        for i in range(width):
+            pos = i / width
+            if pos < 0.2:
+                color = (183, 81, 21)
+            elif pos < 0.3:
+                color = (255, 142, 75)
+            elif pos < 0.4:
+                color = (255, 220, 75)
+            elif pos < 0.5:
+                color = (189, 255, 155)
+            elif pos < 0.6:
+                color = (141, 250, 86)
+            elif pos < 0.7:
+                color = (68, 203, 0)
+            elif pos < 0.8:
+                color = (68, 149, 23)
+            else:
+                color = (58, 107, 33)
+            draw.line([(i, 0), (i, height-30)], fill=color)
+
+        # Добавляем подписи
+        for threshold, color in NDVI_THRESHOLDS.items():
+            x = int(threshold * width)
+            draw.line([(x, height-30), (x, height-20)], fill=(0, 0, 0))
+            draw.text((x-10, height-20), f"{threshold}", fill=(0, 0, 0))
+
+        os.makedirs("static/ndvi_scales", exist_ok=True)
+        image_path = f"static/ndvi_scales/ndvi_scale_{len(os.listdir('static/ndvi_scales'))}.png"
+        img.save(image_path)
+        return image_path
